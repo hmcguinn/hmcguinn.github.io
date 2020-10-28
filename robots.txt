@@ -1,5 +1,1 @@
 User-agent: * 
-Allow: /index
-Disallow: /*.pdf
-Disallow: /resume
-Disallow: /interests
