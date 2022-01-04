@@ -1,0 +1,35 @@
+baseURL: "/"
+languageCode: "en-us"
+title: "Houlton McGuinn"
+theme: "xmin"
+
+permalinks:
+  note: "/note/:year/:month/:day/:slug/"
+  post: "/post/:year/:month/:day/:slug/"
+
+menu:
+  main:
+    - name: Home
+      url: ""
+      weight: 1
+    - name: About
+      url: "about/"
+      weight: 2
+    - name: Things I like 
+      url: "interests/"
+      weight: 3
+    - name: Blog
+      url: "posts/"
+      weight: 4
+
+
+params:
+  description: "A website built using Hugo and Xmin"
+  footer: "&copy; [Houlton McGuinn](https://hmcguinn.com) 2020 -- {Year} | [Github](https://github.com/hmcguinn)"
+
+markup:
+  highlight:
+    codeFences: false
+  goldmark:
+    renderer:
+      unsafe: true
