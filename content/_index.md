@@ -1,7 +1,7 @@
 ---
 title: "About Me"
 date: 2022-01-02T22:26:51-05:00
-draft: true
+draft: false
 ---
 
 ![me](/img/me-scaled.jpg)
