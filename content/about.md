@@ -1,6 +1,6 @@
 ---
 title: "About Me"
-draft: true
+draft: false
 ---
 
 ![me](/img/me-scaled.jpg)
@@ -11,4 +11,4 @@ I'm **Houlton McGuinn,** a software engineer and security researcher. In 2022, I
 
 I'm studying computer science at [UNC Chapel Hill](https://www.unc.edu). In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IOT devices.
 
-If you're reading this I'd love to chat! Feel free to reach out at houlton.mcguinn@gmail.com or [book a time](https://calendly.com/houlton/15min)!
+If you're reading this I'd love to chat! Feel free to reach out at houlton.mcguinn@gmail.com.

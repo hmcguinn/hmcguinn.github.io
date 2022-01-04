@@ -1,20 +1,20 @@
 ---
-title: "Hydrogen Line"
+title: "Backyard Hydrogen Line Astronomy"
 date: 2022-01-02T23:19:26-05:00
 draft: true
 ---
 
-The [Milky Way](https://en.wikipedia.org/wiki/Milky_Way) we live in is a spiral galaxy.
+We can utilize a cheap (< $250) software-defined radio (SDR) backyard setup to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the coolest parts of radio astronomy is that you can do it during the day! It can be a little more convenient to make observation while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
 
-# Science Background 
+# Background 
 
 ![spin flip](/img/spin-flip-scaled.png)
 
-Neutral Hydrogen atoms occasionally undergo a change in energy state from higher to lower, which gives rise to the [21cm Hydrogen line](https://en.wikipedia.org/wiki/Hydrogen_line). A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm-- our Hydrogen line. 
+Neutral hydrogen atoms occasionally undergo a change in energy state from higher to lower, which gives rise to the [21cm Hydrogen line](https://en.wikipedia.org/wiki/Hydrogen_line). A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm-- our Hydrogen line. 
 
 \\[ \lambda = \frac{1}{v} \dot \\, c = \frac{h}{E} \approx \frac{4.1357 \dot 10^{-15} eV \\, s}{5.87433 \dot 10^{-6} eV} \\, \dot \\, 2.9979 \dot 10^{8} \\, m \\, s^{-1} \approx 0.21106 \\, m = 21.106 \\, cm \\]
 
-While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of Hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, we can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the radial speed of the different arms of the galaxy! 
+While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, we can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the radial speed of the different arms of the galaxy! 
 
 # Setup 
 
@@ -36,7 +36,9 @@ We can calculate the radial velocity of our observed target using the doppler me
 
 \\[ \frac{\Delta \lambda}{\lambda} = \frac{v}{c} \\]
 
-I don't have quite the amount of data I'd like to calculate doppler shifts for all arms of the Milky Way, but rest assured this method does work! While I made my first batch of observations manually, it'd be ideal to automate them so we can have our observatory run continuously! However, there isn't always a suitable target overhead to observe. We need some way to determine whether or not we should make an observation!
+I don't have quite the amount of data I'd like to calculate doppler shifts for all arms of the Milky Way, but rest assured this method does work! PhysicsOpenLab has a [great article on this](https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/). 
+
+While I made my first batch of observations manually, it'd be ideal to automate them so we can have our observatory run continuously! However, there isn't always a suitable target overhead to observe. We need some way to determine whether or not we should make an observation!
 
 # Automating the Observatory
 
