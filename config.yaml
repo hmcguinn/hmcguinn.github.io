@@ -5,7 +5,7 @@ theme: "xmin"
 
 permalinks:
   note: "/note/:year/:month/:day/:slug/"
-  post: "//:slug/"
+  post: "/post/:year/:month/:day/:slug/"
 
 menu:
   main:
