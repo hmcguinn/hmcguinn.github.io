@@ -4,7 +4,7 @@ date: 2022-01-02T23:19:26-05:00
 draft: true
 ---
 
-We can utilize a cheap (< $250) software-defined radio (SDR) backyard setup to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the coolest parts of radio astronomy is that you can do it during the day! It can be a little more convenient to make observation while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
+We can utilize a cheap (< $250) software-defined radio (SDR) backyard setup to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
 
 # Background 
 
@@ -21,6 +21,8 @@ While the spin-flip transition is rare (taking ~10 million years to occur for a 
 I followed [this guide from RTL-SDR.com](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to setup my equipment. I used a [1 meter parabolic dish](https://www.amazon.com/Premiertek-Directional-High-Gain-Parabolic-ANT-GRID-24DBI/dp/B005M8KU3W/ref=pd_sbs_1/137-2260590-1166642?pd_rd_w=lxWGy&pf_rd_p=0a3ad226-8a77-4898-9a99-63ffeb1aef90&pf_rd_r=JFQETBH5P545YV1JS3TV&pd_rd_r=0238062a-5707-4b87-a79a-ac321cfcc06d&pd_rd_wg=g7M7Y&pd_rd_i=B005M8KU3W&psc=1), [Sawbird H1 low noise amplifier (LNA)](https://www.amazon.com/dp/B07XPV9RX2?ref=nb_sb_ss_w_as-ypp-rep_ypp_rep_k0_1_7&amp&crid=1KSDU4I4AMG3P&amp&sprefix=sawbird), [50Ω terminator](https://www.amazon.com/gp/product/B00BXUYDMM), and a [RTL-SDR](https://www.rtl-sdr.com/). The total cost for the equipment came to just over $200, not including the RTL-SDR and raspberry pi I already owned. 
 
 I connected my RTL-SDR to the LNA directly, and connected the LNA to the parabolic dish. The SDR was then connected to my raspberry pi using a USB->USB cable. 
+
+![setup](/img/setup-scaled.jpg)
 
 # Software
 
