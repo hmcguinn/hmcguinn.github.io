@@ -49,15 +49,15 @@ How the spin-flip transition works
 <p>While I made my first batch of observations manually, it&rsquo;d be ideal to automate them so I can have the observatory run continuously! However, there isn&rsquo;t always a suitable target overhead to observe. I need some way to determine whether or not I should make an observation!</p>
 <h1 id=automating-the-observatory>Automating the Observatory</h1>
 <p>I&rsquo;d like to automatically make observations when some portion of the Milky Way is overhead. Luckily, Virgo provides some handy tools to let us do this.</p>
-<p>First, I&rsquo;ll need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I&rsquo;ll assume the telescope is pointing straight upwards.</p>
+<p>First, I need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I can assume the telescope is pointing straight upwards.</p>
 <pre><code>altitude = 90
 azimuth = 0
 ra, dec = virgo.equatorial(altitude,azimuth,latitude,longitude)
 </code></pre>
-<p>Once I know where in the sky the telescope is looking, I&rsquo;ll want to translate this to where it&rsquo;s looking relative to the galaxy.</p>
+<p>Once I know where in the sky the telescope is looking, I want to translate this to where it&rsquo;s looking relative to the galactic plane.</p>
 <pre><code>_ , latitude = virgo.galactic(coords[0],coords[1])
 </code></pre>
-<p>Because the telescope is pointing straight up, I&rsquo;m only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I&rsquo;ll want to observe if:</p>
+<p>Because the telescope is pointing straight up, I&rsquo;m only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I want to observe if:</p>
 <pre><code>latitude &gt; -8/2 and latitude &lt; 8/2
 </code></pre>
 <p>This only takes into account the center of the galactic coordinates, the Milky Way has an apparent width of around ~30 degrees. I can adjust the observation condition to:</p>
