@@ -1,11 +1,11 @@
-baseURL: "https://hmcguinn.github.io"
+baseURL: ""
 languageCode: "en-us"
 title: "Houlton McGuinn"
 theme: "xmin"
 
 permalinks:
   note: "/note/:year/:month/:day/:slug/"
-  post: "/post/:year/:month/:day/:slug/"
+  post: "//:slug/"
 
 menu:
   main:
