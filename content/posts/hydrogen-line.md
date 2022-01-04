@@ -144,6 +144,6 @@ crontab -e
 
 # Wrapping Up 
 
-I had a blast working on this project! It's amazing that with $200 in equipment, you can put together an observatory to detect the different arms of the Milky Way!
+I had a blast working on this project! It's amazing that with $200 in equipment, you can put together an observatory to detect the different arms of the Milky Way! 
 
 On my list of future upgrades is a nicer SDR, specifically the [USRP B200](https://www.ettus.com/all-products/ub200-kit/). I got to use one while working at GTRI and really enjoyed working with them. I'd also like to upgrade the post-observation portion of the observatory, automatically syncing data to the cloud and maybe even publishing live to a website.
