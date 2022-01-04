@@ -1,5 +1,5 @@
 ---
-title: "Backyard Hydrogen Line Astronomy"
+title: "Automated Backyard Hydrogen Line Astronomy"
 date: 2022-01-02T23:19:26-05:00
 draft: false
 ---
