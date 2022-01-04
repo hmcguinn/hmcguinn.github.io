@@ -2,6 +2,14 @@
 title: "Things I Like"
 draft: false
 ---
+
+# Books
+- Lord of the Rings
+- Ender's Game
+- The Three Body Problem 
+- Hacker's Delight 
+- Nonviolent Communication 
+
 # Music
 
 - The Band CAMINO
