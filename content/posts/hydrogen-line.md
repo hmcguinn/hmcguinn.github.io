@@ -6,7 +6,7 @@ draft: false
 
 I've been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at [Georgia Tech Research Institute](https://gtri.gatech.edu/), I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera's over-the-air communication protocol. Reading [this post](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//) on using a SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDR's, this project naturally followed. 
 
-We can utilize a cheap (< $250) SDR [backyard setup](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
+I can use a cheap (< $250) SDR [backyard setup](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
 
 # Background 
 
@@ -21,11 +21,11 @@ We can utilize a cheap (< $250) SDR [backyard setup](https://www.rtl-sdr.com/che
 The hydrogen line is a spectral line given off by neutral hydrogen in space. It's important for our understanding of the universe, because it can penetrate through dust clouds and allows us to probe regions that are blocked to visible light. It's been used to calculate the [rotation curve of our galaxy](https://www.e-education.psu.edu/astro801/content/l8_p8.html), made an appearance on the [Pioneer plague](https://en.wikipedia.org/wiki/Pioneer_plaque) and is an important frequency for radio astronomy.
 
 
-Hydrogen is the most abundant element in the universe, and the Milky Way is no exception. Most of this hydrogen is in a neutral state. This neutral hydrogen occasionally undergos a change in energy states from higher to lower, giving off the [21cm Hydrogen line](https://en.wikipedia.org/wiki/Hydrogen_line). A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm-- our Hydrogen line. The equation that governs this is below:
+Hydrogen is the most abundant element in the universe, and the Milky Way is no exception. Most of this hydrogen is in a neutral state. This neutral hydrogen occasionally undergos a change in energy states from higher to lower, giving off the [21cm Hydrogen line](https://en.wikipedia.org/wiki/Hydrogen_line). A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm-- the Hydrogen line. The equation that governs this is below:
 
-\\[ \lambda = \frac{1}{v} \dot \\, c = \frac{h}{E} \approx \frac{4.1357 \\, \dot \\, 10^{-15} eV \\, s}{5.87433 \\, \dot \\, 10^{-6} eV} \\, \dot \\, 2.9979 \\, \dot \\, 10^{8} \\, m \\, s^{-1} \approx 0.21106 \\, m = 21.106 \\, cm \\]
+\\[ \lambda = \frac{1}{v} \dot \\, c = \frac{h}{E} \\, \dot \\, c \approx \frac{4.135 \\, \dot \\, 10^{-15} eV \\, s}{5.874 \\, \dot \\, 10^{-6} eV} \\, \dot \\, 2.997 \\, \dot \\, 10^{8} \\, m \\, s^{-1} \approx 0.21106 \\, m = 21.106 \\, cm \\]
 
-While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, we can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the [radial speed of the different arms of the galaxy](https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/)! 
+While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, I can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the [radial speed of the different arms of the galaxy](https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/)! 
 
 # Setup
 
@@ -37,27 +37,27 @@ I connected my RTL-SDR to the LNA directly and connected the LNA to the paraboli
 
 # Software
 
-I used [Virgo](https://github.com/0xCoto/Virgo) to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots. 
+I used [Virgo, a versatile spectrometer for radio astronomy,](https://github.com/0xboto/Virgo) to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots. 
 
-Below is a short, 2-minute exposure I took. You'll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier's filter shape. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some interference. 
+Below is a short, 2-minute exposure I took. You'll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier's bandpass filter. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some interference. 
 
 ![hydrogen plot](/img/hydrogen-line.png)
 
 # Doppler Shifts
 
-We can calculate the radial velocity of our observed target using the doppler method!
+I can calculate the radial velocity of the observed target using the doppler method!
 
 \\[ \frac{\Delta \lambda}{\lambda} = \frac{v}{c} \\]
 
 I don't have quite the amount of data I'd like to calculate doppler shifts for all arms of the Milky Way, but rest assured this method does work! PhysicsOpenLab has a [great article on this](https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/). 
 
-While I made my first batch of observations manually, it'd be ideal to automate them so we can have our observatory run continuously! However, there isn't always a suitable target overhead to observe. We need some way to determine whether or not we should make an observation!
+While I made my first batch of observations manually, it'd be ideal to automate them so I can have the observatory run continuously! However, there isn't always a suitable target overhead to observe. I need some way to determine whether or not I should make an observation!
 
 # Automating the Observatory
 
-We'd like to automatically make observations when some portion of the Milky Way is overhead. Luckily, Virgo provides some handy tools to let us do this.
+I'd like to automatically make observations when some portion of the Milky Way is overhead. Luckily, Virgo provides some handy tools to let us do this.
 
-First, we'll need to get our right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, we'll assume our telescope is pointing straight upwards.  
+First, I'll need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I'll assume the telescope is pointing straight upwards.  
 
 ```
 altitude = 90
@@ -65,19 +65,19 @@ azimuth = 0
 ra, dec = virgo.equatorial(altitude,azimuth,latitude,longitude)
 ```
 
-Once we know where in the sky we're looking, we'll want to translate this to where we're looking relative to the galaxy. 
+Once I know where in the sky the telescope is looking, I'll want to translate this to where it's looking relative to the galaxy. 
 
 ```
 _ , latitude = virgo.galactic(coords[0],coords[1])
 ```
 
-Because our telescope is pointing straight up, we're only concerned with the latitude. Our telescope has a beamwidth of approximately 8 degrees so we'll want to observe if:
+Because the telescope is pointing straight up, I'm only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I'll want to observe if:
 
 ```
 latitude > -8/2 and latitude < 8/2
 ```
 
-This only takes into account the center of the galactic coordinates, the Milky Way has an apparent width of around ~30 degrees. We can adjust our observation condition to:
+This only takes into account the center of the galactic coordinates, the Milky Way has an apparent width of around ~30 degrees. I can adjust the observation condition to:
 
 ```
 latitude >= -30/2 and latitude <= 30/2
