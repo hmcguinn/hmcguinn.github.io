@@ -57,7 +57,7 @@ While I made my first batch of observations manually, it'd be ideal to automate 
 
 I'd like to automatically make observations when some portion of the Milky Way is overhead. Luckily, Virgo provides some handy tools to let us do this.
 
-First, I'll need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I'll assume the telescope is pointing straight upwards.  
+First, I need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I can assume the telescope is pointing straight upwards.  
 
 ```
 altitude = 90
@@ -65,13 +65,13 @@ azimuth = 0
 ra, dec = virgo.equatorial(altitude,azimuth,latitude,longitude)
 ```
 
-Once I know where in the sky the telescope is looking, I'll want to translate this to where it's looking relative to the galaxy. 
+Once I know where in the sky the telescope is looking, I want to translate this to where it's looking relative to the galactic plane.
 
 ```
 _ , latitude = virgo.galactic(coords[0],coords[1])
 ```
 
-Because the telescope is pointing straight up, I'm only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I'll want to observe if:
+Because the telescope is pointing straight up, I'm only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I want to observe if:
 
 ```
 latitude > -8/2 and latitude < 8/2
