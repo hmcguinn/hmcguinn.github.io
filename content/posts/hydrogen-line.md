@@ -1,7 +1,7 @@
 ---
 title: "Backyard Hydrogen Line Astronomy"
 date: 2022-01-02T23:19:26-05:00
-draft: true
+draft: false
 ---
 
 We can utilize a cheap (< $250) software-defined radio (SDR) backyard setup to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
