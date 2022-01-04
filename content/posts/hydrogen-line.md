@@ -4,31 +4,42 @@ date: 2022-01-02T23:19:26-05:00
 draft: false
 ---
 
-We can utilize a cheap (< $250) software-defined radio (SDR) backyard setup to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
+I've been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at [Georgia Tech Research Institute](https://gtri.gatech.edu/), I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera's over-the-air communication protocol. Reading [this post](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//) on using a SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDR's, this project naturally followed. 
+
+We can utilize a cheap (< $250) SDR [backyard setup](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
 
 # Background 
 
 ![spin flip](/img/spin-flip-scaled.png)
 
-Neutral hydrogen atoms occasionally undergo a change in energy state from higher to lower, which gives rise to the [21cm Hydrogen line](https://en.wikipedia.org/wiki/Hydrogen_line). A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm-- our Hydrogen line. 
+<p align = "center">
+    <a href="https://commons.wikimedia.org/wiki/File:Hydrogen-SpinFlip.svg" style="margin:auto; text-align:center; display:block;">
+    How the spin-flip transition works
+    </a>
+</p>
 
-\\[ \lambda = \frac{1}{v} \dot \\, c = \frac{h}{E} \approx \frac{4.1357 \dot 10^{-15} eV \\, s}{5.87433 \dot 10^{-6} eV} \\, \dot \\, 2.9979 \dot 10^{8} \\, m \\, s^{-1} \approx 0.21106 \\, m = 21.106 \\, cm \\]
+The hydrogen line is a spectral line given off by neutral hydrogen in space. It's important for our understanding of the universe, because it can penetrate through dust clouds and allows us to probe regions that are blocked to visible light. It's been used to calculate the [rotation curve of our galaxy](https://www.e-education.psu.edu/astro801/content/l8_p8.html), made an appearance on the [Pioneer plague](https://en.wikipedia.org/wiki/Pioneer_plaque) and is an important frequency for radio astronomy.
 
-While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, we can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the radial speed of the different arms of the galaxy! 
 
-# Setup 
+Hydrogen is the most abundant element in the universe, and the Milky Way is no exception. Most of this hydrogen is in a neutral state. This neutral hydrogen occasionally undergos a change in energy states from higher to lower, giving off the [21cm Hydrogen line](https://en.wikipedia.org/wiki/Hydrogen_line). A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm-- our Hydrogen line. The equation that governs this is below:
 
-I followed [this guide from RTL-SDR.com](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to setup my equipment. I used a [1 meter parabolic dish](https://www.amazon.com/Premiertek-Directional-High-Gain-Parabolic-ANT-GRID-24DBI/dp/B005M8KU3W/ref=pd_sbs_1/137-2260590-1166642?pd_rd_w=lxWGy&pf_rd_p=0a3ad226-8a77-4898-9a99-63ffeb1aef90&pf_rd_r=JFQETBH5P545YV1JS3TV&pd_rd_r=0238062a-5707-4b87-a79a-ac321cfcc06d&pd_rd_wg=g7M7Y&pd_rd_i=B005M8KU3W&psc=1), [Sawbird H1 low noise amplifier (LNA)](https://www.amazon.com/dp/B07XPV9RX2?ref=nb_sb_ss_w_as-ypp-rep_ypp_rep_k0_1_7&amp&crid=1KSDU4I4AMG3P&amp&sprefix=sawbird), [50Ω terminator](https://www.amazon.com/gp/product/B00BXUYDMM), and a [RTL-SDR](https://www.rtl-sdr.com/). The total cost for the equipment came to just over $200, not including the RTL-SDR and raspberry pi I already owned. 
+\\[ \lambda = \frac{1}{v} \dot \\, c = \frac{h}{E} \approx \frac{4.1357 \\, \dot \\, 10^{-15} eV \\, s}{5.87433 \\, \dot \\, 10^{-6} eV} \\, \dot \\, 2.9979 \\, \dot \\, 10^{8} \\, m \\, s^{-1} \approx 0.21106 \\, m = 21.106 \\, cm \\]
 
-I connected my RTL-SDR to the LNA directly, and connected the LNA to the parabolic dish. The SDR was then connected to my raspberry pi using a USB->USB cable. 
+While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, we can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the [radial speed of the different arms of the galaxy](https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/)! 
+
+# Setup
+
+I followed [this guide from RTL-SDR.com](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to set up my equipment. I used a [1-meter parabolic dish](https://www.amazon.com/Premiertek-Directional-High-Gain-Parabolic-ANT-GRID-24DBI/dp/B005M8KU3W/ref=pd_sbs_1/137-2260590-1166642?pd_rd_w=lxWGy&pf_rd_p=0a3ad226-8a77-4898-9a99-63ffeb1aef90&pf_rd_r=JFQETBH5P545YV1JS3TV&pd_rd_r=0238062a-5707-4b87-a79a-ac321cfcc06d&pd_rd_wg=g7M7Y&pd_rd_i=B005M8KU3W&psc=1), [Sawbird H1 low noise amplifier (LNA)](https://www.amazon.com/dp/B07XPV9RX2?ref=nb_sb_ss_w_as-ypp-rep_ypp_rep_k0_1_7&amp&crid=1KSDU4I4AMG3P&amp&sprefix=sawbird), [50Ω terminator](https://www.amazon.com/gp/product/B00BXUYDMM), and an [RTL-SDR](https://www.rtl-sdr.com/). The total cost for the equipment came to just over $200, not including the RTL-SDR and raspberry pi I already owned. 
+
+I connected my RTL-SDR to the LNA directly and connected the LNA to the parabolic dish. The SDR was then connected to my raspberry pi using a USB->USB cable. 
 
 ![setup](/img/setup-scaled.jpg)
 
 # Software
 
-I used [Virgo](https://github.com/0xCoto/Virgo) to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and creates some pretty plots. 
+I used [Virgo](https://github.com/0xCoto/Virgo) to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots. 
 
-Below is a short, two-minute exposure I took. You'll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier's filter shape. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some RFI. 
+Below is a short, 2-minute exposure I took. You'll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier's filter shape. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some interference. 
 
 ![hydrogen plot](/img/hydrogen-line.png)
 
@@ -72,7 +83,7 @@ This only takes into account the center of the galactic coordinates, the Milky W
 latitude >= -30/2 and latitude <= 30/2
 ```
 
-Putting it all together, this is the scipt I used to automate my observatory.
+Putting it all together, this is the script I used to automate my observatory.
 
 ```
 import virgo
