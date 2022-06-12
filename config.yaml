@@ -1,4 +1,4 @@
-baseURL: ""
+baseURL: "/"
 languageCode: "en-us"
 title: "Houlton McGuinn"
 theme: "xmin"
@@ -15,11 +15,14 @@ menu:
     - name: About
       url: "about/"
       weight: 2
-    - name: Things I like 
+    - name: Things I like
       url: "interests/"
       weight: 3
     - name: Blog
       url: "posts/"
+      weight: 4
+    - name: My art
+      url: "art/"
       weight: 4
 
 
