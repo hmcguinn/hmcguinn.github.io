@@ -12,6 +12,7 @@ draft: false
 - Make Out Monday
 - Jukebox The Ghost
 - Maude Latour
+- The Wrecks
 
 # Shows
 - Scream
@@ -19,7 +20,7 @@ draft: false
 - Altered Carbon
 - New Girl
 - The Magicians
-- Love  
+- Love
 - Arrested Development
 
 # Films
@@ -64,3 +65,4 @@ draft: false
 - Nick & Norah's Infinite Playlist
 - Scott Pilgrim vs The World
 - Once Upon a Time in Hollywood
+- Everything Everywhere All at Once
