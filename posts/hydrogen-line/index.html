@@ -1,70 +1,10 @@
-<!doctype html><html lang=en-us>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>Automated Backyard Hydrogen Line Astronomy | Houlton McGuinn</title>
-<link rel=stylesheet href=/css/style.css>
-<link rel=stylesheet href=/css/fonts.css>
-</head>
-<body>
-<nav>
-<ul class=menu>
-<li><a href=/>Home</a></li>
-<li><a href=/about/>About</a></li>
-<li><a href=/interests/>Things I like</a></li>
-<li><a href=/posts/>Blog</a></li>
-</ul>
-<hr>
-</nav>
-<div class=article-meta>
-<h1><span class=title>Automated Backyard Hydrogen Line Astronomy</span></h1>
-<h2 class=date>2022/01/02</h2>
-</div>
-<main>
-<p>I&rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at <a href=https://gtri.gatech.edu/>Georgia Tech Research Institute</a>, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&rsquo;s over-the-air communication protocol. Reading <a href=https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//>this post</a> on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.</p>
-<p>I can use a cheap (&lt; $250) SDR <a href=https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/>backyard setup</a> to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.</p>
-<h1 id=background>Background</h1>
-<p><img src=/img/spin-flip-scaled.png alt="spin flip"></p>
-<p align=center>
-<a href=https://commons.wikimedia.org/wiki/File:Hydrogen-SpinFlip.svg style=margin:auto;text-align:center;display:block>
-How the spin-flip transition works
-</a>
-</p>
-<p>The hydrogen line is a spectral line given off by neutral hydrogen in space. It&rsquo;s important for our understanding of the universe because it can penetrate through dust clouds and allows us to probe regions that are blocked to visible light. It&rsquo;s been used to calculate the <a href=https://www.e-education.psu.edu/astro801/content/l8_p8.html>rotation curve of our galaxy</a>, made an appearance on the <a href=https://en.wikipedia.org/wiki/Pioneer_plaque>Pioneer plaque</a> and is an important frequency for radio astronomy.</p>
-<p>Hydrogen is the most abundant element in the universe, and the Milky Way is no exception. Most of this hydrogen is in a neutral state. This neutral hydrogen can change energy states from higher to lower, giving off the <a href=https://en.wikipedia.org/wiki/Hydrogen_line>21cm Hydrogen line</a>. A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm&ndash; the Hydrogen line. The equation that governs this is below:</p>
-<p>\[ \lambda = \frac{1}{v} \dot \, c = \frac{h}{E} \, \dot \, c \approx \frac{4.135 \, \dot \, 10^{-15} eV \, s}{5.874 \, \dot \, 10^{-6} eV} \, \dot \, 2.997 \, \dot \, 10^{8} \, m \, s^{-1} \approx 0.21106 \, m = 21.106 \, cm \]</p>
-<p>While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, I can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the <a href=https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/>radial speed of the different arms of the galaxy</a>!</p>
-<h1 id=setup>Setup</h1>
-<p>I followed <a href=https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/>this guide from RTL-SDR.com</a> to set up my equipment. I used a <a href="https://www.amazon.com/Premiertek-Directional-High-Gain-Parabolic-ANT-GRID-24DBI/dp/B005M8KU3W/ref=pd_sbs_1/137-2260590-1166642?pd_rd_w=lxWGy&pf_rd_p=0a3ad226-8a77-4898-9a99-63ffeb1aef90&pf_rd_r=JFQETBH5P545YV1JS3TV&pd_rd_r=0238062a-5707-4b87-a79a-ac321cfcc06d&pd_rd_wg=g7M7Y&pd_rd_i=B005M8KU3W&psc=1">1-meter parabolic dish</a>, <a href="https://www.amazon.com/dp/B07XPV9RX2?ref=nb_sb_ss_w_as-ypp-rep_ypp_rep_k0_1_7&amp&crid=1KSDU4I4AMG3P&amp&sprefix=sawbird">Sawbird H1 low noise amplifier (LNA)</a>, <a href=https://www.amazon.com/gp/product/B00BXUYDMM>50Ω terminator</a>, and an <a href=https://www.rtl-sdr.com/>RTL-SDR</a>. The total cost for the equipment came to just over $200, not including the RTL-SDR and raspberry pi I already owned.</p>
-<p>I connected my RTL-SDR to the LNA directly and connected the LNA to the parabolic dish. The SDR was then connected to my raspberry pi using a USB->USB cable.</p>
-<p><img src=/img/setup-scaled.jpg alt=setup></p>
-<h1 id=software>Software</h1>
-<p>I used <a href=https://github.com/0xboto/Virgo>Virgo, a versatile spectrometer for radio astronomy,</a> to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots.</p>
-<p>Below is a short, 2-minute exposure I took. You&rsquo;ll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier&rsquo;s bandpass filter. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some interference.</p>
-<p><img src=/img/hydrogen-line.png alt="hydrogen plot"></p>
-<h1 id=doppler-shifts>Doppler Shifts</h1>
-<p>I can calculate the radial velocity of the observed target using the doppler method!</p>
-<p>\[ \frac{\Delta \lambda}{\lambda} = \frac{v}{c} \]</p>
-<p>I don&rsquo;t have quite the amount of data I&rsquo;d like to calculate doppler shifts for all arms of the Milky Way, but rest assured this method does work! PhysicsOpenLab has a <a href=https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/>great article on this</a>.</p>
-<p>While I made my first batch of observations manually, it&rsquo;d be ideal to automate them so I can have the observatory run continuously! However, there isn&rsquo;t always a suitable target overhead to observe. I need some way to determine whether or not I should make an observation!</p>
-<h1 id=automating-the-observatory>Automating the Observatory</h1>
-<p>I&rsquo;d like to automatically make observations when some portion of the Milky Way is overhead. Luckily, Virgo provides some handy tools to let us do this.</p>
-<p>First, I need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I can assume the telescope is pointing straight upwards.</p>
-<pre><code>altitude = 90
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Automated Backyard Hydrogen Line Astronomy | Houlton McGuinn</title><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css></head><body><nav><ul class=menu><li><a href=/>Home</a></li><li><a href=/about/>About</a></li><li><a href=/interests/>Things I like</a></li><li><a href=/posts/>Blog</a></li><li><a href=/art/>My art</a></li></ul><hr></nav><div class=article-meta><h1><span class=title>Automated Backyard Hydrogen Line Astronomy</span></h1><h2 class=date>2022/01/02</h2></div><main><p>I&rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at <a href=https://gtri.gatech.edu/>Georgia Tech Research Institute</a>, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&rsquo;s over-the-air communication protocol. Reading <a href=https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//>this post</a> on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.</p><p>I can use a cheap (&lt; $250) SDR <a href=https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/>backyard setup</a> to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.</p><h1 id=background>Background</h1><p><img src=/img/spin-flip-scaled.png alt="spin flip"></p><p align=center><a href=https://commons.wikimedia.org/wiki/File:Hydrogen-SpinFlip.svg style=margin:auto;text-align:center;display:block>How the spin-flip transition works</a></p><p>The hydrogen line is a spectral line given off by neutral hydrogen in space. It&rsquo;s important for our understanding of the universe because it can penetrate through dust clouds and allows us to probe regions that are blocked to visible light. It&rsquo;s been used to calculate the <a href=https://www.e-education.psu.edu/astro801/content/l8_p8.html>rotation curve of our galaxy</a>, made an appearance on the <a href=https://en.wikipedia.org/wiki/Pioneer_plaque>Pioneer plaque</a> and is an important frequency for radio astronomy.</p><p>Hydrogen is the most abundant element in the universe, and the Milky Way is no exception. Most of this hydrogen is in a neutral state. This neutral hydrogen can change energy states from higher to lower, giving off the <a href=https://en.wikipedia.org/wiki/Hydrogen_line>21cm Hydrogen line</a>. A Hydrogen atom has two possible spin configurations; the first is a slightly higher energy state where the proton and electron have the same spin, with the magnetic field of the electron reversed. In the second, the particles have the opposite spin with the same magnetic field. Given enough time, a Hydrogen atom in the first state will spontaneously flip its spin orientation to the second state. The energy difference between the two is given off by a photon with a wavelength of 21cm&ndash; the Hydrogen line. The equation that governs this is below:</p><p>\[ \lambda = \frac{1}{v} \dot \, c = \frac{h}{E} \, \dot \, c \approx \frac{4.135 \, \dot \, 10^{-15} eV \, s}{5.874 \, \dot \, 10^{-6} eV} \, \dot \, 2.997 \, \dot \, 10^{8} \, m \, s^{-1} \approx 0.21106 \, m = 21.106 \, cm \]</p><p>While the spin-flip transition is rare (taking ~10 million years to occur for a single atom), there is a lot of hydrogen in space. Hydrogen is concentrated in the spiral arms of the Milky Way and especially in the galactic center (near Sagittarius). The Hydrogen line is very narrow, centered on 1420.405 Mhz. Using this knowledge, I can image different arms of the Milky Way and observe the delta between the observed and expected frequency. This can be used to calculate the <a href=https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/>radial speed of the different arms of the galaxy</a>!</p><h1 id=setup>Setup</h1><p>I followed <a href=https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/>this guide from RTL-SDR.com</a> to set up my equipment. I used a <a href="https://www.amazon.com/Premiertek-Directional-High-Gain-Parabolic-ANT-GRID-24DBI/dp/B005M8KU3W/ref=pd_sbs_1/137-2260590-1166642?pd_rd_w=lxWGy&pf_rd_p=0a3ad226-8a77-4898-9a99-63ffeb1aef90&pf_rd_r=JFQETBH5P545YV1JS3TV&pd_rd_r=0238062a-5707-4b87-a79a-ac321cfcc06d&pd_rd_wg=g7M7Y&pd_rd_i=B005M8KU3W&psc=1">1-meter parabolic dish</a>, <a href="https://www.amazon.com/dp/B07XPV9RX2?ref=nb_sb_ss_w_as-ypp-rep_ypp_rep_k0_1_7&amp&crid=1KSDU4I4AMG3P&amp&sprefix=sawbird">Sawbird H1 low noise amplifier (LNA)</a>, <a href=https://www.amazon.com/gp/product/B00BXUYDMM>50Ω terminator</a>, and an <a href=https://www.rtl-sdr.com/>RTL-SDR</a>. The total cost for the equipment came to just over $200, not including the RTL-SDR and raspberry pi I already owned.</p><p>I connected my RTL-SDR to the LNA directly and connected the LNA to the parabolic dish. The SDR was then connected to my raspberry pi using a USB->USB cable.</p><p><img src=/img/setup-scaled.jpg alt=setup></p><h1 id=software>Software</h1><p>I used <a href=https://github.com/0xboto/Virgo>Virgo, a versatile spectrometer for radio astronomy,</a> to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots.</p><p>Below is a short, 2-minute exposure I took. You&rsquo;ll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier&rsquo;s bandpass filter. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some interference.</p><p><img src=/img/hydrogen-line.png alt="hydrogen plot"></p><h1 id=doppler-shifts>Doppler Shifts</h1><p>I can calculate the radial velocity of the observed target using the doppler method!</p><p>\[ \frac{\Delta \lambda}{\lambda} = \frac{v}{c} \]</p><p>I don&rsquo;t have quite the amount of data I&rsquo;d like to calculate doppler shifts for all arms of the Milky Way, but rest assured this method does work! PhysicsOpenLab has a <a href=https://physicsopenlab.org/2020/09/08/measurement-of-the-milky-way-rotation/>great article on this</a>.</p><p>While I made my first batch of observations manually, it&rsquo;d be ideal to automate them so I can have the observatory run continuously! However, there isn&rsquo;t always a suitable target overhead to observe. I need some way to determine whether or not I should make an observation!</p><h1 id=automating-the-observatory>Automating the Observatory</h1><p>I&rsquo;d like to automatically make observations when some portion of the Milky Way is overhead. Luckily, Virgo provides some handy tools to let us do this.</p><p>First, I need to get the right ascension and declination to figure out where in the sky our radio telescope is pointing. To make things simple, I can assume the telescope is pointing straight upwards.</p><pre><code>altitude = 90
 azimuth = 0
 ra, dec = virgo.equatorial(altitude,azimuth,latitude,longitude)
-</code></pre>
-<p>Once I know where in the sky the telescope is looking, I want to translate this to where it&rsquo;s looking relative to the galactic plane.</p>
-<pre><code>_ , latitude = virgo.galactic(coords[0],coords[1])
-</code></pre>
-<p>Because the telescope is pointing straight up, I&rsquo;m only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I want to observe if:</p>
-<pre><code>latitude &gt; -8/2 and latitude &lt; 8/2
-</code></pre>
-<p>This only takes into account the center of the galactic coordinates, the Milky Way has an apparent width of around ~30 degrees. I can adjust the observation condition to:</p>
-<pre><code>latitude &gt;= -30/2 and latitude &lt;= 30/2
-</code></pre>
-<p>Putting it all together, this is the script I used to automate my observatory.</p>
-<pre><code>import virgo
+</code></pre><p>Once I know where in the sky the telescope is looking, I want to translate this to where it&rsquo;s looking relative to the galactic plane.</p><pre><code>_ , latitude = virgo.galactic(coords[0],coords[1])
+</code></pre><p>Because the telescope is pointing straight up, I&rsquo;m only concerned with the latitude. It has a beamwidth of approximately 8 degrees so I want to observe if:</p><pre><code>latitude &gt; -8/2 and latitude &lt; 8/2
+</code></pre><p>This only takes into account the center of the galactic coordinates, the Milky Way has an apparent width of around ~30 degrees. I can adjust the observation condition to:</p><pre><code>latitude &gt;= -30/2 and latitude &lt;= 30/2
+</code></pre><p>Putting it all together, this is the script I used to automate my observatory.</p><pre><code>import virgo
 from datetime import datetime
 from subprocess import Popen
 import sys
@@ -124,22 +64,9 @@ finally:
     # needed on windows to disable bias tee on the RTL-SDR
     # p = Popen('bias_tee_off.bat', cwd=r'./',shell=True)
     # stdout, stderr = p.communicate()
-</code></pre>
-<p>Run it every 5 minutes with cron and you have an automated backyard radio observatory!</p>
-<pre><code>crontab -e
+</code></pre><p>Run it every 5 minutes with cron and you have an automated backyard radio observatory!</p><pre><code>crontab -e
 */5 * * * * ~/radio_astro/observe.py
-</code></pre>
-<h1 id=wrapping-up>Wrapping Up</h1>
-<p>I had a blast working on this project! It&rsquo;s amazing that with $200 in equipment, you can put together an observatory to detect the different arms of the Milky Way!</p>
-<p>On my list of future upgrades is a nicer SDR, specifically the <a href=https://www.ettus.com/all-products/ub200-kit/>USRP B200</a>. I got to use one while working at GTRI and really enjoyed working with them. I&rsquo;d also like to upgrade the post-observation portion of the observatory, automatically syncing data to the cloud and maybe even publishing live to a website.</p>
-</main>
-<footer>
-<script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</code></pre><h1 id=wrapping-up>Wrapping Up</h1><p>I had a blast working on this project! It&rsquo;s amazing that with $200 in equipment, you can put together an observatory to detect the different arms of the Milky Way!</p><p>On my list of future upgrades is a nicer SDR, specifically the <a href=https://www.ettus.com/all-products/ub200-kit/>USRP B200</a>. I got to use one while working at GTRI and really enjoyed working with them. I&rsquo;d also like to upgrade the post-observation portion of the observatory, automatically syncing data to the cloud and maybe even publishing live to a website.</p></main><footer><script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script defer src=//yihui.org/js/center-img.js></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180314723-1"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-180314723-1')</script>
-<hr>
-© <a href=https://hmcguinn.com>Houlton McGuinn</a> 2020 &ndash; 2022 | <a href=https://github.com/hmcguinn>Github</a>
-</footer>
-</body>
-</html>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-180314723-1')</script><hr>© <a href=https://hmcguinn.com>Houlton McGuinn</a> 2020 &ndash; 2022 | <a href=https://github.com/hmcguinn>Github</a></footer></body></html>
