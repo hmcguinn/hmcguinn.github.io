@@ -9,4 +9,4 @@ This was the first piece of generative art I've made!
 
 Modify it [here!](https://editor.p5js.org/hmcguinn/sketches/R_F000CUQ)
 
-![colorful shapes](/img/colorful_shapes.png)
+<div align="center"><iframe height="530" width="500" src="https://editor.p5js.org/hmcguinn/full/R_F000CUQ"></iframe></div>
