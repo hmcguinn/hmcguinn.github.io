@@ -1,7 +1,7 @@
 ---
 title: "Finding Vulnerable DoD Apache Tomcat Servers"
-date: 2022-06-13T18:43:26-05:00
-draft: true
+date: 2022-08-09T20:00:00-05:00
+draft: false
 ---
 
 # Introduction
