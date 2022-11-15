@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Finding Vulnerable DoD Apache Tomcat Servers | Houlton McGuinn</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/interests/">Things I like</a></li>
+      
+      <li><a href="/posts/">Blog</a></li>
+      
+      <li><a href="/art/">My art</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Finding Vulnerable DoD Apache Tomcat Servers</span></h1>
+
+<h2 class="date">2022/08/09</h2>
+</div>
+
+<main>
+<h1 id="introduction">Introduction</h1>
+<p>The Department of Defense launched their <a href="https://hackerone.com/deptofdefense">vulnerablity disclosure program</a> (VDP) in 2016. I&rsquo;ve been interested in bug bounty/VDPs for awhile but never actually gave them a try. I chose to investigate this particular program because I thought it would be relatively easier to find a vulnerability in a huge legacy organization like the DoD. And it worked! In a couple of hours I was able to find, validate, and submit my first vulnerability.</p>
+<h1 id="reconnaissance">Reconnaissance</h1>
+<h2 id="ip-blocks">IP Blocks</h2>
+<p>The DoD lists the scope of their VDP as <code>&quot;Publicly accessible information systems, web property, or data owned, operated, or controlled by DoD.&quot;</code> This is a pretty big scope! Where do I even start? Attack surface management tools like <a href="https://www.shodan.io/">Shodan</a> and <a href="https://search.censys.io/">Censys</a> let us quickly get an overview of publically facing servers and what they are running. Personally, I prefer Censys because it is easier to filter fields and has higher quality data (full disclosure: I interned there in 2021). I knew that the DoD has huge CIDR blocks, so I looked up their <a href="https://en.wikipedia.org/wiki/List_of_assigned_/8_IPv4_address_blocks#List_of_assigned_/8_blocks_to_the_United_States_Department_of_Defense">/8s on Wikipedia</a>.</p>
+<p>I started by searching for all active servers in their IP blocks. For example, <a href="https://search.censys.io/search?resource=hosts&amp;sort=RELEVANCE&amp;per_page=25&amp;virtual_hosts=EXCLUDE&amp;q=ip%3A+55.0.0.0%2F8">55.0.0.0/8</a>. Unfortunately, I didn&rsquo;t get any results with this method. I know that a lot of the IP blocks were unused, so it could be that I was unlucky or just that Censys doesn&rsquo;t support searching on an entire /8. I&rsquo;d have to figure out another way to find some targets.</p>
+<h2 id="certificate-names">Certificate Names</h2>
+<p>Luckily, Censys also supports searching on certificates and HTTP headers. I can search for all servers presenting a <code>*.mil</code> (top-level domain for the DoD) certificate using <a href="https://search.censys.io/search?resource=hosts&amp;sort=RELEVANCE&amp;per_page=25&amp;virtual_hosts=EXCLUDE&amp;q=services.tls.certificates.leaf_data.subject.common_name%3A+*.mil">this</a> query. I got back around 30,000 results, which is pretty hard to exhaustively comb through.</p>
+<p>I started by filtering for exposed database protocols: <code>MYSQL</code>, <code>MongoDB</code>, etc. Exposing these without proper authentication is no-bueno. My quick scan didn&rsquo;t reveal anything that I thought was worth investigating further so I continued on. Unfortunately, I didn&rsquo;t keep the best records of the exact queries I used at this point. The basic process was to search for a specific service, investigate, pivot to a new common name or organization. Eventually I stumbled onto an <a href="https://tomcat.apache.org/">Apache Tomcat</a> server running in AWS GovCloud that looked promising.</p>
+<h1 id="scanning">Scanning</h1>
+<p>Coincidentally, I had worked on a <a href="https://arkanoidctf.medium.com/hackthebox-writeup-jerry-aa2b992917a7">HackTheBox</a> that involved an Apache Tomcat server so I have a little familiarity in this area. Visiting the server&rsquo;s page, I was greeted with this:</p>
+<p><img src="/img/website.png" alt="homepage"></p>
+<p>Pretty standard for an unconfigured server, but the version <code>8.0.21</code> is promising. A quick google reveals that Tomcat 8.0.x reached <a href="https://tomcat.apache.org/tomcat-80-eol.html">end-of-life</a> in <strong>June 2018!</strong></p>
+<p>The next step was to check for CVEs against this version. Turns out there are more than a few! Tomcat 8.0.21 has <a href="https://www.cvedetails.com/vulnerability-list.php?vendor_id=45&amp;product_id=887&amp;version_id=540778&amp;page=1&amp;hasexp=0&amp;opdos=0&amp;opec=0&amp;opov=0&amp;opcsrf=0&amp;opgpriv=0&amp;opsqli=0&amp;opxss=0&amp;opdirt=0&amp;opmemc=0&amp;ophttprs=0&amp;opbyp=0&amp;opfileinc=0&amp;opginf=0&amp;cvssscoremin=0&amp;cvssscoremax=0&amp;year=0&amp;month=0&amp;cweid=0&amp;order=3&amp;trc=16&amp;sha=25e452bacc35f15fb25b5d9df0121acfe6a4f72b">16 published CVEs</a>. This server definitely should be updated. But I needed to confirm it&rsquo;s actually vulnerable to these before I made a report.</p>
+<h1 id="confirming-vulnerability">Confirming Vulnerability</h1>
+<p>Tomcat 8.0.21 is vulnerable to <a href="https://nvd.nist.gov/vuln/detail/CVE-2015-5345">CVE-2015-5345</a>, a path traversal vulnerability. Luckily, it&rsquo;s pretty easy to test as well. The full details of the vulnerability are <a href="https://hackdefense.com/publications/cve-2015-5345-apache-tomcat-vulnerability/">here</a>.</p>
+<p>Confirming the server&rsquo;s vulnerability is as simple as running: <code>curl -I -k &lt;IP&gt;/WEB-INF</code></p>
+<pre><code>➜  curl -I -k https://&lt;IP&gt;:7443/WEB-INF
+
+HTTP/1.1 302 Found
+Date: Sat, 11 Jun 2022 19:39:17 GMT
+Server: Apache
+X-Distributed-by: The Apache Haus (http://www.apachehaus.com)
+Location: https://&lt;IP&gt;:7443/WEB-INF/
+Content-Type: text/plain
+</code></pre>
+<p>Due to the bug, the server improperly responds with a <code>302 Found</code> instead of a <code>404 Not Found</code>. The proper behaviour can be seen by running: <code>curl -I -k &lt;IP&gt;/WEB-INF/</code></p>
+<pre><code>➜  curl -I -k https://&lt;IP&gt;:7443/WEB-INF/
+
+HTTP/1.1 404 Not Found
+Date: Sat, 11 Jun 2022 19:39:55 GMT
+Server: Apache
+X-Distributed-by: The Apache Haus (http://www.apachehaus.com)
+Content-Language: en
+Content-Length: 992
+Content-Type: text/html;charset=utf-8
+
+</code></pre>
+<p>We&rsquo;ve now confirmed that the server is actually vulnerable to CVE-2015-5345. At this point, I was preparing to write up my findings and submit them to the VDP.</p>
+<h1 id="pivoting">Pivoting</h1>
+<p>Before I submitted, I did one last search in Censys for the certificate the server was presenting, with common name: <code>&lt;REDACTED&gt;.us.army.mil</code>. I got two results, the server I had been investigating and a seemingly identical server with a different IP.</p>
+<p>This other server was also running Tomcat 8.0.21 and I quickly confirmed it was also vulnerable.</p>
+<h1 id="reporting">Reporting</h1>
+<p>I wrote up my findings and submitted them to the VDP Saturday afternoon. I heard back early on Monday morning and was asked to create two separate reports for each server. After updating and submititting new reports, they were both triaged and validated within about 30 minutes. Huge props to the DoD for being so quick!</p>
+<h1 id="lessons">Lessons</h1>
+<p>Overall, this was a low severity vulnerability. The specific CVE I confirmed is relatively low/medium impact and the two servers didn&rsquo;t appear to be in active use. Still, it&rsquo;s not good to have unpatched, end-of-life servers publically exposed from your networks.</p>
+<p>Working on this was a ton of fun! Hopefully I&rsquo;ll have more findings to report in the future!</p>
+
+</main>
+
+  <footer>
+  <script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src="//yihui.org/js/center-img.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180314723-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-180314723-1');
+</script>
+  
+  <hr/>
+  © <a href="https://hmcguinn.com">Houlton McGuinn</a> 2020 &ndash; 2022 | <a href="https://github.com/hmcguinn">Github</a>
+  
+  </footer>
+  </body>
+</html>
+
