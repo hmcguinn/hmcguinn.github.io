@@ -8,6 +8,8 @@ draft: false
 
 This is a walkthrough of how I've approached the challenges in Set 1!
 
+### The challenges have been released for 10+ years at this point, but if you haven't worked through them yet there are spoilers ahead!
+
 ## 1. Convert hex to base64
 
 >  The string:
