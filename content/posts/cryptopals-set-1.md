@@ -11,11 +11,15 @@ This is a walkthrough of how I've approached the challenges in Set 1!
 ## 1. Convert hex to base64
 
 >  The string:
+> ```
 > 49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d
+> ```
 > 
 > Should produce:
 > 
+> ```
 > SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
+> ```
 > 
 > So go ahead and make that happen. You'll need to use this code for the rest of the exercises.
 > Cryptopals Rule
@@ -47,15 +51,21 @@ Looks good!
 > 
 > If your function works properly, then when you feed it the string:
 > 
+> ```
 > 1c0111001f010100061a024b53535009181c
+> ```
 > 
 > ... after hex decoding, and when XOR'd against:
 > 
+> ```
 > 686974207468652062756c6c277320657965
+> ```
 > 
 > ... should produce:
 > 
+> ```
 > 746865206b696420646f6e277420706c6179
+> ```
 
 Next up is to XOR two byte buffers together. The challenge input is given as a hex string, so like last time, we'll have to convert this to bytes first. Luckily we just wrote a function to do that!
 
@@ -79,7 +89,9 @@ xord = xor(b1, b2)
 ## 3. Single-byte XOR cipher
 
 >  The hex encoded string:
+> ```
 > 1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736
+> ```
 > 
 > ... has been XOR'd against a single character. Find the key, decrypt the message.
 > 
@@ -155,8 +167,10 @@ Again, we're making a similar assumption that the most likely plaintext has the 
 >
 >  Here is the opening stanza of an important work of the English language:
 > 
+> ```
 > "Burning 'em, if you ain't quick and nimble
 > I go crazy when I hear a cymbal"
+> ```
 > 
 > Encrypt it, under the key "ICE", using repeating-key XOR.
 > 
@@ -164,8 +178,10 @@ Again, we're making a similar assumption that the most likely plaintext has the 
 > 
 > It should come out to:
 > 
+> ```
 > 0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272
 > a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f
+> ```
 
 Let's implement a very secure cipher!
 
@@ -300,7 +316,9 @@ key = plaintexts[-1][2]
 
 >  The Base64-encoded content in this file has been encrypted via AES-128 in ECB mode under the key
 > 
+> ```
 > "YELLOW SUBMARINE".
+> ```
 > 
 > (case-sensitive, without the quotes; exactly 16 characters; I like "YELLOW SUBMARINE" because it's exactly 16 bytes long, and now you do too).
 > 
