@@ -1,0 +1,173 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Cryptopals Set 1: Basics | Houlton McGuinn</title><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css></head><body><nav><ul class=menu><li><a href=/>Home</a></li><li><a href=/about/>About</a></li><li><a href=/interests/>Things I like</a></li><li><a href=/posts/>Blog</a></li><li><a href=/art/>My art</a></li></ul><hr></nav><div class=article-meta><h1><span class=title>Cryptopals Set 1: Basics</span></h1><h2 class=date>2022/12/21</h2></div><main><p><a href=https://cryptopals.com>Cryptopals</a> is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them <a href=https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/>here</a>. They&rsquo;ve been out for awhile and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&rsquo;m back at it! They&rsquo;ve been a ton of fun to work on so far and definitely challenging. I&rsquo;ve &ldquo;known&rdquo; academically a lot of the attacks covered but implementing them is a different story. This is a walkthrough of how I&rsquo;ve approached the challenges in Set 1!</p><h2 id=1-convert-hex-to-base64>1. Convert hex to base64</h2><blockquote><p>The string:
+49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d</p><p>Should produce:</p><p>SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t</p><p>So go ahead and make that happen. You&rsquo;ll need to use this code for the rest of the exercises.
+Cryptopals Rule</p><p>Always operate on raw bytes, never on encoded strings. Only use hex and base64 for pretty-printing.</p></blockquote><p>The challenges start off fairly simple. For this one, we&rsquo;ll just convert this hex-encoded string to a b64-encoded string. The challenge wants us to operate on raw bytes, so we&rsquo;ll first have to convert the hex-encoded-string to bytes:</p><pre><code>import base64
+
+def hex_to_bytes(s):
+    return bytes.fromhex(s)
+
+def bytes_to_b64(b):
+    return base64.b64encode(b)
+
+hex_string = &quot;49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d&quot;
+hex_bytes = hex_to_bytes(hex_string)
+b64_bytes = bytes_to_b64(hex_bytes)
+# b'SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t'
+</code></pre><p>Looks good!</p><h2 id=2-fixed-xor>2. Fixed XOR</h2><blockquote><p>Write a function that takes two equal-length buffers and produces their XOR combination.</p><p>If your function works properly, then when you feed it the string:</p><p>1c0111001f010100061a024b53535009181c</p><p>&mldr; after hex decoding, and when XOR&rsquo;d against:</p><p>686974207468652062756c6c277320657965</p><p>&mldr; should produce:</p><p>746865206b696420646f6e277420706c6179</p></blockquote><p>Next up is to XOR two byte buffers together. The challenge input is given as a hex string, so like last time, we&rsquo;ll have to convert this to bytes first. Luckily we just wrote a function to do that!</p><pre><code>def xor(b1, b2):
+    xord = bytearray(min(len(b1), len(b2)))
+    for i in range(min(len(b1), len(b2))):
+        xord[i] = b1[i] ^ b2[i]
+    return xord
+
+b1 = hex_to_bytes(&quot;1c0111001f010100061a024b53535009181c&quot;)
+b2 = hex_to_bytes(&quot;686974207468652062756c6c277320657965&quot;)
+
+xord = xor(b1, b2)
+
+# 746865206b696420646f6e277420706c6179
+# bytearray(b&quot;the kid don\'t play&quot;)
+</code></pre><h2 id=3-single-byte-xor-cipher>3. Single-byte XOR cipher</h2><blockquote><p>The hex encoded string:
+1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736</p><p>&mldr; has been XOR&rsquo;d against a single character. Find the key, decrypt the message.</p><p>You can do this by hand. But don&rsquo;t: write code to do it for you.</p><p>How? Devise some method for &ldquo;scoring&rdquo; a piece of English plaintext. Character frequency is a good metric. Evaluate each output and choose the one with the best score.</p></blockquote><p>We&rsquo;re given a hex encoded string that&rsquo;s been XOR&rsquo;d with an unknown key.</p><pre><code>ciphertext = hex_to_bytes(&quot;1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736&quot;)
+</code></pre><p>Our algorithm is fairly simple, we&rsquo;ll try XOR&rsquo;ing all possible keys with our ciphertext. We know it&rsquo;s a single character so there are only 2^8 possible keys. We can then score the result to see which are most likely.</p><pre><code>def detect_xor(ct):
+    candidates = []
+    for i in range(256):
+        candidate = xor(ct, i.to_bytes(1, 'big')*len(ct))
+        num_valid = 0
+        for j in candidate:
+            # space or lowercase
+            if  int(j) == 32 or (int(j) &gt;= 97 and int(j) &lt;= 122):
+                num_valid += 1
+        candidates.append((num_valid, candidate, chr(i)))
+    candidates.sort()
+    return candidates[-1]
+</code></pre><p>To score our messages, we assume that it consists of mostly lowercase characters and spaces. The one with the most lowercase characters and spaces is our plaintext!</p><pre><code>plain = detect_xor(ciphertext)[1:]
+# (bytearray(b&quot;Cooking MC\'s like a pound of bacon&quot;), 'X')
+</code></pre><p>Here, the key our ciphertext was XOR&rsquo;d with was the character &lsquo;X&rsquo;.</p><h2 id=4-detect-single-character-xor>4. Detect single-character XOR</h2><blockquote><p>One of the 60-character strings in this file has been encrypted by single-character XOR.</p><p>Find it.</p><p>(Your code from #3 should help.)</p></blockquote><p>This challenge is pretty similar to the previous one. We&rsquo;re given a number of strings, one of which was &ldquo;encrypted&rdquo; by single-character XOR. Using the detect_xor() function we wrote for the last challenge, we can try each line individually.</p><pre><code>with open('detect_xor.txt') as f:
+    lines = f.readlines()
+
+arr = []
+for line in lines:
+    detect = detect_xor(hex_to_bytes(line))
+    arr.append((detect, line))
+
+arr.sort()
+plaintext = arr[-1][0][1]
+ciphertext = arr[-1][1]
+
+# bytearray(b'Now that the party is jumping')
+# '7b5a4215415d544115415d5015455447414c155c46155f4058455c5b523f'
+
+</code></pre><p>Again, we&rsquo;re making a similar assumption that the most likely plaintext has the most lowercase characters and spaces. There are fancier ways to do this (frequency of characters in English (ETAOIN)) but this is simple and works.</p><h2 id=5-implement-repeating-key-xor>5. Implement repeating-key XOR</h2><blockquote><p>Here is the opening stanza of an important work of the English language:</p><p>&ldquo;Burning &rsquo;em, if you ain&rsquo;t quick and nimble
+I go crazy when I hear a cymbal&rdquo;</p><p>Encrypt it, under the key &ldquo;ICE&rdquo;, using repeating-key XOR.</p><p>In repeating-key XOR, you&rsquo;ll sequentially apply each byte of the key; the first byte of plaintext will be XOR&rsquo;d against I, the next C, the next E, then I again for the 4th byte, and so on.</p><p>It should come out to:</p><p>0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272
+a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f</p></blockquote><p>Let&rsquo;s implement a very secure cipher!</p><pre><code>pt = &quot;Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal&quot;.encode('ascii')
+key = &quot;ICE&quot;.encode('ascii')
+
+def xor_encrypt(key, pt):
+    key = (key*(len(pt)//len(key)+1))[:len(pt)]
+    return xor(key, pt)
+
+ct = xor_encrypt(key, pt)
+# '0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f'
+</code></pre><p>The tricky part here is to expand our repeating key to the right length. We already have the XOR function from challenge 2. We repeat the key until it&rsquo;s longer than our plaintext, and then splice the repeated key so that the lengths match exactly. Then we can just XOR them!</p><h2 id=6-break-repeating-key-xor>6. Break repeating-key XOR</h2><blockquote><p>There&rsquo;s a file here. It&rsquo;s been base64&rsquo;d after being encrypted with repeating-key XOR.</p><p>Decrypt it.</p><p>Here&rsquo;s how:</p><ol><li>Let KEYSIZE be the guessed length of the key; try values from 2 to (say) 40.</li><li>Write a function to compute the edit distance/Hamming distance between two strings. The Hamming distance is just the number of differing bits. The distance between:</li><li>For each KEYSIZE, take the first KEYSIZE worth of bytes, and the second KEYSIZE worth of bytes, and find the edit distance between them. Normalize this result by dividing by KEYSIZE.</li><li>The KEYSIZE with the smallest normalized edit distance is probably the key. You could proceed perhaps with the smallest 2-3 KEYSIZE values. Or take 4 KEYSIZE blocks instead of 2 and average the distances.</li><li>Now that you probably know the KEYSIZE: break the ciphertext into blocks of KEYSIZE length.</li><li>Now transpose the blocks: make a block that is the first byte of every block, and a block that is the second byte of every block, and so on.</li><li>Solve each block as if it was single-character XOR. You already have code to do this.</li><li>For each block, the single-byte XOR key that produces the best looking histogram is the repeating-key XOR key byte for that block. Put them together and you have the key.</li></ol><p>This code is going to turn out to be surprisingly useful later on. Breaking repeating-key XOR (&ldquo;Vigenere&rdquo;) statistically is obviously an academic exercise, a &ldquo;Crypto 101&rdquo; thing. But more people &ldquo;know how&rdquo; to break it than can actually break it, and a similar technique breaks something much more important.</p></blockquote><p>This is the trickiest challenge so far. Luckily, we&rsquo;re given pretty specific steps on how we can break it!</p><p>Let&rsquo;s start by writing a function to calculate the hamming distance:</p><pre><code>def hamming_dist(b1, b2):
+    diff = 0
+    for i in range(min(len(b1[i]), len(b2[i]))):
+        xor = b1[i] ^ b2[i]
+        distance = 0
+        while xor:
+            if xor &amp; 1:
+                distance += 1
+            xor = xor &gt;&gt; 1
+        diff += distance
+    return diff
+
+
+s1 = &quot;this is a test&quot;.encode('ascii')
+s2 = &quot;wokka wokka!!!&quot;.encode('ascii')
+hamming_distance = hamming_dist(s1, s2)
+# 37
+</code></pre><p>Now we need to figure out what the keysize is so we can apply our detect_xor() function from challenge 4. I found that it worked better when I average a couple hamming distances, rather than just the first two ciphertexts.</p><pre><code>min_hamming = 10000
+guessed_size = 0
+distances = []
+for keysize in range(2, 40):
+    g1, g2, g3, g4 = ct[0:keysize*1], ct[keysize*1:keysize*2], ct[keysize*2:keysize*3], ct[keysize*3:keysize*4]
+
+    dist = ((hamming_dist(g1, g2)) +
+            (hamming_dist(g2, g3)) +
+            (hamming_dist(g3, g4))) / (3*keysize)
+    if dist &lt; min_hamming:
+        min_hamming = dist
+        guessed_size = keysize
+
+    distances.append((dist, keysize))
+
+
+print(guessed_size)
+</code></pre><p>Next for each keysize, we&rsquo;ll splice together the ciphertexts and break it as single-character XOR! We have this helper function courtesy of <a href=https://www.geeksforgeeks.org/break-list-chunks-size-n-python/>geeks for geeks</a> that splits a list into chunks of length n. We&rsquo;ll also write a quick helper function using our logic from challenge 3 to score the likelihood a decoded plaintext is valid.</p><pre><code>def divide_chunks(c, n):
+    for i in range(0, len(c), n):
+        yield c[i:i + n]
+
+def score(s):
+    num_valid = 0
+    for j in s:
+        # space or lowercase character
+        if  int(j) == 32 or (int(j) &gt;= 97 and int(j) &lt;= 122):
+            num_valid += 1
+    return num_valid
+</code></pre><p>The steps to break:</p><ol><li>Split into chunks of length keysize</li><li>Reorder len(ct)/keysize chunks of length keysize into keysize chunks of length len(ct)/keysize</li><li>Break keysize chunks individually as single character XOR</li><li>Decrypt ciphertext using guessed key</li><li>Score decoded plaintexts by likelihood</li></ol><pre><code>plaintexts = []
+for _, keysize in distances:
+    split = list(divide_chunks(ct, keysize))
+    broken = [[] for _ in range(keysize)]
+
+    for i in range(len(split)):
+        for j in range(len(split[i])):
+            broken[j].append(split[i][j])
+
+    guessed_key = []
+    for block in broken:
+        guessed_key.append(break_single_key_xor(block)[0])
+
+    guess_pt = xor_encrypt((''.join(guess).encode('ascii')), ct)
+    plaintexts.append((score(guess_pt), guess_pt, ''.join(guessed_key)))
+
+plaintexts.sort()
+key = plaintexts[-1][2]
+# Terminator X: Bring the noise
+</code></pre><h2 id=7-aes-in-ecb-mode>7. AES in ECB mode</h2><blockquote><p>The Base64-encoded content in this file has been encrypted via AES-128 in ECB mode under the key</p><p>&ldquo;YELLOW SUBMARINE&rdquo;.</p><p>(case-sensitive, without the quotes; exactly 16 characters; I like &ldquo;YELLOW SUBMARINE&rdquo; because it&rsquo;s exactly 16 bytes long, and now you do too).</p><p>Decrypt it. You know the key, after all.</p><p>Easiest way: use OpenSSL::Cipher and give it AES-128-ECB as the cipher.
+<strong>Do this with code.</strong></p><p>You can obviously decrypt this using the OpenSSL command-line tool, but we&rsquo;re having you get ECB working in code for a reason. You&rsquo;ll need it a lot later on, and not just for attacking ECB.</p></blockquote><p>For this challenge, we&rsquo;re implementing AES in ECB mode.</p><pre><code>with open('encrypted-cbc.txt') as f:
+    file = base64.b64decode(f.read())
+
+key = &quot;YELLOW SUBMARINE&quot;.encode('ascii')
+</code></pre><p>Let&rsquo;s write two functions to ECB encrypt/decrypt. Since I&rsquo;m using Pyca&rsquo;s <a href=https://cryptography.io/en/latest/>Cryptography library</a>, I need to pad the plaintext to a multiple of the blocksize. For this specific challenge our ciphertext is already a multiple of the blocksize so we can leave that out for now.</p><pre><code>def ecb_encrypt(pt, key):
+    cipher = Cipher(algorithms.AES(key), modes.ECB())
+    encryptor = cipher.encryptor()
+    return encryptor.update(pt) + encryptor.finalize()
+
+def ecb_decrypt(ct, key):
+    cipher = Cipher(algorithms.AES(key), modes.ECB())
+    decryptor = cipher.decryptor()
+
+    return decryptor.update(ct)
+
+pt = ecb_decrypt(file, key)
+</code></pre><h2 id=8-detect-aes-in-ecb-mode>8. Detect AES in ECB mode</h2><blockquote><p>In this file are a bunch of hex-encoded ciphertexts.</p><p>One of them has been encrypted with ECB.</p><p>Detect it.</p><p>Remember that the problem with ECB is that it is stateless and deterministic; the same 16 byte plaintext block will always produce the same 16 byte ciphertext.</p></blockquote><p>For this challenge, we&rsquo;re detecting which ciphertext has been encrypted with ECB. To do this, we&rsquo;ll make the assumption that there is some repeating block of plaintext and therefore a repeating block of ciphertext too!</p><p>First, we&rsquo;ll read in the file and convert the hex-encoded string to bytes.</p><pre><code>with open('8.txt') as f:
+    lines = f.readlines()
+
+arr = []
+for line in lines:
+    arr.append(hex_to_bytes(line))
+</code></pre><p>Next, we&rsquo;ll check each ciphertext for a repeating block:</p><pre><code>encrypted = None
+for i in arr:
+    s = set()
+    ct = list(divide_chunks(i, 16))
+    for j in ct:
+        if str(j) in s:
+            encrypted = i
+            break
+        s.add(str(j))
+    if encrypted:
+        break
+
+print(encrypted.hex())
+</code></pre><p>There is definitely a better way than casting the bytearray to a string to find repeated blocks, but it&rsquo;s easy enough to do it this way!</p><h1 id=conclusion>Conclusion</h1><p>The first set of Cryptopals was a lot of fun to work on! Breaking repeating-key XOR was probably my favorite one to work on, and getting some of the implementation right was a little tricky. The concepts here will come up again later when we look at breaking fixed nonce CTR encryption!</p></main><footer><script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src=//yihui.org/js/center-img.js></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180314723-1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-180314723-1")</script><hr>© <a href=https://hmcguinn.com>Houlton McGuinn</a> 2020 &ndash; 2022 | <a href=https://github.com/hmcguinn>Github</a></footer></body></html>
