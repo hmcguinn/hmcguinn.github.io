@@ -4,7 +4,9 @@ date: 2022-12-21T13:12:35-05:00
 draft: false
 ---
 
-[Cryptopals](https://cryptopals.com) is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them [here](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). They've been out for awhile and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I'm back at it! They've been a ton of fun to work on so far and definitely challenging. I've "known" academically a lot of the attacks covered but implementing them is a different story. This is a walkthrough of how I've approached the challenges in Set 1!
+[Cryptopals](https://cryptopals.com) is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them [here](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). They've been out for awhile and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I'm back at it! They've been a ton of fun to work on so far and definitely challenging. I've "known" academically a lot of the attacks covered but implementing them is a different story. 
+
+This is a walkthrough of how I've approached the challenges in Set 1!
 
 ## 1. Convert hex to base64
 
