@@ -4,7 +4,7 @@ date: 2022-12-21T13:12:35-05:00
 draft: false
 ---
 
-[Cryptopals](https://cryptopals.com) is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them [here](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). They've been out for awhile and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I'm back at it! They've been a ton of fun to work on so far and definitely challenging. I've "known" academically a lot of the attacks covered but implementing them is a different story. 
+[Cryptopals](https://cryptopals.com) is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them [here](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). They've been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I'm back at it! They've been a ton of fun to work on so far and definitely challenging. I've "known" academically a lot of the attacks covered but implementing them is a different story. 
 
 This is a walkthrough of how I've approached the challenges in Set 1!
 
@@ -108,7 +108,7 @@ We're given a hex encoded string that's been XOR'd with an unknown key.
 ciphertext = hex_to_bytes("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
 ```
 
-Our algorithm is fairly simple, we'll try XOR'ing all possible keys with our ciphertext. We know it's a single character so there are only 2^8 possible keys. We can then score the result to see which are most likely.
+Our algorithm is fairly simple, we'll try XOR'ing all possible keys with our ciphertext. We know it's a single character, so there are only 2^8 possible keys. We can then score the result to see which are most likely.
 ```
 def detect_xor(ct):
     candidates = []
@@ -245,7 +245,7 @@ hamming_distance = hamming_dist(s1, s2)
 # 37
 ```
 
-Now we need to figure out what the keysize is so we can apply our detect_xor() function from challenge 4. I found that it worked better when I average a couple hamming distances, rather than just the first two ciphertexts.
+To figure out the keysize, we can apply our detect_xor() function from challenge 4. I found that it worked better when I average a couple hamming distances, rather than just the first two ciphertexts.
 
 
 ```
@@ -340,7 +340,7 @@ with open('encrypted-cbc.txt') as f:
 key = "YELLOW SUBMARINE".encode('ascii')
 ```
 
-Let's write two functions to ECB encrypt/decrypt. Since I'm using Pyca's [Cryptography library](https://cryptography.io/en/latest/), I need to pad the plaintext to a multiple of the blocksize. For this specific challenge our ciphertext is already a multiple of the blocksize so we can leave that out for now.
+Let's write two functions to ECB encrypt/decrypt. Since I'm using Pyca's [Cryptography library](https://cryptography.io/en/latest/), I need to pad the plaintext to a multiple of the blocksize. For this specific challenge our ciphertext is already a multiple of the blocksize, so we can leave that out for now.
 
 
 ```
@@ -402,4 +402,4 @@ There is definitely a better way than casting the bytearray to a string to find 
 
 # Conclusion
 
-The first set of Cryptopals was a lot of fun to work on! Breaking repeating-key XOR was probably my favorite one to work on, and getting some of the implementation right was a little tricky. The concepts here will come up again later when we look at breaking fixed nonce CTR encryption!
+The first set of Cryptopals was a lot of fun to work on! Breaking repeating-key XOR was probably my favorite one to work on, and getting the implementation right was a little tricky. The concepts here will come up again later when we look at breaking fixed nonce CTR encryption!
