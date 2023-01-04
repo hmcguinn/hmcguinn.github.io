@@ -1,0 +1,236 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Cryptopals Set 2: Block crypto | Houlton McGuinn</title><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css></head><body><nav><ul class=menu><li><a href=/>Home</a></li><li><a href=/about/>About</a></li><li><a href=/interests/>Things I like</a></li><li><a href=/posts/>Blog</a></li><li><a href=/art/>My art</a></li></ul><hr></nav><div class=article-meta><h1><span class=title>Cryptopals Set 2: Block crypto</span></h1><h2 class=date>2022/12/23</h2></div><main><p>Continuing with <a href=https://cryptopals.com/>Cryptopals</a>, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!</p><h2 id=9-implement-pkcs7-padding>9. Implement PKCS#7 Padding</h2><blockquote><p>A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.</p><p>One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize. The most popular padding scheme is called PKCS#7.</p><p>So: pad any block to a specific block length, by appending the number of bytes of padding to the end of the block. For instance,</p><pre><code>&quot;YELLOW SUBMARINE&quot;
+</code></pre><p>&mldr; padded to 20 bytes would be:</p><pre><code>&quot;YELLOW SUBMARINE\x04\x04\x04\x04&quot;
+</code></pre></blockquote><p><a href=https://en.wikipedia.org/wiki/Padding_(cryptography)#PKCS#5_and_PKCS#7>Wikipedia</a> is pretty clear on how to implement PKCS#7. At first, I missed that if the unpadded text is a multiple of the block length, an extra block is added at the end!</p><pre><code>def pad(unpadded, block_len):
+    to_pad = (block_len - len(unpadded)) if len(unpadded) % block_len != 0 else block_len
+    padded = bytearray(unpadded)
+    for i in range(to_pad):
+        padded.append(to_pad)
+    return padded
+</code></pre><h2 id=10-implement-cbc-mode>10. Implement CBC mode</h2><blockquote><p>CBC mode is a block cipher mode that allows us to encrypt irregularly-sized messages, despite the fact that a block cipher natively only transforms individual blocks.</p><p>In CBC mode, each ciphertext block is added to the next plaintext block before the next call to the cipher core.</p><p>The first plaintext block, which has no associated previous ciphertext block, is added to a &ldquo;fake 0th ciphertext block&rdquo; called the initialization vector, or IV.</p><p>Implement CBC mode by hand by taking the ECB function you wrote earlier, making it encrypt instead of decrypt (verify this by decrypting whatever you encrypt to test), and using your XOR function from the previous exercise to combine them.</p><p>The file here is intelligible (somewhat) when CBC decrypted against &ldquo;YELLOW SUBMARINE&rdquo; with an IV of all ASCII 0 (\x00\x00\x00)</p></blockquote><p>Implementing CBC mode is the first challenge where it starts to get a bit more complex. We&rsquo;ll write an encryption and a decryption function, making sure that we pad the blocks to 16-bytes. Also, since we already wrote an ECB encrypt/decrypt functions, we&rsquo;ll leverage those.</p><pre><code>def cbc_encrypt(pt, key, iv):
+    padded = pad(pt, len(pt) + (16 - len(pt) % 16)) # pad to next multiple of 16
+    blocks = list(divide_chunks(padded, 16))
+
+    output = bytearray()
+    prev = iv
+    for block in blocks:
+        xord = xor(prev, block)
+        ct = ecb_encrypt(xord, key)
+        prev = ct
+
+        output += ct
+    return output
+</code></pre><p>Decrypt is almost identical, except we unpad at the end:</p><pre><code>def cbc_decrypt(ct, key, iv):
+    blocks = list(divide_chunks(ct, 16))
+
+    output = bytearray()
+    prev = iv
+    for block in blocks:
+        pt = ecb_decrypt(block, key)
+        xord = xor(pt, prev)
+        prev = block
+
+        output += xord
+
+    unpadded = unpad(output)
+    return unpadded
+</code></pre><h2 id=11-an-ecbcbc-detection-oracle>11. An ECB/CBC detection oracle</h2><blockquote><p>Now that you have ECB and CBC working:</p><p>Write a function to generate a random AES key; that&rsquo;s just 16 random bytes.</p><p>Write a function that encrypts data under an unknown key &mdash; that is, a function that generates a random key and encrypts under it.</p><p>The function should look like:</p><pre><code>encryption_oracle(your-input)
+=&gt; [MEANINGLESS JIBBER JABBER]
+</code></pre><p>Under the hood, have the function append 5-10 bytes (count chosen randomly) before the plaintext and 5-10 bytes after the plaintext.</p><p>Now, have the function choose to encrypt under ECB 1/2 the time, and under CBC the other half (just use random IVs each time for CBC). Use rand(2) to decide which to use.</p><p>Detect the block cipher mode the function is using each time. You should end up with a piece of code that, pointed at a block box that might be encrypting ECB or CBC, tells you which one is happening.</p></blockquote><p>Now we&rsquo;re really starting to get into it! This challenge relies on the hamming_dist() function we wrote for challenge 3, the divide_chunks() from challenge 5, and our ECB/CBC encryption. One of my favorite things about Cryptopals is how much each challenge builds off of each other. Also, this means a lot of restructuring my code to be reused the next time I need it!</p><p>Let&rsquo;s start off with our function to encrypt a ciphertext using either ECB or CBC.</p><pre><code>def encrypt_rand(data):
+    key = gen_key()
+    before, after = random.randint(5, 10), random.randint(5, 10)
+    bytes_before, bytes_after = os.urandom(before), os.urandom(after)
+
+    data = bytes_before + data + bytes_after
+    padded_data = pad(data, len(data) + (16 - len(data) % 16))
+
+    ecb = random.randint(0, 1)
+    ct = None
+
+    if ecb:
+        ct = ecb_encrypt(padded_data, key)
+    else:
+        iv = os.urandom(16)
+        ct = cbc_encrypt(data, key, iv)
+    return ct, ecb
+</code></pre><p>One thing to note, for ECB mode we&rsquo;re encrypting the padded plaintext while for CBC mode we&rsquo;re encrypting an unpadded plaintext. These are effectively equivalent since my cbc_encrypt() will pad the data. cbc_encrypt() uses ecb_encrypt() under the hood though, and I don&rsquo;t want to double-pad data.</p><p>Next, let&rsquo;s write our oracle. The approach is somewhat similar to challenge 8, where the presence of a repeated block definitely means ECB was used. We want to see if we can get better than that though!</p><pre><code>def oracle(ct, pt):
+    chunks = list(divide_chunks(ct, 16))
+    s = set()
+    ecb = False
+    for i in range(len(chunks)-1):
+        if str(chunks[i]) in s:
+            ecb = True
+            return ecb
+        s.add(str(chunks[i]))
+
+    return ecb
+</code></pre><p>Above we have an oracle that given a ciphertext, determines whether ECB or CBC mode was used to encrypt it. We&rsquo;re passing a long plaintext of all 0&rsquo;s. Whatever the random bytes prepended/appended, we&rsquo;ll always have two blocks of full 0&rsquo;s. This ensures a repeated block and makes easy detection of ECB mode!</p><h2 id=12-byte-at-a-time-ecb-decryption-simple>12. Byte-at-a-time ECB decryption (Simple)</h2><blockquote><p>Copy your oracle function to a new function that encrypts buffers under ECB mode using a consistent but unknown key (for instance, assign a single random key, once, to a global variable).</p><p>Now take that same function and have it append to the plaintext, BEFORE ENCRYPTING, the following string:</p><pre><code>Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkg
+aGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBq
+dXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUg
+YnkK
+</code></pre><p>Base64 decode the string before appending it. Do not base64 decode the string by hand; make your code do it. The point is that you don&rsquo;t know its contents.</p><p>What you have now is a function that produces:</p><pre><code>AES-128-ECB(your-string || unknown-string, random-key)
+</code></pre><p>It turns out: you can decrypt &ldquo;unknown-string&rdquo; with repeated calls to the oracle function!</p><p>Here&rsquo;s roughly how:</p><ol><li>Feed identical bytes of your-string to the function 1 at a time &mdash; start with 1 byte (&ldquo;A&rdquo;), then &ldquo;AA&rdquo;, then &ldquo;AAA&rdquo; and so on. Discover the block size of the cipher. You know it, but do this step anyway.</li><li>Detect that the function is using ECB. You already know, but do this step anyways.</li><li>Knowing the block size, craft an input block that is exactly 1 byte short (for instance, if the block size is 8 bytes, make &ldquo;AAAAAAA&rdquo;). Think about what the oracle function is going to put in that last byte position.</li><li>Make a dictionary of every possible last byte by feeding different strings to the oracle; for instance, &ldquo;AAAAAAAA&rdquo;, &ldquo;AAAAAAAB&rdquo;, &ldquo;AAAAAAAC&rdquo;, remembering the first block of each invocation.</li><li>Match the output of the one-byte-short input to one of the entries in your dictionary. You&rsquo;ve now discovered the first byte of unknown-string.</li><li>Repeat for the next byte.</li></ol><p>This is the first challenge we&rsquo;ve given you whose solution will break real crypto. Lots of people know that when you encrypt something in ECB mode, you can see penguins through it. Not so many of them can decrypt the contents of those ciphertexts, and now you can. If our experience is any guideline, this attack will get you code execution in security tests about once a year.</p></blockquote><p>Before this challenge, I knew that ECB leaks data in the form of a Tux but did not know that you could exploit it to fully recover plaintexts! That&rsquo;s exactly what we&rsquo;ll be doing for this challenge.</p><p>As an aside, there&rsquo;s an awesome, Warholesque ECB Tux image I found <a href=https://words.filippo.io/the-ecb-penguin/>here.</a></p><p><img src=https://words.filippo.io/content/images/2015/11/POP-xsmall.png alt="ECB&amp;rsquo;d Tux"></p><p>Let&rsquo;s start by picking a random key to encrypt everything under and writing a function to give us encrypted ciphertexts:</p><pre><code>b64 = &quot;Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK&quot;
+p_b64 = base64.b64decode(b64)
+rand_key = os.urandom(16)
+
+def ecb_baat(pt):
+    pt = pt + p_b64
+    ct = ecb_encrypt(pt, rand_key)
+    return ct
+</code></pre><p>To decode a block, we&rsquo;ll follow this algorithm:</p><ol><li>Create 15 byte plaintext</li><li>Encrypt 15 byte plaintext + all possible 16th bytes (255)</li><li>Pass 15 byte plaintext to oracle</li><li>We can match the received ciphertext to see what the 16th byte was! We now know the first byte of the unknown string</li><li>Repeat, creating a 14 byte plaintext + our decoded byte</li></ol><pre><code>def guess_block(index, prev):
+    plaintext = prev
+    for j in range(15, -1, -1):
+        d = {}
+        data = bytearray((&quot;A&quot;*(j)).encode('ascii'))
+        data += bytearray(plaintext.encode('ascii'))
+        
+        # store all possible last bytes
+        for i in range(0, 255):
+            data.append(i)
+
+            ct = ecb_baat(data)
+            d[str(ct[(16*index):16*(index+1)])] = i
+
+        # decode unknown byte using oracle
+        data = bytearray((&quot;A&quot;*(j)).encode('ascii'))
+        ct = ecb_baat(data)
+        plaintext += chr(d[str(ct[(16*index):16*(index+1)])])
+
+    return plaintext 
+</code></pre><p>Using this function, we can decode the 9 blocks of the unknown string. To each block, we&rsquo;ll pass in what we&rsquo;ve decoded up until now.</p><pre><code>decoded = ''
+for i in range(0, 9):
+    decoded = guess_block(i, decoded)
+</code></pre><p>After 9 blocks, we&rsquo;re left with a fully decoded plaintext!</p><h2 id=13-ecb-cut-and-paste>13. ECB cut-and-paste</h2><blockquote><p>Write a k=v parsing routine, as if for a structured cookie. The routine should take:</p><pre><code>foo=bar&amp;baz=qux&amp;zap=zazzle
+</code></pre><p>&mldr; and produce:</p><pre><code>{
+  foo: 'bar',
+  baz: 'qux',
+  zap: 'zazzle'
+}
+</code></pre><p>(you know, the object; I don&rsquo;t care if you convert it to JSON).</p><p>Now write a function that encodes a user profile in that format, given an email address. You should have something like:</p><pre><code>profile_for(&quot;foo@bar.com&quot;)
+</code></pre><p>&mldr; and it should produce:</p><pre><code>{
+  email: 'foo@bar.com',
+  uid: 10,
+  role: 'user'
+ }
+</code></pre><p>&mldr; encoded as:</p><pre><code>email=foo@bar.com&amp;uid=10&amp;role=user
+</code></pre><p>Your &ldquo;profile_for&rdquo; function should not allow encoding metacharacters (& and =). Eat them, quote them, whatever you want to do, but don&rsquo;t let people set their email address to &ldquo;<a href=mailto:foo@bar.com>foo@bar.com</a>&role=admin&rdquo;.</p><p>Now, two more easy functions. Generate a random AES key, then:</p><ol><li>Encrypt the encoded user profile under the key; &ldquo;provide&rdquo; that to the &ldquo;attacker&rdquo;.</li><li>Decrypt the encoded user profile and parse it.</li></ol><p>Using only the user input to <code>profile_for()</code> (as an oracle to generate &ldquo;valid&rdquo; ciphertexts) and the ciphertexts themselves, make a <code>role=admin</code> profile.</p></blockquote><p>In our 13th challenge, we&rsquo;ll be taking advantage of the fact that ECB has no ciphertext integrity! Also, since ECB of a block always results in the same ciphertext, we can easily &ldquo;cut-and-paste&rdquo; a new block in! The tricky part is lining up the blocks so that the text still makes sense when decrypted.</p><p>Let&rsquo;s start by writing our <code>encode_profile()</code> and <code>parse()</code> function.</p><pre><code>def parse(unparsed):
+    key_values = unparsed.split(&quot;&amp;&quot;)
+
+    d = {}
+    for key_value in key_values:
+        key, value = key_value.split(&quot;=&quot;)
+        d[key] = value
+    return d
+
+def encode_profile(profile):
+    profile = profile.replace(&quot;&amp;&quot;, &quot;&quot;).replace(&quot;=&quot;, &quot;&quot;)
+
+    email = &quot;email=&quot; + profile
+    role = &quot;role=user&quot;
+    uid = &quot;uid=10&quot;
+
+    return email + &quot;&amp;&quot; + uid + &quot;&amp;&quot; + role
+</code></pre><p>There are better ways to strip the encoding characters, but this is good enough for us.</p><p>To make our testing easier, we want to encrypt and decrypt a profile under a fixed key:</p><pre><code>key = os.urandom(16)
+
+def encrypt_under_key(profile):
+    pt = encode_profile(profile)
+    pt = pt.encode('ascii')
+
+    return padded_ecb_encrypt(pt, key)
+
+def decrypt_under_key(ct, key):
+    pt = padded_ecb_decrypt(ct, key)
+    pt = pt.decode('ascii')
+    return parse(pt)
+</code></pre><p>Our objective is to get a profile with the role admin. To do this, we&rsquo;ll need to get an encrypted block of role=admin and then splice it into our new ciphertext. Let&rsquo;s look at how we&rsquo;re constructing the plaintext to be encrypted:</p><pre><code>    return &quot;email=&quot; + profile + &quot;&amp;uid=10&amp;role=user&quot;
+</code></pre><p>We have control only over the email profile name. We want to have the plaintext end with &ldquo;role=admin&rdquo;. To do this, we&rsquo;ll pass in a profile with text &ldquo;role=admin&rdquo; crafted so that it is in its own block. Since this is also the last block, we&rsquo;ll need sufficient padding so that it decrypts successfully.</p><pre><code>  |   6 bytes  +   10 bytes    |   6 bytes + 10 bytes   |      16 bytes         |    1 byte + 15 bytes   |
+  |   &quot;email=&quot; + &quot;AAAAAAAAAA&quot;  |    &quot;admin&quot; + '\x0A'*10 |  &quot;&amp;uid=10&amp;role=use&quot;   |     &quot;r&quot; + '\x0f'*15    |
+  |       first block          |       second block     |     third block       |        fourth block    |
+</code></pre><p>We pad the beginning of our string with A&rsquo;s so that our admin string ends up in its own block. We will splice this second block onto the end of our new ciphertext.</p><p>Now let&rsquo;s craft our goal ciphertext. The important part is that we have &ldquo;user&rdquo; end up in its own block.</p><pre><code>  | 6 bytes  + X bytes +   13 bytes      |   4 bytes        |
+  | &quot;email=&quot; + profile + &quot;&amp;uid=10&amp;role=&quot; |    &quot;user&quot;        |
+  |        first blocks                  |   last block     |
+</code></pre><p>To do this, we need the first blocks to be a multiple of 16. 6 + 13 = 19. So we need to craft a message of 13 bytes!</p><p>Let&rsquo;s set our email to:</p><pre><code>profile = &quot;foooo@bar.com&quot; # 13 bytes
+</code></pre><p>Now we can splice our last block onto this!</p><pre><code>profile = &quot;foooo@bar.com&quot;
+ct1 = encrypt_under_key(profile)
+
+padded = bytearray((&quot;A&quot;*10).encode('ascii'))
+last_block = bytearray('admin'.encode('ascii'))
+for i in range(0, 11):
+    last_block.append(11)
+
+# 'AAAAAAAAAAadmin\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b'
+padded = (padded + last_block).decode('ascii')
+ct1 = encrypt_under_key(padded)
+
+admin_last_block = ct1[16:]
+spliced_ct = ct0[:32] + ct1[16:32]
+profile = decrypt_under_key(spliced_ct, key)
+
+# {'email': 'foooo@bar.com', 'uid': '10', 'role': 'admin'}
+</code></pre><p>Looks good! By lining up our blocks carefully, we can cut our desired plaintext onto another and get admin!</p><h2 id=14-byte-at-a-time-ecb-decryption-harder>14. Byte-at-a-time ECB decryption (Harder)</h2><blockquote><p>Take your oracle function from #12. Now generate a random count of random bytes and prepend this string to every plaintext. You are now doing:</p><pre><code>AES-128-ECB(random-prefix || attacker-controlled || target-bytes, random-key)
+</code></pre><p>Same goal: decrypt the target-bytes.
+Stop and think for a second.</p><p>What&rsquo;s harder than challenge #12 about doing this? How would you overcome that obstacle? The hint is: you&rsquo;re using all the tools you already have; no crazy math is required.</p><p>Think &ldquo;STIMULUS&rdquo; and &ldquo;RESPONSE&rdquo;.</p></blockquote><p>I was originally a little confused on how to approach this problem. If we generate a prefix of random length each time the oracle encrypts, it would be difficult to successfully decrypt. I think it&rsquo;s still doable, but looking at other peoples write-ups, it seems they generate a fixed random prefix each time the file is run. That&rsquo;s more doable! Let&rsquo;s take it on.</p><p>We already have the code to do byte-at-a-time ECB decryption from challenge 12. The only complication, is we don&rsquo;t know how many bytes we need to be 1-byte short of a block. Once we learn the prefix length, we can approach the challenge just like 12.</p><pre><code>def decode_length():
+    for i in range(48):
+        pt = (&quot;A&quot;*i).encode('ascii')
+        ct = ecb_baat_harder(pt)
+        chunks = list(divide_chunks(ct, 16))
+
+        s = set()
+        for j in range(len(chunks)):
+            if str(chunks[j]) in s:
+                return (16 - i) % 16
+            s.add(str(chunks[j]))
+</code></pre><p>The idea here is to add bytes until we see a repeated ECB ciphertext block. If we see a repeat, we know that there are some bytes filling up the padding block and then 32 bytes of &ldquo;A&rdquo;. So, if we&rsquo;ve added <code>i</code> blocks of padding to get a repeated block, that must mean there is (16 - i) % 16 blocks of prefix!</p><pre><code>  |  random prefix      padding      |  &quot;A&quot;*16   |   &quot;A&quot;*16  |
+  |  ..............   (16 - i) % 16  |    16     |    16     |
+</code></pre><p>Know that we know the length of the prefix, we just pad the first block of our plaintext to it&rsquo;s full size (16 bytes). Then we solve the same way as in challenge 13!</p><h2 id=15-pkcs7-padding-validation>15. PKCS#7 padding validation</h2><blockquote><p>Write a function that takes a plaintext, determines if it has valid PKCS#7 padding, and strips the padding off.</p><p>The string:</p><pre><code>&quot;ICE ICE BABY\x04\x04\x04\x04&quot;
+</code></pre><p>&mldr; has valid padding, and produces the result &ldquo;ICE ICE BABY&rdquo;.</p><p>The string:</p><pre><code>&quot;ICE ICE BABY\x05\x05\x05\x05&quot;
+</code></pre><p>&mldr; does not have valid padding, nor does:</p><pre><code>&quot;ICE ICE BABY\x01\x02\x03\x04&quot;
+</code></pre><p>If you are writing in a language with exceptions, like Python or Ruby, make your function throw an exception on bad padding.</p><p>Crypto nerds know where we&rsquo;re going with this. Bear with us.</p></blockquote><p>For this challenge, we&rsquo;re extending our PKCS#7 padding from challenge 9 to throw exceptions on invalid padding.</p><pre><code>def safe_unpad(padded):
+    to_unpad = None
+    if type(padded) != bytearray:
+        to_unpad = int.from_bytes(padded[-1].encode('ascii'), byteorder='big', signed=False)
+    else:
+        to_unpad = padded[-1]
+
+    unpadded = to_unpad
+    last_byte = padded[-1]
+    i = len(padded)-1
+
+    while i &gt;= len(padded)-to_unpad:
+        if i &lt; 0 or padded[i] != last_byte:
+            raise ValueError
+        i -= 1
+        unpadded -= 1
+    if unpadded &gt;= 1:
+        raise ValueError
+
+    return padded[:-to_unpad]
+</code></pre><p>The basic idea, a padded text should have <code>i</code> bytes of padding with value <code>i</code> where <code>i</code> is the value of the last byte.</p><h2 id=16-cbc-bitflipping-attacks>16. CBC bitflipping attacks</h2><blockquote><p>Generate a random AES key.</p><p>Combine your padding code and CBC code to write two functions.</p><p>The first function should take an arbitrary input string, prepend the string:</p><pre><code>&quot;comment1=cooking%20MCs;userdata=&quot;
+</code></pre><p>.. and append the string:</p><pre><code>&quot;;comment2=%20like%20a%20pound%20of%20bacon&quot;
+</code></pre><p>The function should quote out the &ldquo;;&rdquo; and &ldquo;=&rdquo; characters.</p><p>The function should then pad out the input to the 16-byte AES block length and encrypt it under the random AES key.</p><p>The second function should decrypt the string and look for the characters &ldquo;;admin=true;&rdquo; (or, equivalently, decrypt, split the string on &ldquo;;&rdquo;, convert each resulting string into 2-tuples, and look for the &ldquo;admin&rdquo; tuple).</p><p>Return true or false based on whether the string exists.</p><p>If you&rsquo;ve written the first function properly, it should not be possible to provide user input to it that will generate the string the second function is looking for. We&rsquo;ll have to break the crypto to do that.</p><p>Instead, modify the ciphertext (without knowledge of the AES key) to accomplish this.</p><p>You&rsquo;re relying on the fact that in CBC mode, a 1-bit error in a ciphertext block:</p><ol><li>Completely scrambles the block the error occurs in</li><li>Produces the identical 1-bit error(/edit) in the next ciphertext block.</li></ol></blockquote><p>Similar to the ECB cut-and-paste, this is another attack on ciphertext integrity. We&rsquo;ll take advantage of the fact that a 1-bit flip in a block flips the same bit in the next block. Our goal is to get &ldquo;;admin=true;&rdquo; to be a part of the plaintext. However, we&rsquo;ll quote out ; and = characters, so we&rsquo;ll have to flip some bits to get there!</p><p>The challenge asks us to place our text in between a suffix and a prefix, let&rsquo;s do that:</p><pre><code>from urllib.parse import quote
+
+prefix = &quot;comment1=cooking%20MCs;userdata=&quot;
+suffix = &quot;;comment2=%20like%20a%20pound%20of%20bacon&quot;
+
+def bitflip_encrypt(data):
+    data = prefix + data + suffix
+    data = quote(data)
+    data = data.encode('ascii')
+
+    return cbc_encrypt(data, key, iv)
+
+known_plaintext = &quot;AAAAAAAAAAAAAAAAAAAAAAAAAA&quot;
+ct = bitflip_encrypt(known_plaintext)
+</code></pre><p>Next, let&rsquo;s figure out how we can decrypt it so that we get our target string. CBC xor&rsquo;s the previous ciphertext against the decrypted next block. If we know what the decrypted block is, we can XOR the previous block to get our goal text!</p><pre><code>def bitflip_decrypt(ct):
+    goal_string = &quot;;admin=true;AAAA&quot;.encode('ascii')
+    known_plaintext = known_plaintext.encode('ascii')
+    xord = xor(goal_string, known_plaintext)
+
+    modified_ct = ct[:32] + xor(xord, ct[32:48]) + ct[48:]
+    pt = cbc_decrypt(modified_ct, key, iv)
+    return &quot;;admin=true;&quot; in str(pt)
+detected = bitflip_decrypt(ct)
+# True
+</code></pre><p>It was a little tricky getting the blocks to line up. My xor() function drops the remainder if one buffer is shorter than another. So, we append &ldquo;AAAA&rdquo; to our goal string to pad it to 16 bytes. The plaintext we&rsquo;re interested in is at ct[48:64]. However, since each block gets xor&rsquo;d with the previous one, we xor our target string into the block before!</p><h1 id=conclusion>Conclusion</h1><p>The second set of Cryptopals starts to dive into block ciphers and some attacks on ECB and CBC mode. The byte-at-a-time ECB decryption was extra interesting to work on. I didn&rsquo;t realize that ECB could be exploited this way using a chosen-plaintext attack.</p></main><footer><script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src=//yihui.org/js/center-img.js></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180314723-1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-180314723-1")</script><hr>© <a href=https://hmcguinn.com>Houlton McGuinn</a> 2020 &ndash; 2023 | <a href=https://github.com/hmcguinn>Github</a></footer></body></html>
