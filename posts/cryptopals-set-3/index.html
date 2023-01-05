@@ -1,0 +1,203 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Cryptopals Set 3: Block & stream crypto | Houlton McGuinn</title><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css></head><body><nav><ul class=menu><li><a href=/>Home</a></li><li><a href=/about/>About</a></li><li><a href=/interests/>Things I like</a></li><li><a href=/posts/>Blog</a></li><li><a href=/art/>My art</a></li></ul><hr></nav><div class=article-meta><h1><span class=title>Cryptopals Set 3: Block & stream crypto</span></h1><h2 class=date>2022/12/28</h2></div><main><h2 id=17-the-cbc-padding-oracle>17. The CBC padding oracle</h2><blockquote><p>This is the best-known attack on modern block-cipher cryptography.</p><p>Combine your padding code and your CBC code to write two functions.</p><p>The first function should select at random one of the following 10 strings:</p><pre><code>MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=
+MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic=
+MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw==
+MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg==
+MDAwMDA0QnVybmluZyAnZW0sIGlmIHlvdSBhaW4ndCBxdWljayBhbmQgbmltYmxl
+MDAwMDA1SSBnbyBjcmF6eSB3aGVuIEkgaGVhciBhIGN5bWJhbA==
+MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw==
+MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8=
+MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=
+MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93
+</code></pre><p>&mldr; generate a random AES key (which it should save for all future encryptions), pad the string out to the 16-byte AES block size and CBC-encrypt it under that key, providing the caller the ciphertext and IV.</p><p>The second function should consume the ciphertext produced by the first function, decrypt it, check its padding, and return true or false depending on whether the padding is valid.</p><p>This pair of functions approximates AES-CBC encryption as its deployed serverside in web applications; the second function models the server&rsquo;s consumption of an encrypted session token, as if it was a cookie.</p><p>It turns out that it&rsquo;s possible to decrypt the ciphertexts provided by the first function.</p><p>The decryption here depends on a side-channel leak by the decryption function. The leak is the error message that the padding is valid or not.</p><p>You can find 100 web pages on how this attack works, so I won&rsquo;t re-explain it. What I&rsquo;ll say is this:</p><p>The fundamental insight behind this attack is that the byte 01h is valid padding, and occur in 1/256 trials of &ldquo;randomized&rdquo; plaintexts produced by decrypting a tampered ciphertext.</p><p>02h in isolation is <em>not</em> valid padding.</p><p>02h 02h <em>is</em> valid padding, but is much less likely to occur randomly than 01h.</p><p>03h 03h 03h is even less likely.</p><p>So you can assume that if you corrupt a decryption AND it had valid padding, you know what that padding byte is.</p><p>It is easy to get tripped up on the fact that CBC plaintexts are &ldquo;padded&rdquo;. <strong>Padding oracles have nothing to do with the actual padding on a CBC plaintext</strong>. It&rsquo;s an attack that targets a specific bit of code that handles decryption. You can mount a padding oracle <em>on any CBC block</em>, whether it&rsquo;s padded or not.</p></blockquote><p>Understanding exactly how the CBC padding oracle works took a very long time. Getting my code to work took even longer. I even &ldquo;knew&rdquo; about this attack before! For this attack, we&rsquo;re not trying to recover the padding. It&rsquo;s different from the ECB byte-at-a-time oracle in that we&rsquo;re trying to learn the output of the block cipher decryption, not directly decoding the plaintext.</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/2/2a/CBC_decryption.svg alt="CBC decryption"></p><p>To mount this attack, we&rsquo;ll rely on an oracle that decrypts a ciphertext and tells us whether it has valid padding or not:</p><pre><code>def padding_oracle(ct, iv):
+    pt = cbc_decrypt(ct, key, iv)
+
+    try:
+        pkcs_7.safe_unpad(pt)
+        return True
+    except ValueError:
+        return False
+</code></pre><p>To reconstruct the intermediate state of a block decryption, we need to XOR in the previous block.</p><p>Here&rsquo;s how we can mount a padding oracle attack to recover a block. Each iteration, we&rsquo;ll aim to recover the <strong>i&rsquo;th</strong> last block (starting at 1). To do this, we need the padding to be valid. For example:</p><pre><code>i=1      ...........\x01
+i=2      ........\x02\x02  
+i=3      ....\x03\x02\x02  
+</code></pre><p>strategy for the attack:</p><ol><li>Start by creating our intermediate state array <code>i_state = [0]*16</code></li><li>Create a temporary array <code>padding = [i]*16</code></li><li><code>temp = padding ^ i_state</code></li><li>Try all 255 values for <code>temp[i] = guessed_byte</code> and ask the oracle for a decryption of the generated ciphertext<ol><li>If the oracle returns that the padding is valid, store the intermediate state <code>i_state[i] = [i ^ guessed_byte]</code></li><li>Else, keep trying bytes until we get valid padding. Once we&rsquo;ve recovered the entire intermediate state (16 bytes), recover the plaintext with <code>plaintext = ciphertext ^ i_state</code></li></ol></li></ol><p>Let&rsquo;s think through how and why this works!</p><ul><li>One of the 255 possible bytes will give us <code>\x01</code> as padding when XOR&rsquo;d with the unknown intermediate state.<ul><li>We&rsquo;re trying to find <code>\x01 = guessed_byte ^ i_state[-1]</code></li></ul></li><li>Once we know the guessed byte that gives us valid padding, we can recover the intermediate state:<ul><li><code>i_state[-1] = guessed_byte ^ \x01</code></li></ul></li><li>This works to recover the last byte, but we&rsquo;ll have to adjust slightly to recover a full block. Instead of just guessing the last byte, we also need to modify the rest of the padding. For <code>\x02\x02</code> to be valid padding, the last two blocks need to be <code>\x02</code>. We&rsquo;ll have to modify the bytes we know to achieve this.</li><li>We now want to recover the second to last block of the intermediate state. Set the last byte = <code>\x02 ^ i_state</code>. When it&rsquo;s decrypted, we&rsquo;ll have <code>\x02 ^ i_state ^ i_state = \x02</code>. Valid padding!</li></ul><p>Our padding oracle takes a ciphertext and an IV. We could do this block by block, modifying the previous block. Or, we can work each block individually, modifying the IV instead.</p><p>Here&rsquo;s a function to recover a block&rsquo;s intermediate state:</p><pre><code>def decode_block(block):
+    i_state = [0]*16
+    for i in range(1, 17):
+        padding = [i]*16
+
+        for guessed_byte in range(0, 256):
+            padding[-i] = guessed_byte
+            temp = cbc.xor(bytes(padding), bytes(i_state))
+
+            valid = padding_oracle(block, temp)
+            if valid:
+                if i == 1:
+                    padding[-2] = 0  # set to 0
+                    mod_block = bytes(padding)
+                    still_valid = padding_oracle(block, mod_block)
+                    if not still_valid:
+                        continue
+                i_state[-i] = (guessed_byte ^ i)
+                break
+    return i_state
+</code></pre><p>Using this function, we can recover each block individually. Then, we can recover the plaintext using the intermediate state. As we recover the intermediate state, we&rsquo;ll XOR it with the previous block to recover the plaintext!</p><pre><code>blocks = list(divide_chunks(ct, 16))
+pt = bytearray()
+for i in range(len(blocks)):
+    temp_i_state = decode_block(blocks[i])
+    pt += cbc.xor(bytes(temp_i_state), iv)
+    iv = blocks[i]
+
+print(pt)
+</code></pre><h2 id=18-implement-ctr-the-stream-cipher-mode>18. Implement CTR, the stream cipher mode</h2><blockquote><p>The string:</p><pre><code>L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ==
+</code></pre><p>&mldr; decrypts to something approximating English in CTR mode, which is an AES block cipher mode that turns AES into a stream cipher, with the following parameters:</p><pre><code>  key=YELLOW SUBMARINE
+    nonce=0
+    format=64 bit unsigned little endian nonce,
+    64 bit little endian block count (byte count / 16)
+</code></pre><p>CTR mode is very simple.</p><p>Instead of encrypting the plaintext, CTR mode encrypts a running counter, producing a 16 byte block of keystream, which is XOR&rsquo;d against the plaintext.</p><p>For instance, for the first 16 bytes of a message with these parameters:</p><pre><code>keystream = AES(&quot;YELLOW SUBMARINE&quot;,
+                &quot;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&quot;)
+</code></pre><p>&mldr; for the next 16 bytes:</p><pre><code>keystream = AES(&quot;YELLOW SUBMARINE&quot;,
+                &quot;\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00&quot;)
+</code></pre><p>&mldr; and then:</p><pre><code>keystream = AES(&quot;YELLOW SUBMARINE&quot;,
+                &quot;\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00&quot;)
+</code></pre><p>CTR mode does not require padding; when you run out of plaintext, you just stop XOR&rsquo;ing keystream and stop generating keystream.</p><p>Decryption is identical to encryption. Generate the same keystream, XOR, and recover the plaintext.</p><p>Decrypt the string at the top of this function, then use your CTR function to encrypt and decrypt other things.</p></blockquote><p>For our next challenge, we&rsquo;re implementing AES CTR mode. CTR mode is really nice to work with, and we&rsquo;ll only need one function for encryption/decryption. We can get an idea of how it works from <a href=https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)>Wikipedia:</a></p><p><img src=https://upload.wikimedia.org/wikipedia/commons/4/4d/CTR_encryption_2.svg alt="CTR mode"></p><pre><code>def ctr_mode(pt, key, nonce):
+    output = bytearray()
+
+    pt = list(divide_chunks(pt, 16))
+    ctr = 0
+    for block in pt:
+        ctr_bytes = nonce + ctr.to_bytes(8, 'little')
+
+        cipher = Cipher(algorithms.AES(key), modes.ECB())
+        encryptor = cipher.encryptor()
+        keystream = encryptor.update(ctr_bytes) + encryptor.finalize()
+
+        xord = xor(keystream, block)
+        output += xord
+
+        ctr += 1
+    return output
+</code></pre><h2 id=19-break-fixed-nonce-ctr-mode-using-substitutions>19. Break fixed-nonce CTR mode using substitutions</h2><blockquote><p>Take your CTR encrypt/decrypt function and fix its nonce value to 0. Generate a random AES key.</p><p>In successive encryptions (not in one big running CTR stream), encrypt each line of the base64 decodes of the following, producing multiple independent ciphertexts:</p><pre><code>SSBoYXZlIG1ldCB0aGVtIGF0IGNsb3NlIG9mIGRheQ==
+Q29taW5nIHdpdGggdml2aWQgZmFjZXM=
+RnJvbSBjb3VudGVyIG9yIGRlc2sgYW1vbmcgZ3JleQ==
+RWlnaHRlZW50aC1jZW50dXJ5IGhvdXNlcy4=
+SSBoYXZlIHBhc3NlZCB3aXRoIGEgbm9kIG9mIHRoZSBoZWFk
+T3IgcG9saXRlIG1lYW5pbmdsZXNzIHdvcmRzLA==
+T3IgaGF2ZSBsaW5nZXJlZCBhd2hpbGUgYW5kIHNhaWQ=
+UG9saXRlIG1lYW5pbmdsZXNzIHdvcmRzLA==
+QW5kIHRob3VnaHQgYmVmb3JlIEkgaGFkIGRvbmU=
+T2YgYSBtb2NraW5nIHRhbGUgb3IgYSBnaWJl
+VG8gcGxlYXNlIGEgY29tcGFuaW9u
+QXJvdW5kIHRoZSBmaXJlIGF0IHRoZSBjbHViLA==
+QmVpbmcgY2VydGFpbiB0aGF0IHRoZXkgYW5kIEk=
+QnV0IGxpdmVkIHdoZXJlIG1vdGxleSBpcyB3b3JuOg==
+QWxsIGNoYW5nZWQsIGNoYW5nZWQgdXR0ZXJseTo=
+QSB0ZXJyaWJsZSBiZWF1dHkgaXMgYm9ybi4=
+VGhhdCB3b21hbidzIGRheXMgd2VyZSBzcGVudA==
+SW4gaWdub3JhbnQgZ29vZCB3aWxsLA==
+SGVyIG5pZ2h0cyBpbiBhcmd1bWVudA==
+VW50aWwgaGVyIHZvaWNlIGdyZXcgc2hyaWxsLg==
+V2hhdCB2b2ljZSBtb3JlIHN3ZWV0IHRoYW4gaGVycw==
+V2hlbiB5b3VuZyBhbmQgYmVhdXRpZnVsLA==
+U2hlIHJvZGUgdG8gaGFycmllcnM/
+VGhpcyBtYW4gaGFkIGtlcHQgYSBzY2hvb2w=
+QW5kIHJvZGUgb3VyIHdpbmdlZCBob3JzZS4=
+VGhpcyBvdGhlciBoaXMgaGVscGVyIGFuZCBmcmllbmQ=
+V2FzIGNvbWluZyBpbnRvIGhpcyBmb3JjZTs=
+SGUgbWlnaHQgaGF2ZSB3b24gZmFtZSBpbiB0aGUgZW5kLA==
+U28gc2Vuc2l0aXZlIGhpcyBuYXR1cmUgc2VlbWVkLA==
+U28gZGFyaW5nIGFuZCBzd2VldCBoaXMgdGhvdWdodC4=
+VGhpcyBvdGhlciBtYW4gSSBoYWQgZHJlYW1lZA==
+QSBkcnVua2VuLCB2YWluLWdsb3Jpb3VzIGxvdXQu
+SGUgaGFkIGRvbmUgbW9zdCBiaXR0ZXIgd3Jvbmc=
+VG8gc29tZSB3aG8gYXJlIG5lYXIgbXkgaGVhcnQs
+WWV0IEkgbnVtYmVyIGhpbSBpbiB0aGUgc29uZzs=
+SGUsIHRvbywgaGFzIHJlc2lnbmVkIGhpcyBwYXJ0
+SW4gdGhlIGNhc3VhbCBjb21lZHk7
+SGUsIHRvbywgaGFzIGJlZW4gY2hhbmdlZCBpbiBoaXMgdHVybiw=
+VHJhbnNmb3JtZWQgdXR0ZXJseTo=
+QSB0ZXJyaWJsZSBiZWF1dHkgaXMgYm9ybi4=
+</code></pre><p>(This should produce 40 short CTR-encrypted ciphertexts).</p><p>Because the CTR nonce wasn&rsquo;t randomized for each encryption, each ciphertext has been encrypted against the same keystream. This is very bad.</p><p>Understanding that, like most stream ciphers (including RC4, and obviously any block cipher run in CTR mode), the actual &ldquo;encryption&rdquo; of a byte of data boils down to a single XOR operation, it should be plain that:</p><pre><code>CIPHERTEXT-BYTE XOR PLAINTEXT-BYTE = KEYSTREAM-BYTE
+</code></pre><p>And since the keystream is the same for every ciphertext:</p><pre><code>CIPHERTEXT-BYTE XOR KEYSTREAM-BYTE = PLAINTEXT-BYTE (ie, &quot;you don't
+say!&quot;)
+</code></pre><p>Attack this cryptosystem piecemeal: guess letters, use expected English language frequence to validate guesses, catch common English trigrams, and so on.</p></blockquote><p>I started to work on this one but decided to skip finishing it after realizing how tedious it is. The basic idea is to use common bigrams/trigrams to attack two ciphertexts XOR&rsquo;d together. From there, cribbing can be used to decrypt the ciphertexts. There&rsquo;s a much easier way to do this though which we&rsquo;ll see in the next challenge!</p><h2 id=20-break-fixed-nonce-ctr-statistically>20. Break fixed-nonce CTR statistically</h2><blockquote><p>In this file find a similar set of Base64&rsquo;d plaintext. Do with them exactly what you did with the first, but solve the problem differently.</p><p>Instead of making spot guesses at to known plaintext, treat the collection of ciphertexts the same way you would repeating-key XOR.</p><p>Obviously, CTR encryption appears different from repeated-key XOR, but with a fixed nonce they are effectively the same thing.</p><p>To exploit this: take your collection of ciphertexts and truncate them to a common length (the length of the smallest ciphertext will work).</p><p>Solve the resulting concatenation of ciphertexts as if for repeating- key XOR, with a key size of the length of the ciphertext you XOR&rsquo;d.</p></blockquote><p>CTR mode with a fixed-nonce is equivalent to repeated-key XOR! Each plaintext is XOR&rsquo;d against the same keystream, so we can break it in the same way we broke the ciphertexts in <a href=https://cryptopals.com/sets/1/challenges/6>challenge 6</a>.</p><p>We start by combining the <em>i&rsquo;th</em> bytes of each ciphertext:</p><pre><code>max_len = max(cts, key=len)
+
+blocks = [[] for i in range(max_len)]
+for block in cts:
+    for i in range(len(block)):
+        blocks[i].append(block[i])
+</code></pre><p>After we have each block, we&rsquo;ll break each one individually as single key XOR. After we&rsquo;ve attacked each block, we can combine the results to give us the keystream. By XOR&rsquo;ing this keystream with each ciphertext, we can then recover the plaintext!</p><pre><code>guessed_key = []
+for block in blocks:
+    guessed_key.append(break_single_key_xor(block)[0]) # take only the guessed key
+</code></pre><p>Since I wrote my <code>break_single_key_xor()</code> function to return the key as a string, we&rsquo;ll combine each recovered key and convert it to bytes. Then, we can XOR it with each ciphertext to recover the plaintexts!</p><pre><code>b_guessed_key = bytearray()
+for i in guessed_key:
+    b_guessed_key.append(ord(i))
+
+for block in cts:
+    recovered_pt = xor(b_guessed_key, block)
+    print(guess_pt)
+</code></pre><h2 id=21-implement-the-mt19937-mersenne-twister-rng>21. Implement the MT19937 Mersenne Twister RNG</h2><blockquote><p>You can get the psuedocode for this from Wikipedia.</p><p>If you&rsquo;re writing in Python, Ruby, or (gah) PHP, your language is probably already giving you MT19937 as &ldquo;rand()&rdquo;; don&rsquo;t use rand(). Write the RNG yourself.</p></blockquote><p>This challenge is straightforward using the <a href=https://en.wikipedia.org/wiki/Mersenne_Twister#Pseudocode>psuedocode from Wikipedia</a>:</p><pre><code># CONSTANTS:
+w, n, m, r = 32, 624, 397, 31
+a = 0x9908b0df
+u, d, = 11, 0xFFFFFFFF
+s, b = 7, 0x9d2c5680
+t, c = 15, 0xefc60000
+l = 18
+mask_32 = 0xffffffff
+f = 1812433253
+
+class MT19937:
+    def __init__(self, seed):
+        self.mt = [0]*(n)
+        self.index = n+1
+        self.lower_mask = (1 &lt;&lt; r) - 1
+        self.upper_mask = mask_32 &amp; ~self.lower_mask
+
+        self.index = n
+        self.mt[0] = seed
+        for i in range(1, n):
+            self.mt[i] = mask_32 &amp; (f * (self.mt[i-1] ^ (self.mt[i-1] &gt;&gt; (w-2))) + i)
+
+    def extract_num(self):
+        if self.index &gt;= n:
+            if self.index &gt; n:
+                print(&quot;maybe seed by default&quot;)
+                raise ValueError
+            self.twist()
+
+        self.index += 1
+
+        y = self.mt[self.index]
+        y1 = y ^ ((y &gt;&gt; u) &amp; d)
+        y2 = y1 ^ ((y1 &lt;&lt; s) &amp; b)
+        y3 = y2 ^ ((y2 &gt;&gt; t) &amp; c)
+        y4 = (y3 ^ (y3 &gt;&gt; l) &amp; mask_32)
+
+        return y4
+
+    def twist(self):
+        for i in range(0, n):
+            x = (self.mt[i] &amp; self.upper_mask) + (self.mt[(i+1) % n] &amp; self.lower_mask)
+
+            xA = x &gt;&gt; 1
+            if (x % 2) != 0:
+                xA = xA ^ a
+            self.mt[i] = self.mt[(i+m) % n] ^ xA
+        self.index = 0
+</code></pre><h2 id=22-crack-an-mt19937-seed>22. Crack an MT19937 seed</h2><blockquote><p>Make sure your MT19937 accepts an integer seed value. Test it (verify that you&rsquo;re getting the same sequence of outputs given a seed).</p><p>Write a routine that performs the following operation:</p><ul><li>Wait a random number of seconds between, I don&rsquo;t know, 40 and 1000.</li><li>Seeds the RNG with the current Unix timestamp</li><li>Waits a random number of seconds again.</li><li>Returns the first 32 bit output of the RNG.</li></ul><p>You get the idea. Go get coffee while it runs. Or just simulate the passage of time, although you&rsquo;re missing some of the fun of this exercise if you do that.</p><p>From the 32 bit RNG output, discover the seed.</p></blockquote><p>In this challenge, we&rsquo;re recovering a seed given the first 32 bits of output of a Mersenne Twister.</p><p>The challenge asks us to seed the MT using the current unix timestamp + some offset in seconds. We then return the output:</p><pre><code>def seed_and_return():
+    unix = int(time.time())
+
+    offset = random.randint(40, 1000)
+    print(unix + offset)
+
+    mt = MT19937(unix + offset)
+    return mt.extract_num()
+</code></pre><p>Once we&rsquo;re given this output we want to figure out what the seed is (the unix timestamp + offset). To do this, we try a range around the current timestamp checking if the output is equal. Once it is, we know we&rsquo;ve recovered the seed:</p><pre><code>def crack_seed(output):
+    unix = int(time.time())
+
+    for i in range(1050):
+        mt = MT19937(unix + i)
+        if mt.extract_num() == output:
+            return unix + i
+</code></pre><p>If you&rsquo;ve worked through the <a href=https://seedsecuritylabs.org/index.html>SEED Labs</a>, this challenge is very similar to their <a href=https://seedsecuritylabs.org/Labs_20.04/Files/Crypto_Random_Number/Crypto_Random_Number.pdf>PRNG lab</a>.</p><h2 id=23-clone-an-mt19937-rng-from-its-output>23. Clone an MT19937 RNG from its output</h2><blockquote><p>The internal state of MT19937 consists of 624 32 bit integers.</p><p>For each batch of 624 outputs, MT permutes that internal state. By permuting state regularly, MT19937 achieves a period of 2**19937, which is Big.</p><p>Each time MT19937 is tapped, an element of its internal state is subjected to a tempering function that diffuses bits through the result.</p><p>The tempering function is invertible; you can write an &ldquo;untemper&rdquo; function that takes an MT19937 output and transforms it back into the corresponding element of the MT19937 state array.</p><p>To invert the temper transform, apply the inverse of each of the operations in the temper transform in reverse order. There are two kinds of operations in the temper transform each applied twice; one is an XOR against a right-shifted value, and the other is an XOR against a left-shifted value AND&rsquo;d with a magic number. So you&rsquo;ll need code to invert the &ldquo;right&rdquo; and the &ldquo;left&rdquo; operation.</p><p>Once you have &ldquo;untemper&rdquo; working, create a new MT19937 generator, tap it for 624 outputs, untemper each of them to recreate the state of the generator, and splice that state into a new instance of the MT19937 generator.</p><p>The new &ldquo;spliced&rdquo; generator should predict the values of the original.</p></blockquote><p>I&rsquo;m still working on this one! Untempering the bitwise operations is a little tricky :)</p><h2 id=24-create-the-mt19937-stream-cipher-and-break-it>24. Create the MT19937 stream cipher and break it</h2><blockquote><p>You can create a trivial stream cipher out of any PRNG; use it to generate a sequence of 8 bit outputs and call those outputs a keystream. XOR each byte of plaintext with each successive byte of keystream.</p><p>Write the function that does this for MT19937 using a 16-bit seed. Verify that you can encrypt and decrypt properly. This code should look similar to your CTR code.</p><p>Use your function to encrypt a known plaintext (say, 14 consecutive &lsquo;A&rsquo; characters) prefixed by a random number of random characters.</p><p>From the ciphertext, recover the &ldquo;key&rdquo; (the 16 bit seed).</p><p>Use the same idea to generate a random &ldquo;password reset token&rdquo; using MT19937 seeded from the current time.</p><p>Write a function to check if any given password token is actually the product of an MT19937 PRNG seeded with the current time.</p></blockquote><p>I&rsquo;m still working on this one as well!</p></main><footer><script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src=//yihui.org/js/center-img.js></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YT0WLW116B"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-YT0WLW116B")</script><hr>© <a href=https://hmcguinn.com>Houlton McGuinn</a> 2020 &ndash; 2023 | <a href=https://github.com/hmcguinn>Github</a></footer></body></html>
