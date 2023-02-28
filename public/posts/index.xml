@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Houlton McGuinn</title>
-    <link>hmcguinn.com/posts/</link>
+    <link>https://www.hmcguinn.com/posts/</link>
     <description>Recent content in Posts on Houlton McGuinn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Dec 2022 10:15:11 -0500</lastBuildDate><atom:link href="hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Dec 2022 10:15:11 -0500</lastBuildDate><atom:link href="https://www.hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cryptopals Set 3: Block &amp; stream crypto</title>
-      <link>hmcguinn.com/posts/cryptopals-set-3/</link>
+      <link>https://www.hmcguinn.com/posts/cryptopals-set-3/</link>
       <pubDate>Wed, 28 Dec 2022 10:15:11 -0500</pubDate>
       
-      <guid>hmcguinn.com/posts/cryptopals-set-3/</guid>
+      <guid>https://www.hmcguinn.com/posts/cryptopals-set-3/</guid>
       <description>17. The CBC padding oracle This is the best-known attack on modern block-cipher cryptography.
 Combine your padding code and your CBC code to write two functions.
 The first function should select at random one of the following 10 strings:
@@ -21,10 +21,10 @@ MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc= MDAwMDAxV2l0aCB0aGUgYmFzcyBraWN
     
     <item>
       <title>Cryptopals Set 2: Block crypto</title>
-      <link>hmcguinn.com/posts/cryptopals-set-2/</link>
+      <link>https://www.hmcguinn.com/posts/cryptopals-set-2/</link>
       <pubDate>Fri, 23 Dec 2022 00:00:08 -0500</pubDate>
       
-      <guid>hmcguinn.com/posts/cryptopals-set-2/</guid>
+      <guid>https://www.hmcguinn.com/posts/cryptopals-set-2/</guid>
       <description>Continuing with Cryptopals, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!
 9. Implement PKCS#7 Padding A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.
 One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize.</description>
@@ -32,19 +32,19 @@ One way we account for irregularly-sized messages is by padding, creating a plai
     
     <item>
       <title>Cryptopals Set 1: Basics</title>
-      <link>hmcguinn.com/posts/cryptopals-set-1/</link>
+      <link>https://www.hmcguinn.com/posts/cryptopals-set-1/</link>
       <pubDate>Wed, 21 Dec 2022 13:12:35 -0500</pubDate>
       
-      <guid>hmcguinn.com/posts/cryptopals-set-1/</guid>
+      <guid>https://www.hmcguinn.com/posts/cryptopals-set-1/</guid>
       <description>Cryptopals is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them here. They&amp;rsquo;ve been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&amp;rsquo;m back at it! They&amp;rsquo;ve been a ton of fun to work on so far and definitely challenging.</description>
     </item>
     
     <item>
       <title>Automated Backyard Hydrogen Line Astronomy</title>
-      <link>hmcguinn.com/posts/hydrogen-line/</link>
+      <link>https://www.hmcguinn.com/posts/hydrogen-line/</link>
       <pubDate>Sun, 02 Jan 2022 23:19:26 -0500</pubDate>
       
-      <guid>hmcguinn.com/posts/hydrogen-line/</guid>
+      <guid>https://www.hmcguinn.com/posts/hydrogen-line/</guid>
       <description>I&amp;rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at Georgia Tech Research Institute, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&amp;rsquo;s over-the-air communication protocol. Reading this post on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.</description>
     </item>
     
