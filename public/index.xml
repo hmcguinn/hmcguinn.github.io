@@ -8,12 +8,35 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 02 Jan 2022 22:26:51 -0500</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Finding Vulnerable DoD Apache Tomcat Servers</title>
-      <link>/posts/finding-vulnerable-servers/</link>
-      <pubDate>Tue, 09 Aug 2022 20:00:00 -0500</pubDate>
+      <title>Cryptopals Set 3: Block &amp; stream crypto</title>
+      <link>/posts/cryptopals-set-3/</link>
+      <pubDate>Wed, 28 Dec 2022 10:15:11 -0500</pubDate>
       
-      <guid>/posts/finding-vulnerable-servers/</guid>
-      <description>Introduction The Department of Defense launched their vulnerablity disclosure program (VDP) in 2016. I&amp;rsquo;ve been interested in bug bounty/VDPs for awhile but never actually gave them a try. I chose to investigate this particular program because I thought it would be relatively easier to find a vulnerability in a huge legacy organization like the DoD. And it worked! In a couple of hours I was able to find, validate, and submit my first vulnerability.</description>
+      <guid>/posts/cryptopals-set-3/</guid>
+      <description>17. The CBC padding oracle This is the best-known attack on modern block-cipher cryptography.
+Combine your padding code and your CBC code to write two functions.
+The first function should select at random one of the following 10 strings:
+MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc= MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic= MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw== MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg== MDAwMDA0QnVybmluZyAnZW0sIGlmIHlvdSBhaW4ndCBxdWljayBhbmQgbmltYmxl MDAwMDA1SSBnbyBjcmF6eSB3aGVuIEkgaGVhciBhIGN5bWJhbA== MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw== MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8= MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g= MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93 &amp;hellip; generate a random AES key (which it should save for all future encryptions), pad the string out to the 16-byte AES block size and CBC-encrypt it under that key, providing the caller the ciphertext and IV.</description>
+    </item>
+    
+    <item>
+      <title>Cryptopals Set 2: Block crypto</title>
+      <link>/posts/cryptopals-set-2/</link>
+      <pubDate>Fri, 23 Dec 2022 00:00:08 -0500</pubDate>
+      
+      <guid>/posts/cryptopals-set-2/</guid>
+      <description>Continuing with Cryptopals, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!
+9. Implement PKCS#7 Padding A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.
+One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize.</description>
+    </item>
+    
+    <item>
+      <title>Cryptopals Set 1: Basics</title>
+      <link>/posts/cryptopals-set-1/</link>
+      <pubDate>Wed, 21 Dec 2022 13:12:35 -0500</pubDate>
+      
+      <guid>/posts/cryptopals-set-1/</guid>
+      <description>Cryptopals is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them here. They&amp;rsquo;ve been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&amp;rsquo;m back at it! They&amp;rsquo;ve been a ton of fun to work on so far and definitely challenging.</description>
     </item>
     
     <item>
@@ -52,7 +75,7 @@ Modify it here!</description>
       
       <guid>/about/</guid>
       <description>it&amp;rsquo;s nice to meet you :) I&amp;rsquo;m Houlton McGuinn, a software engineer and security researcher. In 2023, I&amp;rsquo;ll be starting my full-time career at Retool as a Security Engineer in San Francisco!
-I&amp;rsquo;m graduating from UNC Chapel Hill this December! In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IOT devices.
+I graduated from UNC Chapel Hill last December! In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.
 If you&amp;rsquo;re reading this I&amp;rsquo;d love to chat! Feel free to reach out at houlton.</description>
     </item>
     
