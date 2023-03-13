@@ -6,6 +6,8 @@
 
 {{ .Content }}
 
+
+<h3> Blog posts: </h3>
 <ul>
   {{ $pages := .Pages }}
   {{ if .IsHome }}{{ $pages = .Site.RegularPages }}{{ end }}
@@ -16,5 +18,17 @@
   </li>
   {{ end }}
 </ul>
+
+<h3> Things I've learned: </h3>
+<ul>
+  {{ $til := .Pages }}
+  {{ if .IsHome }}{{ $til = .Site.RegularPages }}{{ end }}
+  {{ range (where $til "Section" "==" "til" ) }}
+  <li>
+    <a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
+  </li>
+  {{ end }}
+</ul>
+
 
 {{ partial "footer.html" . }}
