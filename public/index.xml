@@ -13,7 +13,7 @@
       <pubDate>Sun, 12 Mar 2023 18:25:49 -0700</pubDate>
       
       <guid>https://hmcguinn.com/til/quantum-encryption/</guid>
-      <description>I&amp;rsquo;ve learned that revocable encryption exists!
+      <description>Today I learned that revocable encryption exists!
 A cryptographic dead person&amp;rsquo;s switch Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?
 I built a version of this for my Privacy Preserving Technologies class with the caveat that you have to trust some threshold of servers to be honest.</description>
     </item>
