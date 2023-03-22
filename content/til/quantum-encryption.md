@@ -16,6 +16,6 @@ These two goals are somewhat at odds with each other. If you want to ensure data
 We need some way to both 1) ensure the interaction-less release of data, and, 2) let the user guaranteedly prevent or delay the release of the data. It turns out that thanks to quantum mechanics, you can do just that!
 
 ## Revocable quantum time-release encryption
-Dominique Unruh introduces the idea of [revocable quantum time-release encryption](https://eprint.iacr.org/2013/606.pdf)! While I don't have enough of a physics background to understand the full details of the protocol, intuitively it makes sense how it can exist.
+Dominique Unruh in 2013 introduced the idea of [revocable quantum time-release encryption](https://eprint.iacr.org/2013/606.pdf)! While I don't have enough of a physics background to understand the full details of the protocol, intuitively it makes sense how it can exist.
 
 There are a number of papers that build on this idea, including [quantum encryption with certified deletion](https://arxiv.org/pdf/1910.03551.pdf) and [revocable cryptography from learning with errors](https://eprint.iacr.org/2023/325.pdf).
