@@ -1,5 +1,5 @@
 ---
-title: "Revocable encryption through quantum mechanics"
+title: "Revocable encryption exists!"
 date: 2023-03-12T18:25:49-07:00
 draft: false
 ---
