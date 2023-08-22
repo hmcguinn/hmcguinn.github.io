@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Houlton McGuinn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Dec 2022 10:15:11 -0500</lastBuildDate><atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Aug 2023 00:04:34 -0700</lastBuildDate><atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Finding a command injection vulnerability in my smart thermostat (CVE-2023-4212)</title>
+      <link>https://hmcguinn.com/posts/command-injection-vulnerability/</link>
+      <pubDate>Tue, 22 Aug 2023 00:04:34 -0700</pubDate>
+      
+      <guid>https://hmcguinn.com/posts/command-injection-vulnerability/</guid>
+      <description>Summary I discovered a vulnerability allowing arbitrary command injection as root in Trane XL824, XL850, XL1050, and Pivot smart thermostats using a specially crafted filename. The vulnerability has existed since at least 2015 and requires physical access to the device via a USB drive. All affected devices will automatically update.
+CVE-2023-4212 was assigned to this vulnerability and the Cybersecurity and Infrastructure Agency (CISA) published an ICS advisory here. The CVSS score is 6.</description>
+    </item>
+    
     <item>
       <title>Cryptopals Set 3: Block &amp; stream crypto</title>
       <link>https://hmcguinn.com/posts/cryptopals-set-3/</link>
