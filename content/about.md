@@ -7,8 +7,8 @@ draft: false
 
 # it's nice to meet you :)
 
-I'm **Houlton McGuinn,** a software engineer and security researcher. In 2023, I'll be starting my full-time career at [Retool](https://www.retool.com) as a Security Engineer in San Francisco!
+I'm **Houlton McGuinn,** a software engineer and security researcher. I work at [Retool](https://www.retool.com), securing the fastest way to develop effective software.
 
-I graduated from [UNC Chapel Hill](https://www.cs.unc.edu) last December! In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.
+I graduated from [UNC Chapel Hill](https://www.cs.unc.edu) in December 2022! In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.
 
 If you're reading this I'd love to chat! Feel free to reach out at houlton.mcguinn@gmail.com.
