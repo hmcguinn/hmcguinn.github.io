@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Houlton McGuinn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 22 Aug 2023 00:04:34 -0700</lastBuildDate><atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 31 Dec 2024 11:23:40 -0500</lastBuildDate><atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Donating 10% 🔷</title>
+      <link>https://hmcguinn.com/posts/donating-10/</link>
+      <pubDate>Tue, 31 Dec 2024 11:23:40 -0500</pubDate>
+      
+      <guid>https://hmcguinn.com/posts/donating-10/</guid>
+      <description>I&amp;rsquo;m taking Giving What We Can&amp;rsquo;s Trial Pledge 🔷 to donate 10% of my income in 2025 to highly effective charities.
+Why I&amp;rsquo;m donating I&amp;rsquo;m choosing to donate 10% of my income, because:
+As someone in the global top 1% by income, I have an extraordinary opportunity to help others I can use my money to do tangible good I want to live in a world where people who can help others, do Donating 10% is something I&amp;rsquo;ve thought about since college, but I delayed pulling the trigger because:</description>
+    </item>
+    
     <item>
       <title>Finding a command injection vulnerability in my smart thermostat (CVE-2023-4212)</title>
       <link>https://hmcguinn.com/posts/command-injection-vulnerability/</link>

@@ -1,7 +1,7 @@
 ---
 title: "Donating 10% 🔷"
-date: 2024-12-29T11:53:40-05:00
-draft: true
+date: 2024-12-31T11:23:40-05:00
+draft: false
 ---
 
 
