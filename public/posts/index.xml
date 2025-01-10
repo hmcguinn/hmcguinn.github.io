@@ -4,82 +4,72 @@
     <title>Posts on Houlton McGuinn</title>
     <link>https://hmcguinn.com/posts/</link>
     <description>Recent content in Posts on Houlton McGuinn</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jan 2025 18:45:38 -0800</lastBuildDate><atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Jan 2025 18:45:38 -0800</lastBuildDate>
+    <atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>I&#39;m doing office hours</title>
       <link>https://hmcguinn.com/posts/office-hours/</link>
       <pubDate>Thu, 09 Jan 2025 18:45:38 -0800</pubDate>
-      
       <guid>https://hmcguinn.com/posts/office-hours/</guid>
-      <description>I&amp;rsquo;m starting open office hours to chat tech!
-While I especially enjoy helping students and folks getting started in software/security (having just been there myself), I&amp;rsquo;m happy to talk with anyone.
-Why should you sign up? I&amp;rsquo;d encourage you to sign up if you think you&amp;rsquo;d benefit in any way! Some things we can do:
-Chat about tech, software development, or security Mock technical interviews - security or coding Discuss a project you&amp;rsquo;re working on - I can provide feedback on your code, architecture, or specific errors you&amp;rsquo;re hitting Brainstorm project ideas or career directions - sometimes it helps to bounce ideas off someone who&amp;rsquo;s been there Why do I have office hours?</description>
+      <description>&lt;p&gt;I&amp;rsquo;m starting open office hours to chat tech!&lt;/p&gt;&#xA;&lt;p&gt;While I especially enjoy helping students and folks getting started in software/security (having just been there myself), I&amp;rsquo;m happy to talk with anyone.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-should-you-sign-up&#34;&gt;Why should you sign up?&lt;/h2&gt;&#xA;&lt;p&gt;I&amp;rsquo;d encourage you to sign up if you think you&amp;rsquo;d benefit in any way! Some things we can do:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Chat about tech, software development, or security&lt;/li&gt;&#xA;&lt;li&gt;Mock technical interviews - security or coding&lt;/li&gt;&#xA;&lt;li&gt;Discuss a project you&amp;rsquo;re working on - I can provide feedback on your code, architecture, or specific errors you&amp;rsquo;re hitting&lt;/li&gt;&#xA;&lt;li&gt;Brainstorm project ideas or career directions - sometimes it helps to bounce ideas off someone who&amp;rsquo;s been there&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;why-do-i-have-office-hours&#34;&gt;Why do I have office hours?&lt;/h2&gt;&#xA;&lt;p&gt;I&amp;rsquo;ve had a number of students reach out to ask for advice or to do a mock interview. While I don&amp;rsquo;t think I have any insights that are particularly novel, I want to lower the friction of cold-DMing me and hope more people will take advantage. I&amp;rsquo;ve been helped by a ton of people and want to do the same.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Donating 10% 🔷</title>
       <link>https://hmcguinn.com/posts/donating-10/</link>
       <pubDate>Tue, 31 Dec 2024 11:23:40 -0500</pubDate>
-      
       <guid>https://hmcguinn.com/posts/donating-10/</guid>
-      <description>I&amp;rsquo;m taking Giving What We Can&amp;rsquo;s Trial Pledge 🔷 to donate 10% of my income in 2025 to highly effective charities.
-Why I&amp;rsquo;m donating I&amp;rsquo;m choosing to donate 10% of my income, because:
-As someone in the global top 1% by income, I have an extraordinary opportunity to help others I can use my money to do tangible good I want to live in a world where people who can help others, do Donating 10% is something I&amp;rsquo;ve thought about since college, but I delayed pulling the trigger because:</description>
+      <description>&lt;p&gt;I&amp;rsquo;m taking &lt;a href=&#34;https://www.givingwhatwecan.org/get-involved/trial-pledge&#34;&gt;Giving What We Can&amp;rsquo;s Trial Pledge 🔷&lt;/a&gt; to donate 10% of my income in 2025 to highly effective charities.&lt;/p&gt;&#xA;&lt;h4 id=&#34;why-im-donating&#34;&gt;Why I&amp;rsquo;m donating&lt;/h4&gt;&#xA;&lt;p&gt;I&amp;rsquo;m choosing to donate 10% of my income, because:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;As someone in the global top 1% by income, I have an extraordinary opportunity to help others&lt;/li&gt;&#xA;&lt;li&gt;I can use my money to do tangible good&lt;/li&gt;&#xA;&lt;li&gt;I want to live in a world where people who can help others, do&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Donating 10% is something I&amp;rsquo;ve thought about since college, but I delayed pulling the trigger because:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Finding a command injection vulnerability in my smart thermostat (CVE-2023-4212)</title>
       <link>https://hmcguinn.com/posts/command-injection-vulnerability/</link>
       <pubDate>Tue, 22 Aug 2023 00:04:34 -0700</pubDate>
-      
       <guid>https://hmcguinn.com/posts/command-injection-vulnerability/</guid>
-      <description>Summary I discovered a vulnerability allowing arbitrary command injection as root in Trane XL824, XL850, XL1050, and Pivot smart thermostats using a specially crafted filename. The vulnerability has existed since at least 2015 and requires physical access to the device via a USB drive. All affected devices will automatically update.
-CVE-2023-4212 was assigned to this vulnerability and the Cybersecurity and Infrastructure Agency (CISA) published an ICS advisory here. The CVSS score is 6.</description>
+      <description>&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;&#xA;&lt;p&gt;I discovered a vulnerability allowing arbitrary command injection as root in &lt;a href=&#34;https://www.trane.com/residential/en/products/thermostats-and-controls/smart-thermostats/&#34;&gt;Trane XL824, XL850, XL1050, and Pivot smart thermostats&lt;/a&gt; using a specially crafted filename. The vulnerability has existed since at least 2015 and requires physical access to the device via a USB drive. All affected devices will automatically update.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://nvd.nist.gov/vuln/detail/CVE-2023-4212&#34;&gt;CVE-2023-4212&lt;/a&gt; was assigned to this vulnerability and the Cybersecurity and Infrastructure Agency (CISA) published an ICS advisory &lt;a href=&#34;https://www.cisa.gov/news-events/ics-advisories/icsa-23-234-02&#34;&gt;here&lt;/a&gt;. The CVSS score is 6.8 &amp;ndash; &lt;a href=&#34;https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H&#34;&gt;CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Cryptopals Set 3: Block &amp; stream crypto</title>
       <link>https://hmcguinn.com/posts/cryptopals-set-3/</link>
       <pubDate>Wed, 28 Dec 2022 10:15:11 -0500</pubDate>
-      
       <guid>https://hmcguinn.com/posts/cryptopals-set-3/</guid>
-      <description>17. The CBC padding oracle This is the best-known attack on modern block-cipher cryptography.
-Combine your padding code and your CBC code to write two functions.
-The first function should select at random one of the following 10 strings:
-MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc= MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic= MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw== MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg== MDAwMDA0QnVybmluZyAnZW0sIGlmIHlvdSBhaW4ndCBxdWljayBhbmQgbmltYmxl MDAwMDA1SSBnbyBjcmF6eSB3aGVuIEkgaGVhciBhIGN5bWJhbA== MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw== MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8= MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g= MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93 &amp;hellip; generate a random AES key (which it should save for all future encryptions), pad the string out to the 16-byte AES block size and CBC-encrypt it under that key, providing the caller the ciphertext and IV.</description>
+      <description>&lt;h2 id=&#34;17-the-cbc-padding-oracle&#34;&gt;17. The CBC padding oracle&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;This is the best-known attack on modern block-cipher cryptography.&lt;/p&gt;&#xA;&lt;p&gt;Combine your padding code and your CBC code to write two functions.&lt;/p&gt;&#xA;&lt;p&gt;The first function should select at random one of the following 10 strings:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=&#xA;MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic=&#xA;MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw==&#xA;MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg==&#xA;MDAwMDA0QnVybmluZyAnZW0sIGlmIHlvdSBhaW4ndCBxdWljayBhbmQgbmltYmxl&#xA;MDAwMDA1SSBnbyBjcmF6eSB3aGVuIEkgaGVhciBhIGN5bWJhbA==&#xA;MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw==&#xA;MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8=&#xA;MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=&#xA;MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;&amp;hellip; generate a random AES key (which it should save for all future encryptions), pad the string out to the 16-byte AES block size and CBC-encrypt it under that key, providing the caller the ciphertext and IV.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Cryptopals Set 2: Block crypto</title>
       <link>https://hmcguinn.com/posts/cryptopals-set-2/</link>
       <pubDate>Fri, 23 Dec 2022 00:00:08 -0500</pubDate>
-      
       <guid>https://hmcguinn.com/posts/cryptopals-set-2/</guid>
-      <description>Continuing with Cryptopals, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!
-9. Implement PKCS#7 Padding A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.
-One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize.</description>
+      <description>&lt;p&gt;Continuing with &lt;a href=&#34;https://cryptopals.com/&#34;&gt;Cryptopals&lt;/a&gt;, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!&lt;/p&gt;&#xA;&lt;h2 id=&#34;9-implement-pkcs7-padding&#34;&gt;9. Implement PKCS#7 Padding&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.&lt;/p&gt;&#xA;&lt;p&gt;One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize. The most popular padding scheme is called PKCS#7.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Cryptopals Set 1: Basics</title>
       <link>https://hmcguinn.com/posts/cryptopals-set-1/</link>
       <pubDate>Wed, 21 Dec 2022 13:12:35 -0500</pubDate>
-      
       <guid>https://hmcguinn.com/posts/cryptopals-set-1/</guid>
-      <description>Cryptopals is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them here. They&amp;rsquo;ve been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&amp;rsquo;m back at it! They&amp;rsquo;ve been a ton of fun to work on so far and definitely challenging.</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://cryptopals.com&#34;&gt;Cryptopals&lt;/a&gt; is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them &lt;a href=&#34;https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/&#34;&gt;here&lt;/a&gt;. They&amp;rsquo;ve been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&amp;rsquo;m back at it! They&amp;rsquo;ve been a ton of fun to work on so far and definitely challenging. I&amp;rsquo;ve &amp;ldquo;known&amp;rdquo; academically a lot of the attacks covered but implementing them is a different story.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Automated Backyard Hydrogen Line Astronomy</title>
       <link>https://hmcguinn.com/posts/hydrogen-line/</link>
       <pubDate>Sun, 02 Jan 2022 23:19:26 -0500</pubDate>
-      
       <guid>https://hmcguinn.com/posts/hydrogen-line/</guid>
-      <description>I&amp;rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at Georgia Tech Research Institute, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&amp;rsquo;s over-the-air communication protocol. Reading this post on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.</description>
+      <description>&lt;p&gt;I&amp;rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at &lt;a href=&#34;https://gtri.gatech.edu/&#34;&gt;Georgia Tech Research Institute&lt;/a&gt;, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&amp;rsquo;s over-the-air communication protocol. Reading &lt;a href=&#34;https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//&#34;&gt;this post&lt;/a&gt; on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.&lt;/p&gt;</description>
     </item>
-    
+    <item>
+      <title>Reverse Engineering Wyze IoT Cameras</title>
+      <link>https://hmcguinn.com/posts/wyze-camera/</link>
+      <pubDate>Thu, 10 Jun 2021 05:51:05 -0800</pubDate>
+      <guid>https://hmcguinn.com/posts/wyze-camera/</guid>
+      <description>&lt;p&gt;I worked on this project during my internship at &lt;a href=&#34;https://www.gtri.gatech.edu/&#34;&gt;Georgia Tech Research Institute&lt;/a&gt; in their &lt;a href=&#34;https://www.gtri.gatech.edu/focus-areas/reverse-engineering-and-vulnerability-analysis-embedded-systems&#34;&gt;Embedded Systems Vulnerability Division&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;iframe src=&#34;https://hmcguinn.com/pdf/wyze-report.pdf&#34; width=&#34;100%&#34; height=&#34;800px&#34;&gt;&#xA;    This browser does not support PDFs. Please download the PDF to view it: &lt;a href=&#34;https://hmcguinn.com/pdf/wyze-camera.pdf&#34;&gt;Download PDF&lt;/a&gt;.&#xA;&lt;/iframe&gt;</description>
+    </item>
+    <item>
+      <title>Robohunter: a Machine Learning Framework for Batch Analytics</title>
+      <link>https://hmcguinn.com/posts/robohunter/</link>
+      <pubDate>Sat, 01 Aug 2020 05:57:43 -0800</pubDate>
+      <guid>https://hmcguinn.com/posts/robohunter/</guid>
+      <description>&lt;p&gt;I worked on this project during my internship at &lt;a href=&#34;https://www.sandia.gov/&#34;&gt;Sandia National Laboratories&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;iframe src=&#34;https://hmcguinn.com/pdf/robohunter.pdf&#34; width=&#34;100%&#34; height=&#34;800px&#34;&gt;&#xA;    This browser does not support PDFs. Please download the PDF to view it: &lt;a href=&#34;https://hmcguinn.com/pdf/robohunter.pdf&#34;&gt;Download PDF&lt;/a&gt;.&#xA;&lt;/iframe&gt;</description>
+    </item>
   </channel>
 </rss>

@@ -4,31 +4,23 @@
     <title>Tils on Houlton McGuinn</title>
     <link>https://hmcguinn.com/til/</link>
     <description>Recent content in Tils on Houlton McGuinn</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Apr 2023 15:00:29 -0700</lastBuildDate><atom:link href="https://hmcguinn.com/til/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Apr 2023 15:00:29 -0700</lastBuildDate>
+    <atom:link href="https://hmcguinn.com/til/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Vim tricks</title>
       <link>https://hmcguinn.com/til/vim-tricks/</link>
       <pubDate>Sun, 02 Apr 2023 15:00:29 -0700</pubDate>
-      
       <guid>https://hmcguinn.com/til/vim-tricks/</guid>
-      <description>I&amp;rsquo;ve been using (neo)vim as my main IDE for the last several years. If you&amp;rsquo;re interested in my config, you can find it here. These are some tricks that I&amp;rsquo;ve picked up from using vim.
-Wrap lines Sometimes, I&amp;rsquo;ll write long-form content in vim (like this blog). It gets a lot easier to edit if you use:
-:set wrap To undo it:
-:set nowrap Visual block mode Deletion You can use Ctrl-v to enter visual block mode.</description>
+      <description>&lt;p&gt;I&amp;rsquo;ve been using (neo)vim as my main IDE for the last several years. If you&amp;rsquo;re interested in my config, you can find it &lt;a href=&#34;https://github.com/hmcguinn/dot-files/tree/master/nvchad&#34;&gt;here&lt;/a&gt;. These are some tricks that I&amp;rsquo;ve picked up from using vim.&lt;/p&gt;&#xA;&lt;h3 id=&#34;wrap-lines&#34;&gt;Wrap lines&lt;/h3&gt;&#xA;&lt;p&gt;Sometimes, I&amp;rsquo;ll write long-form content in vim (like this blog). It gets a lot easier to edit if you use:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;:set wrap&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;To undo it:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;:set nowrap&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;h3 id=&#34;visual-block-mode&#34;&gt;Visual block mode&lt;/h3&gt;&#xA;&lt;h4 id=&#34;deletion&#34;&gt;Deletion&lt;/h4&gt;&#xA;&lt;p&gt;You can use &lt;code&gt;Ctrl-v&lt;/code&gt; to enter visual block mode. This is useful when you want to delete several part of consecutive lines. For example, given the text:&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Revocable encryption exists!</title>
       <link>https://hmcguinn.com/til/quantum-encryption/</link>
       <pubDate>Sun, 12 Mar 2023 18:25:49 -0700</pubDate>
-      
       <guid>https://hmcguinn.com/til/quantum-encryption/</guid>
-      <description>Today I learned that revocable encryption exists!
-A cryptographic dead person&amp;rsquo;s switch Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?
-I built a version of this for my Privacy Preserving Technologies class with the caveat that you have to trust some threshold of servers to be honest.</description>
+      <description>&lt;p&gt;Today I learned that revocable encryption exists!&lt;/p&gt;&#xA;&lt;h2 id=&#34;a-cryptographic-dead-persons-switch&#34;&gt;A cryptographic dead person&amp;rsquo;s switch&lt;/h2&gt;&#xA;&lt;p&gt;Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?&lt;/p&gt;&#xA;&lt;p&gt;I built a &lt;a href=&#34;https://github.com/hmcguinn/dead-persons-switch&#34;&gt;version of this&lt;/a&gt; for my &lt;a href=&#34;https://www.cs.unc.edu/~saba/priv_class/index.html&#34;&gt;Privacy Preserving Technologies&lt;/a&gt; class with the caveat that you have to trust some threshold of servers to be honest. While a fun project, having to trust a threshold of the servers limits how useful it is. We want cryptographic guarantees for both of the above properties.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -168,7 +168,7 @@ YnkK
 </blockquote>
 <p>Before this challenge, I knew that ECB leaks data in the form of a Tux but did not know that you could exploit it to fully recover plaintexts! That&rsquo;s exactly what we&rsquo;ll be doing for this challenge.</p>
 <p>As an aside, there&rsquo;s an awesome, Warholesque ECB Tux image I found <a href="https://words.filippo.io/the-ecb-penguin/">here.</a></p>
-<p><img src="https://words.filippo.io/content/images/2015/11/POP-xsmall.png" alt="ECB&amp;rsquo;d Tux"></p>
+<p><img src="https://words.filippo.io/content/images/2015/11/POP-xsmall.png" alt="ECB&rsquo;d Tux"></p>
 <p>Let&rsquo;s start by picking a random key to encrypt everything under and writing a function to give us encrypted ciphertexts:</p>
 <pre><code>b64 = &quot;Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK&quot;
 p_b64 = base64.b64decode(b64)

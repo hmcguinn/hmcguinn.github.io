@@ -4,7 +4,8 @@
     <title>Categories on Houlton McGuinn</title>
     <link>https://hmcguinn.com/categories/</link>
     <description>Recent content in Categories on Houlton McGuinn</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://hmcguinn.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="https://hmcguinn.com/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
