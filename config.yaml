@@ -21,6 +21,9 @@ menu:
     - name: Blog
       url: "posts/"
       weight: 4
+    - name: Links
+      url: "links/"
+      weight: 4
     # - name: My art
     # url: "art/"
     # weight: 4

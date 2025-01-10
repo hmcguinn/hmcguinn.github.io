@@ -136,6 +136,18 @@ If you&amp;rsquo;re reading this I&amp;rsquo;d love to chat! Feel free to reach 
     </item>
     
     <item>
+      <title>Links</title>
+      <link>https://hmcguinn.com/links/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hmcguinn.com/links/</guid>
+      <description>This is my collection of interesting corners of the internet. I&amp;rsquo;m particularly interested in security, computer science, astronomy, and AI, but you&amp;rsquo;ll find bits of everything here.
+Cryptography and security Blogs:
+Project Zero Key Material chompie at the bits Imperial Violet stef/blog Zachary Szewczyk Dhome Moments Filippo Valsorda Schneier on Security Trail of Bits Papers
+Evaluation of Some Blockcipher Modes of Operation Why and How zk-SNARK Works: Definitive Explanation DiverseVul: A New Vulnerable Source Code Dataset for Deep Learning Based Vulnerability Detection An accurate evaluation of Maurer&amp;rsquo;s universal test A Tutorial on Linear and Differential Cryptanalysis Books:</description>
+    </item>
+    
+    <item>
       <title>Things I Like</title>
       <link>https://hmcguinn.com/interests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
