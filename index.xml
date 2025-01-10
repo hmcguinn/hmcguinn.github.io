@@ -60,7 +60,30 @@ MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93
 &lt;h1 id="its-nice-to-meet-you-">it&amp;rsquo;s nice to meet you :)&lt;/h1>
 &lt;p>I&amp;rsquo;m &lt;strong>Houlton McGuinn,&lt;/strong> a software engineer and security researcher. I work at &lt;a href="https://www.retool.com">Retool&lt;/a>, securing the fastest way to develop effective software.&lt;/p>
 &lt;p>I graduated from &lt;a href="https://www.cs.unc.edu">UNC Chapel Hill&lt;/a> in December 2022! In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.&lt;/p>
-&lt;p>If you&amp;rsquo;re reading this I&amp;rsquo;d love to chat! Feel free to reach out at &lt;a href="mailto:houlton.mcguinn@gmail.com">houlton.mcguinn@gmail.com&lt;/a>. I also do &lt;a href="posts/office-hours">office hours&lt;/a>.&lt;/p></description></item><item><title>Things I Like</title><link>https://hmcguinn.com/interests/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/interests/</guid><description>&lt;h1 id="music">Music&lt;/h1>
+&lt;p>If you&amp;rsquo;re reading this I&amp;rsquo;d love to chat! Feel free to reach out at &lt;a href="mailto:houlton.mcguinn@gmail.com">houlton.mcguinn@gmail.com&lt;/a>. I also do &lt;a href="posts/office-hours">office hours&lt;/a>.&lt;/p></description></item><item><title>Links</title><link>https://hmcguinn.com/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/links/</guid><description>&lt;p>This is my collection of interesting corners of the internet. I&amp;rsquo;m particularly interested in security, computer science, astronomy, and AI, but you&amp;rsquo;ll find bits of everything here.&lt;/p>
+&lt;h2 id="cryptography-and-security">Cryptography and security&lt;/h2>
+&lt;p>&lt;strong>Blogs:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://googleprojectzero.blogspot.com">Project Zero&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://keymaterial.net/">Key Material&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://chomp.ie/Home">chompie at the bits&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.imperialviolet.org">Imperial Violet&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://ctrlc.hu/~stef/blog/">stef/blog&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://zacs.site/index.html">Zachary Szewczyk&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://soatok.blog/">Dhome Moments&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://filippo.io/">Filippo Valsorda&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.schneier.com/">Schneier on Security&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://blog.trailofbits.com/">Trail of Bits&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Papers&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://web.cs.ucdavis.edu/~rogaway/papers/modes.pdf">Evaluation of Some Blockcipher Modes of Operation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://arxiv.org/pdf/1906.07221">Why and How zk-SNARK Works: Definitive Explanation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://surrealyz.github.io/files/pubs/raid23-diversevul.pdf">DiverseVul: A New Vulnerable Source Code Dataset for Deep Learning Based Vulnerability Detection&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://www.crypto-uni.lu/jscoron/publications/universal.pdf">An accurate evaluation of Maurer&amp;rsquo;s universal test&lt;/a>&lt;/li>
+&lt;li>&lt;a href="http://www.cs.bc.edu/~straubin/crypto2017/heys.pdf">A Tutorial on Linear and Differential Cryptanalysis&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Books:&lt;/strong>&lt;/p></description></item><item><title>Things I Like</title><link>https://hmcguinn.com/interests/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/interests/</guid><description>&lt;h1 id="music">Music&lt;/h1>
 &lt;ul>
 &lt;li>The Band CAMINO&lt;/li>
 &lt;li>The Maine&lt;/li>
