@@ -1,7 +1,7 @@
 ---
 title: "Vim has encryption? 😧"
 date: 2025-01-10T06:21:57-08:00
-draft: true
+draft: false
 ---
 
 Vim apparently has built-in encryption features. From the [vim man page](https://linuxcommand.org/lc3_man_pages/vim1.html):
