@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cryptopals Set 4: Stream crypto and randomness | Houlton McGuinn</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/interests/">Things I like</a></li>
+      
+      <li><a href="/posts/">Blog</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Cryptopals Set 4: Stream crypto and randomness</span></h1>
+
+<h2 class="date">2022/12/28</h2>
+</div>
+
+<main>
+<h2 id="25-break-random-access-readwrite-aes-ctr">25. Break &ldquo;random access read/write&rdquo; AES CTR</h2>
+<blockquote>
+<p>Back to CTR. Encrypt the recovered plaintext from this file (the ECB exercise) under CTR with a random key (for this exercise the key should be unknown to you, but hold on to it).</p>
+<p>Now, write the code that allows you to &ldquo;seek&rdquo; into the ciphertext, decrypt, and re-encrypt with different plaintext. Expose this as a function, like, &ldquo;edit(ciphertext, key, offset, newtext)&rdquo;.</p>
+<p>Imagine the &ldquo;edit&rdquo; function was exposed to attackers by means of an API call that didn&rsquo;t reveal the key or the original plaintext; the attacker has the ciphertext and controls the offset and &ldquo;new text&rdquo;.</p>
+<p>Recover the original plaintext.</p>
+</blockquote>
+<p>For this challenge, we will mount a chosen-plaintext attack on a CTR mode ciphertext with an unknown key. Since CTR mode works by XOR&rsquo;ing the keystream with the plaintext, if we control the plaintext we can recover the keystream and then ultimately obtain the plaintext!</p>
+<pre><code>pt = &quot;I'm back and I'm ringin' the bell \nA rockin' on the mike while the fly girls yell \nIn ecstasy in the back of me \nWell that's my DJ Deshay cuttin' all them Z's \nHittin' hard and the girlies goin' crazy \nVanilla's on the mike, man I'm not lazy. \n\nI'm lettin' my drug kick in \nIt controls my mouth and I begin \nTo just let it flow, let my concepts go \nMy posse's to the side yellin', Go Vanilla Go! \n\nSmooth 'cause that's the way I will be \nAnd if you don't give a damn, then \nWhy you starin' at me \nSo get off 'cause I control the stage \nThere's no dissin' allowed \nI'm in my own phase \nThe girlies sa y they love me and that is ok \nAnd I can dance better than any kid n' play \n\nStage 2 -- Yea the one ya' wanna listen to \nIt's off my head so let the beat play through \nSo I can funk it up and make it sound good \n1-2-3 Yo -- Knock on some wood \nFor good luck, I like my rhymes atrocious \nSupercalafragilisticexpialidocious \nI'm an effect and that you can bet \nI can take a fly girl and make her wet. \n\nI'm like Samson -- Samson to Delilah \nThere's no denyin', You can try to hang \nBut you'll keep tryin' to get my style \nOver and over, practice makes perfect \nBut not if you're a loafer. \n\nYou'll get nowhere, no place, no time, no girls \nSoon -- Oh my God, homebody, you probably eat \nSpaghetti with a spoon! Come on and say it! \n\nVIP. Vanilla Ice yep, yep, I'm comin' hard like a rhino \nIntoxicating so you stagger like a wino \nSo punks stop trying and girl stop cryin' \nVanilla Ice is sellin' and you people are buyin' \n'Cause why the freaks are jockin' like Crazy Glue \nMovin' and groovin' trying to sing along \nAll through the ghetto groovin' this here song \nNow you're amazed by the VIP posse. \n\nSteppin' so hard like a German Nazi \nStartled by the bases hittin' ground \nThere's no trippin' on mine, I'm just gettin' down \nSparkamatic, I'm hangin' tight like a fanatic \nYou trapped me once and I thought that \nYou might have it \nSo step down and lend me your ear \n'89 in my time! You, '90 is my year. \n\nYou're weakenin' fast, YO! and I can tell it \nYour body's gettin' hot, so, so I can smell it \nSo don't be mad and don't be sad \n'Cause the lyrics belong to ICE, You can call me Dad \nYou're pitchin' a fit, so step back and endure \nLet the witch doctor, Ice, do the dance to cure \nSo come up close and don't be square \nYou wanna battle me -- Anytime, anywhere \n\nYou thought that I was weak, Boy, you're dead wrong \nSo come on, everybody and sing this song \n\nSay -- Play that funky music Say, go white boy, go white boy go \nplay that funky music Go white boy, go white boy, go \nLay down and boogie and play that funky music till you die. \n\nPlay that funky music Come on, Come on, let me hear \nPlay that funky music white boy you say it, say it \nPlay that funky music A little louder now \nPlay that funky music, white boy Come on, Come on, Come on \nPlay that funky music&quot;.encode('ascii')
+key = os.urandom(16)
+nonce = 0
+nonce = nonce.to_bytes(8, 'little')
+
+def encrypt():
+    return ctr.ctr_mode(pt, key, nonce)
+
+def decrypt(ct, key, offset=0):
+    return ctr.ctr_mode(ct, key, nonce)
+
+def edit(ct, key, offset, new_text):
+    keystream = ctr.ctr_keystream(key, nonce, len(ct)//16+len(new_text)//16)
+    new_ct = cbc.xor(new_text, keystream[offset:offset+len(new_text)])
+
+    ct = ct[:offset] + new_ct + ct[offset+len(new_ct):]
+    return ct
+</code></pre>
+<p>Our edit function replaces the ciphertext at <code>offset</code> with the new encrypted ciphertext. We have:</p>
+<pre><code>new_ct = keystream ^ new_plaintext
+</code></pre>
+<p>If the new plaintext is all zeros, the ciphertext will just be the keystream. Once we have the keystream, we can XOR it with the original ciphertext to recover the original plaintext!</p>
+<pre><code>original_ct = encrypt()
+
+null_block = ('\x00'*len(ct)).encode('ascii')
+ctr_stream = edit(ct, key, 0, null_block)
+# ctr_stream = \x00 ^ keystream
+# ctr_stream = keystream
+pt = cbc.xor(ctr_stream, ct)
+</code></pre>
+<p>If an attacker can edit the plaintext in CTR mode, they can break it!</p>
+<h2 id="26-ctr-bitflipping">26. CTR bitflipping</h2>
+<blockquote>
+<p>There are people in the world that believe that CTR resists bit flipping attacks of the kind to which CBC mode is susceptible.</p>
+<p>Re-implement the CBC bitflipping exercise from earlier to use CTR mode instead of CBC mode. Inject an &ldquo;admin=true&rdquo; token.</p>
+</blockquote>
+<p>For this challenge, we&rsquo;re re-implementing our bitflipping attack from <a href="https://cryptopals.com/sets/2/challenges/16">challenge 16</a>.</p>
+<p>The attack works the same way as the CBC bitflipping attack, except instead of modifying the previous block we change the block we want to affect directly. Since CTR ciphertexts are directly XOR&rsquo;d with the keystream&ndash; instead of being XOR&rsquo;d with the previous block like CBC mode.</p>
+<p>Now let&rsquo;s write a function to bitflip admin in! Our crafted plaintext is:</p>
+<pre><code>b'comment1%3Dcooking%2520MCs%3Buserdata%3DAAAAAAAAAAAAAAAAAAAA%3Bcomment2%3D%2520like%2520a%2520pound%2520of%2520bacon'
+</code></pre>
+<p>We know that we&rsquo;ll have a block consisting of just <code>AAAAA</code>. This is what we&rsquo;re interested in changing and it&rsquo;s in the 4th block (bytes 48-64). We want to cancel out this block, and insert <code>;admin=true</code> into the ciphertext. Here&rsquo;s how we can:</p>
+<pre><code>string = &quot;AAAAAAAAAAAAAAAA&quot;
+goal_string = &quot;;admin=true;AAAA&quot;
+
+goal_string = string ^ string ^ goal_string
+</code></pre>
+<p>When XOR&rsquo;d, the original string will cancel out leaving us with just the goal string!</p>
+<pre><code>def bitflip_decrypt(ct):
+    global string
+    goal_string = (&quot;;admin=true;AAAA&quot;).encode('ascii') # block length (16 bytes)
+    string = string.encode('ascii')
+    xord = cbc.xor(goal_string, string)
+
+    modified_ct = ct[:48] + cbc.xor(xord, ct[48:64]) + ct[64:]
+    pt = ctr.ctr_mode(modified_ct, key, nonce)
+
+    return &quot;;admin=true;&quot; in str(pt)
+</code></pre>
+<p>Our <code>bitflip_encrypt</code> function is the same as <a href="https://hmcguinn.com/posts/cryptopals-set-2/">challenge 16</a> except using CTR mode.</p>
+<pre><code>ct = bitflip_encrypt(string)
+detected = bitflip_decrypt(ct)
+# True
+</code></pre>
+<p>CTR mode, just like CBC mode, has no ciphertext integrity and is vulnerable to the same bitflipping attacks given an attacker knows some of the plaintext.</p>
+<h2 id="27-recover-the-key-from-cbc-with-ivkey">27. Recover the key from CBC with IV=Key</h2>
+<blockquote>
+<p>Take your code from the CBC exercise and modify it so that it repurposes the key for CBC encryption as the IV.</p>
+<p>Applications sometimes use the key as an IV on the auspices that both the sender and the receiver have to know the key already, and can save some space by using it as both a key and an IV.</p>
+<p>Using the key as an IV is insecure; an attacker that can modify ciphertext in flight can get the receiver to decrypt a value that will reveal the key.</p>
+<p>The CBC code from exercise 16 encrypts a URL string. Verify each byte of the plaintext for ASCII compliance (ie, look for high-ASCII values). Noncompliant messages should raise an exception or return an error that includes the decrypted plaintext (this happens all the time in real systems, for what it&rsquo;s worth).</p>
+<p>Use your code to encrypt a message that is at least 3 blocks long:</p>
+<pre><code>AES-CBC(P_1, P_2, P_3) -&gt; C_1, C_2, C_3
+</code></pre>
+<p>Modify the message (you are now the attacker):</p>
+<pre><code>C_1, C_2, C_3 -&gt; C_1, 0, C_1
+</code></pre>
+<p>Decrypt the message (you are now the receiver) and raise the appropriate error if high-ASCII is found.</p>
+<p>As the attacker, recovering the plaintext from the error, extract the key:</p>
+<pre><code>P'_1 XOR P'_3
+</code></pre>
+</blockquote>
+<p>For this challenge, we decrypt a CBC encrypted ciphertext raising an error that returns the decrypted plaintext if a non-ASCII value is detected.</p>
+<pre><code>def decrypt(ct):
+    pt = no_pad_cbc_decrypt(ct, key, iv)
+
+    try:
+        pt.decode('ascii')
+    except Exception:
+        return True, pt
+    return False, pt
+</code></pre>
+<p>We encrypt using the same function as <a href="https://cryptopals.com/sets/2/challenges/16">challenge 16</a>, but with the IV set to the key.</p>
+<pre><code>ct = encrypt(string)
+</code></pre>
+<p>By modifying the ciphertext so the second block becomes all 0&rsquo;s, we can recover the key!</p>
+<pre><code>modified_ct = ct[:16] + bytearray(('\x00'*16).encode('ascii')) + ct[:16]  
+</code></pre>
+<p>If we get an error (we should!) we can recover the key:</p>
+<pre><code>error, pt = decrypt(ct)
+if error:
+    recovered_key = xor(pt[32:48], pt[:16])
+    print(recovered_key) # original key, same as IV
+</code></pre>
+<p>The reason this works:</p>
+<pre><code>p_1 = IV ^ D(c_1)  
+p_3 = 0 ^ D(c_1) = D(c_1)
+
+p_1 ^ p_3 = D(c_1) ^ D(c_1) ^ IV 
+          = IV
+</code></pre>
+<p>The IV is the same as the key which we recover with the above!</p>
+<h2 id="28-implement-a-sha-1-keyed-mac">28. Implement a SHA-1 keyed MAC</h2>
+<blockquote>
+<p>Find a SHA-1 implementation in the language you code in.</p>
+<p>Don&rsquo;t cheat. It won&rsquo;t work.</p>
+<p>Do not use the SHA-1 implementation your language already provides (for instance, don&rsquo;t use the &ldquo;Digest&rdquo; library in Ruby, or call OpenSSL; in Ruby, you&rsquo;d want a pure-Ruby SHA-1).</p>
+<p>Write a function to authenticate a message under a secret key by using a secret-prefix MAC, which is simply:</p>
+<pre><code>SHA1(key || message)
+</code></pre>
+<p>Verify that you cannot tamper with the message without breaking the MAC you&rsquo;ve produced, and that you can&rsquo;t produce a new MAC without knowing the secret key.</p>
+</blockquote>
+<p>This challenge was luckily simple enough! Once you find a SHA-1 implementation online (or dive into the <a href="https://www.rfc-editor.org/rfc/rfc3174">RFC</a> and roll your own crypto) we implement:</p>
+<pre><code>def prefix_mac(message):
+    return sha1(key + message)
+</code></pre>
+<h2 id="29-break-a-sha-1-keyed-mac-using-length-extension">29. Break a SHA-1 keyed MAC using length extension</h2>
+<blockquote>
+<p>Secret-prefix SHA-1 MACs are trivially breakable.</p>
+<p>The attack on secret-prefix SHA1 relies on the fact that you can take the ouput of SHA-1 and use it as a new starting point for SHA-1, thus taking an arbitrary SHA-1 hash and &ldquo;feeding it more data&rdquo;.</p>
+<p>Since the key precedes the data in secret-prefix, any additional data you feed the SHA-1 hash in this fashion will appear to have been hashed with the secret key.</p>
+<p>To carry out the attack, you&rsquo;ll need to account for the fact that SHA-1 is &ldquo;padded&rdquo; with the bit-length of the message; your forged message will need to include that padding. We call this &ldquo;glue padding&rdquo;. The final message you actually forge will be:</p>
+<pre><code>SHA1(key || original-message || glue-padding || new-message)
+</code></pre>
+<p>(where the final padding on the whole constructed message is implied)</p>
+<p>Note that to generate the glue padding, you&rsquo;ll need to know the original bit length of the message; the message itself is known to the attacker, but the secret key isn&rsquo;t, so you&rsquo;ll need to guess at it.</p>
+<p>This sounds more complicated than it is in practice.</p>
+<p>To implement the attack, first write the function that computes the MD padding of an arbitrary message and verify that you&rsquo;re generating the same padding that your SHA-1 implementation is using. This should take you 5-10 minutes.</p>
+<p>Now, take the SHA-1 secret-prefix MAC of the message you want to forge &mdash; this is just a SHA-1 hash &mdash; and break it into 32 bit SHA-1 registers (SHA-1 calls them &ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;, &amp;c).</p>
+<p>Modify your SHA-1 implementation so that callers can pass in new values for &ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo; &amp;c (they normally start at magic numbers). With the registers &ldquo;fixated&rdquo;, hash the additional data you want to forge.</p>
+<p>Using this attack, generate a secret-prefix MAC under a secret key (choose a random word from /usr/share/dict/words or something) of the string:</p>
+<pre><code>&quot;comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon&quot;
+</code></pre>
+<p>Forge a variant of this message that ends with &ldquo;;admin=true&rdquo;.</p>
+</blockquote>
+<h2 id="30-break-an-md4-keyed-mac-using-length-extension">30. Break an MD4 keyed MAC using length extension</h2>
+<blockquote>
+<p>Second verse, same as the first, but use MD4 instead of SHA-1. Having done this attack once against SHA-1, the MD4 variant should take much less time; mostly just the time you&rsquo;ll spend Googling for an implementation of MD4.</p>
+</blockquote>
+<h2 id="31-implement-and-break-hmac-sha1-with-an-artificial-timing-leak">31. Implement and break HMAC-SHA1 with an artificial timing leak</h2>
+<blockquote>
+<p>The psuedocode on Wikipedia should be enough. HMAC is very easy.</p>
+<p>Using the web framework of your choosing (Sinatra, web.py, whatever), write a tiny application that has a URL that takes a &ldquo;file&rdquo; argument and a &ldquo;signature&rdquo; argument, like so:</p>
+<pre><code>http://localhost:9000/test?file=foo&amp;signature=46b4ec586117154dacd49d664e5d63fdc88efb51
+</code></pre>
+<p>Have the server generate an HMAC key, and then verify that the &ldquo;signature&rdquo; on incoming requests is valid for &ldquo;file&rdquo;, using the &ldquo;==&rdquo; operator to compare the valid MAC for a file with the &ldquo;signature&rdquo; parameter (in other words, verify the HMAC the way any normal programmer would verify it).</p>
+<p>Write a function, call it &ldquo;insecure_compare&rdquo;, that implements the == operation by doing byte-at-a-time comparisons with early exit (ie, return false at the first non-matching byte).</p>
+<p>In the loop for &ldquo;insecure_compare&rdquo;, add a 50ms sleep (sleep 50ms after each byte).</p>
+<p>Use your &ldquo;insecure_compare&rdquo; function to verify the HMACs on incoming requests, and test that the whole contraption works. Return a 500 if the MAC is invalid, and a 200 if it&rsquo;s OK.</p>
+<p>Using the timing leak in this application, write a program that discovers the valid MAC for any file.</p>
+</blockquote>
+<p>This challenge doesn&rsquo;t take advantage of a flaw in SHA1, but instead attacks the timing side channel that checks if the HMAC is correct. Getting this challenge exactly right is a little finicky as the timing over the network is sensitive!</p>
+<p>We can start by implementing <a href="https://en.wikipedia.org/wiki/HMAC#Implementation">HMAC-SHA1</a>:</p>
+<pre><code>def hmac(key, msg, blockSize=64, output=20):
+    block_sized_key = computeBlockSizedKey(key, blockSize)
+
+    o_key_pad = cbc.xor(block_sized_key, bytearray(('\x5c' * blockSize).encode('ascii')))
+    i_key_pad = cbc.xor(block_sized_key, bytearray(('\x36' * blockSize).encode('ascii')))
+
+    return sha.sha1(o_key_pad + sha.sha1(i_key_pad + msg))
+
+def computeBlockSizedKey(key, blockSize=64):
+    if len(key) &gt; blockSize:
+        return sha.sha1(key)
+    elif len(key) &lt; blockSize:
+        return key + (b'\x00'*(64-len(key)))
+    else:
+        return key
+</code></pre>
+<p>Next, let&rsquo;s setup our web server. I chose to use <a href="https://webpy.org/">web.py</a> since it looked simple and was suggested in the challenge writeup.</p>
+<p>It all fits into a single file which is nice!</p>
+<pre><code>import sha_hmac
+import os
+
+urls = ('/(.*)')
+app = web.application(urls, globals())
+
+key = os.urandom(16)
+
+def insecure_compare(valid, sig):
+    if len(valid) != len(sig):
+        return False
+
+    for i in range(len(hmac)):
+        if hmac[i] != sig[i]:
+            return False
+        time.sleep(.05)
+
+    return True
+
+
+class hello:
+    def GET(self, name):
+        data = web.input()
+
+        if 'file' not in data:
+            data['file'] = &quot;&quot;
+        if 'signature' not in data:
+            data['signature'] = &quot;&quot;
+        file = data['file']
+        sig = data['signature']
+
+        hmac = sha_hmac.hmac(key, file.encode('ascii')).hex()
+
+        if len(hmac) != len(sig):
+            return web.InternalError('invalid len')
+
+        for i in range(len(hmac)):
+            if hmac[i] != sig[i]:
+                return web.InternalError('invalid mac')
+            time.sleep(.05)
+        return &quot;200&quot;
+
+if __name__ == &quot;__main__&quot;:
+    app.run()
+</code></pre>
+<p>When you navigate to <code>http://localhost:8080/</code> you&rsquo;ll get a 500 error unless you pass a file and a valid signature for that file.</p>
+<p>The strategy to recover the signature is straightforward. After, we&rsquo;ll see how we can improve it for efficiency and to be resilient to network noise.</p>
+<ol>
+<li>Guess the first hex digit of the HMAC signature
+<ul>
+<li>Pad to signature length (40 characters)</li>
+</ul>
+</li>
+<li>Start timer</li>
+<li>Send GET request with <code>guessed_signature</code> and <code>file</code> as URL parameters.</li>
+<li>End timer.</li>
+<li>Record the taken to process request.</li>
+<li>Repeat guessing for each digit, if one digit takes longer to receive a response, that&rsquo;s likely the right character!</li>
+<li>Repeat until you have the full HMAC signature.</li>
+</ol>
+<p>When I first tried this, it got about half-way through before getting a character wrong. Naively, I figured we could just try submitting each guess a few times, taking the average. Unfortunately, that didn&rsquo;t work for me. We&rsquo;ll have to come up with something a little more clever!</p>
+<p>Taking the average is a good idea, but is still influenced by outliers. If one request takes way too long, it&rsquo;ll skew the average even if the rest were normal. This could overwhelm the valid guess that did take slightly longer but had a lower average due to the outlier! We could get fancy with statistics, but I decided to try each guess 5 times and throw out the slowest and fastest time. It looks like this:</p>
+<pre><code>def average_times(file, signature):
+    tries = 5
+    arr = []
+    for i in range(tries):
+        _, time_taken = try_signature(file, signature)
+        arr.append(time_taken)
+    arr.sort()
+
+    return sum(arr[1:-1]) / tries - 2
+</code></pre>
+<p>Using that, we build this function to recover the HMAC signature!</p>
+<pre><code>def attack_hmac(file):
+    forged_sig = &quot;&quot;
+    unknown_len = 39
+
+    hex_digits = [&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;0&quot;]
+    average = None
+    while len(forged_sig) &lt; 40:
+        for digit in hex_digits:
+            temp_sig = forged_sig + digit + &quot;0&quot;*unknown_len
+            average_time = average_times(file, temp_sig)
+
+            # 30 milliseconds longer
+            if average and average_time &gt; (average+30000000):
+                forged_sig += digit
+                unknown_len -= 1
+                break
+            average = average_time
+
+        average = None
+    return forged_sig
+</code></pre>
+<p>You&rsquo;ll see the character <code>0</code> is in our digits list twice. Since we need an average to compare against, we need one extra evaluation for each guess.</p>
+<p>This approach works and is fairly straightforward, but does take a while! It took about 30 minutes to recover the HMAC signature.</p>
+<h2 id="32-break-hmac-sha1-with-a-slightly-less-artificial-timing-leak">32. Break HMAC-SHA1 with a slightly less artificial timing leak</h2>
+<blockquote>
+<p>Reduce the sleep in your &ldquo;insecure_compare&rdquo; until your previous solution breaks. (Try 5ms to start.)</p>
+</blockquote>
+<blockquote>
+<p>Now break it again.</p>
+</blockquote>
+
+</main>
+
+  <footer>
+  <script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src="//yihui.org/js/center-img.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YT0WLW116B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YT0WLW116B');
+</script>
+
+  
+  <hr/>
+  © <a href="https://hmcguinn.com">Houlton McGuinn</a> 2020 &ndash; 2023 | <a href="https://github.com/hmcguinn">Github</a>
+  
+  </footer>
+  </body>
+</html>
+
