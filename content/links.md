@@ -95,6 +95,7 @@ This is my collection of interesting corners of the internet. I'm particularly i
 **Papers:**
   - [Towards Monosemanticity: Decomposing Language Models With Dictionary Learning](https://transformer-circuits.pub/2023/monosemantic-features/index.html)
   - [From Words to Numbers: Your Large Language Model Is Secretly A Capable Regressor When Given In-Context Examples](https://arxiv.org/pdf/2404.07544)
+  - [Securing AI Model Weights](https://www.rand.org/pubs/research_reports/RRA2849-1.html)
 
 **Books:**
   - [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/)
