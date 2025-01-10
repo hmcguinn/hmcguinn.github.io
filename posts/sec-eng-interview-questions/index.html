@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>(Better) Security Engineer Interview Questions | Houlton McGuinn</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/interests/">Things I like</a></li>
+      
+      <li><a href="/posts/">Blog</a></li>
+      
+      <li><a href="/links/">Links</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">(Better) Security Engineer Interview Questions</span></h1>
+
+<h2 class="date">2024/12/02</h2>
+</div>
+
+<main>
+<p>(Un)-fortunately, there&rsquo;s no standardized Leetcode-esque interview process for security engineers <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. There are a number of online resources for security engineer interview questions, but I found them to be too high level compared to interviews I&rsquo;ve been in (explain encoding vs encryption vs hashing). A lot were missing answers. This is my attempt to collate some interesting questions + answers in one place!</p>
+<h1 id="existing-resources">Existing resources</h1>
+<p>These are some other resources I&rsquo;ve found helpful:</p>
+<ul>
+<li><a href="https://github.com/gracenolan/Notes/blob/master/interview-study-notes-for-security-engineering.md">Security Engineering at Google: My Interview Study Notes</a> by Grace Nolan</li>
+<li><a href="https://tib3rius.com/interview-questions">Web AppSec Interview Questions</a> by Tib3rius (<em>has answers!</em>)</li>
+<li><a href="https://ishaqmohammed.me/posts/application-security-engineer-interview-questions/">Application Security Engineer Interview Questions</a> by Ishaq Mohammed</li>
+<li><a href="https://danielmiessler.com/p/infosec-interview-questions">Cybersecurity Interview Questions</a> by Daniel Miessler</li>
+<li><a href="https://www.netmeister.org/blog/infosec-competencies.html">Infosec core competencies</a> by Netmeister</li>
+</ul>
+<h1 id="some-questions">Some questions</h1>
+<h2 id="cryptography">Cryptography</h2>
+<h5 id="whats-the-difference-between-symmetric-and-asymmetric-encryption">What&rsquo;s the difference between symmetric and asymmetric encryption?</h5>
+<p>Symmetric encryption is like having a shared safe combination - both Alice and Bob need to know the exact same secret to encrypt and decrypt messages. Simple, but there&rsquo;s a catch: how do they securely share that secret in the first place?</p>
+<p>Asymmetric encryption solves this with public/private keypairs. Alice can encrypt with Bob&rsquo;s public key (which can be shared freely), and <em>only</em> Bob can decrypt it with his matching private key. When Bob wants to reply, he uses Alice&rsquo;s public key, and only she can read it with her private key.</p>
+<p>Why pick one over the other? Symmetric encryption is faster but requires that shared secret problem to be solved first. Asymmetric is perfect for one-way communication (like sending someone an encrypted email) since you only need their public key. This is why most real-world systems (like TLS) use both - asymmetric to exchange a symmetric key, then symmetric for the actual data.</p>
+<h5 id="does-tls-use-asymmetric-or-symmetric-encryption">Does TLS use asymmetric or symmetric encryption?</h5>
+<p>Both! TLS starts with an asymmetric handshake to securely exchange keys (avoiding the <strong>hard</strong> problem of how to share a secret), then switches to symmetric encryption for the actual data because it&rsquo;s <em>way</em> faster.</p>
+<p>When a client connects, it tells the server what cipher suites it supports. These are strings like <code>TLS_AES_256_GCM_SHA384</code> that specify both the asymmetric part (like ECDHE-RSA for key exchange) and symmetric part (like AES-256-GCM for bulk encryption).</p>
+<p>A server might support multiple suites, but modern TLS strongly prefers AEAD ciphers like AES-GCM. If you see older ciphers like CBC in your server logs, something&rsquo;s wrong!</p>
+<h5 id="explain-envelope-encryption">Explain envelope encryption</h5>
+<p>Data at rest needs encryption, but encrypting <em>everything</em> with one key is asking for trouble. Instead, use envelope encryption: generate data encryption keys (DEKs) for your actual data, then wrap those DEKs with a key encryption key (KEK).</p>
+<p>This is clever for a few reasons: it limits how much data gets encrypted with any single key (important for key wear-out), makes key rotation way easier (just re-wrap the DEKs with a new KEK), and contains the blast radius if a key is compromised.</p>
+<p><a href="https://developers.google.com/tink">Tink</a> and the <a href="https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/choose-keyring.html">AWS Encryption SDK</a> are two libraries that support this pattern.  <a href="https://slack.engineering/engineering-dive-into-slack-enterprise-key-management/">Slack wrote a great piece on their engineering blog</a> about building their Enterprise Key Management system on these principles.</p>
+<h5 id="what-are-the-differences-between-aes-gcm-and-aes-cbc-why-might-you-prefer-one-over-the-other">What are the differences between AES-GCM and AES-CBC? Why might you prefer one over the other?</h5>
+<p>GCM gives you encryption <em>and</em> integrity in one package (it&rsquo;s an AEAD cipher) while CBC only handles encryption. You need to add a MAC to CBC yourself, and getting that wrong is a common source of vulnerabilities. Remember <a href="https://www.imperialviolet.org/2013/02/04/luckythirteen.html">Lucky 13</a>?</p>
+<p>IV reuse is interesting here - CBC degrades somewhat gracefully while GCM <a href="https://hmcguinn.com/posts/cryptopals-set-3/">completely falls apart</a>. If IV uniqueness is hard to guarantee in your system, look at <a href="https://en.wikipedia.org/wiki/AES-GCM-SIV">GCM-SIV</a>. It&rsquo;s slightly slower but way more forgiving.</p>
+<p>GCM&rsquo;s parallelization seems nice until you realize it breaks integrity guarantees if you modify blocks independently. Fun fact: this has bitten real implementations that tried to be &ldquo;clever&rdquo; with random access.</p>
+<h5 id="a-developer-signed-a-cookie-with-hk--m---is-this-secure">A developer signed a cookie with H(k | m) - is this secure?</h5>
+<p>Nope! This falls to a <a href="https://en.wikipedia.org/wiki/Length_extension_attack">length extension attack</a>. If you know H(k | m), you can actually continue hashing from there without knowing k. The attacker reconstructs the hash&rsquo;s internal state and can append whatever they want to the message.</p>
+<p>This bites a lot of hash functions - SHA-1, SHA-2, MD5 all use <a href="https://en.wikipedia.org/wiki/Merkle%E2%80%93Damg%C3%A5rd_construction">Merkle-Damgård construction</a> which makes them vulnerable. SHA-3 dodges this by using a sponge construction. Interestingly, truncated variants like SHA-512/256 and SHA-384 are also safe since attackers can&rsquo;t reconstruct the full internal state from the truncated output.</p>
+<p>Want to do this right? Use <a href="https://en.wikipedia.org/wiki/HMAC">HMAC</a>. It&rsquo;s specifically designed to avoid these pitfalls and it&rsquo;s available in every major crypto library. H(m | k) is not vulnerable, but it&rsquo;s still better to just use HMAC.</p>
+<h5 id="explain-certificate-transparency-ct-logs">Explain certificate transparency (CT) logs</h5>
+<p><a href="https://emilymstark.com/2020/07/20/certificate-transparency-a-birds-eye-view.html">This</a> post by Emily Stark is a great overview of CT logs. The cliff notes:</p>
+<p>Certificate transparency (CT) logs are an auditable record of issued TLS certificates. CT logs enforce transparency for CAs and create a record of what certificates are issued for a domain. CT logs have <a href="https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates">caught CA compromises before</a>!</p>
+<p>Before issuing a certificate, certificate authorities (CA) will submit a precertificate with a poisoned field indicating it should not be used to the CT log. A signed certificate timestamp gets returned to the CA, who can then issue the certificate with the SCT attached.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/Certificate_Transparency#browser_requirements">Safari and Chrome both require</a> that certificates trusted by the browser be recorded in a CT log. <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1281469">Firefox does not</a>.</p>
+<p>Under the hood, CT logs use a <a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle tree</a> as an append-only ledger. Sometimes, <a href="https://groups.google.com/a/chromium.org/g/ct-policy/c/S17_j-WJ6dI">bit-flips happen</a> which leads to the whole CT log needing to be thrown out and replaced.</p>
+<p>A side-effect of certificates being recorded in CT logs is that infroamtion about subdomains becomes public. You can use <a href="https://crt.sh">crt.sh</a> to search for subdomains.</p>
+<h5 id="whats-the-difference-between-hashing-and-signing">What&rsquo;s the difference between hashing and signing?</h5>
+<p>Anyone can compute the hash of something. Hashes are collision resistant, meaning:</p>
+<ul>
+<li>You can&rsquo;t find two different inputs that hash to the same output (collision resistance)</li>
+<li>Given a hash output, you can&rsquo;t find an input that produces it (preimage resistance)</li>
+<li>Tiny changes to the input produces a completely different hash (avalanche effect)</li>
+</ul>
+<p>Checking a message&rsquo;s hash verifies its integrity &ndash; it proves the message hasn&rsquo;t been tampered with. But since anyone can compute a new hash for a modified message, hashing alone doesn&rsquo;t prove who created or modified it.</p>
+<p>A digital signature provides both authenticity (proving who signed it) and integrity (proving it hasn&rsquo;t been modified). Signing requires the private key, while anyone can verify the signature. Modern signature schemes like EdDSA, RSA, and ECDSA sign a hash of the message instead of the raw message. This has a couple benefits:</p>
+<ul>
+<li>Efficiency (hashing reduces large messages to a fixed size)</li>
+<li>Security (prevents mathematical attacks possible with raw signatures)</li>
+<li>Proper integrity checking (even a 1-bit change completely changes the hash and invalidates the signature)</li>
+</ul>
+<p>This also means that the security of a signature scheme relies on the hash&ndash; a second input that hashes to the same value would also verify successfully!</p>
+<h2 id="web-security">Web security</h2>
+<h5 id="how-can-you-protect-against-ssrf">How can you protect against SSRF?</h5>
+<p>Input validation is the first layer here &ndash; allowlist URL schemes or domains. There are <strong>tons</strong> of ways to bypass input validation so this is not sufficient. TOCTOU DNS rebinding attacks can also happen. <a href="https://emily.id.au/tailscale">CVE-2022-41924</a> is a great read about a RCE in Tailscale on Windows that exploited DNS rebinding.</p>
+<p>In Node, you can use a <a href="https://github.com/azu/request-filtering-agent">http.Agent to filter requests to private ranges</a>. Network-level protections should also be enabled, disable access to RFC 1918 ranges using iptables.</p>
+<p>Cloud metadata endpoints (169.254.169.254) are a juicy target - AWS IMDSv1 was particularly bad since a single SSRF could grab root credentials. Block these at the network level <em>and</em> enforce IMDSv2 which fixes this by requiring PUT requests and custom headers. The <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html">hop limit can also be set to a max of 2</a>.</p>
+<h5 id="what-is-cors-what-does-it-protect-against">What is CORS? What does it protect against?</h5>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> (cross-origin resource sharing) is a security mechanism that allows sites to relax the same-origin policy (SOP) and indicate what other origins the browser should allow loading resources from.</p>
+<p>CORS protects against cross-origin attacks by requiring servers to explicitly opt-in to allowing other <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#definition_of_an_origin">origins</a> reading responses. If making a complex cross-origin request (like a PUT or DELETE with custom headers), the browser will send a pre-flight request. Servers specify what headers are allowed through <code>Access-Control-Allow-*</code> headers in the pre-flight request response.</p>
+<p>CORS does <strong>not</strong> protect against cross-origin requests from being made, only reading the responses. For state-changing operations, <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#token-based-mitigation">CSRF tokens</a> should be used.</p>
+<h5 id="youre-building-a-markdown-editor-that-lets-users-edit-html-how-can-you-protect-against-xss">You&rsquo;re building a markdown editor that lets users edit HTML, how can you protect against XSS?</h5>
+<p>Markdown parsers are XSS nightmares because they&rsquo;re designed to <em>allow</em> HTML - that&rsquo;s part of the spec! First, decide if you really need raw HTML support. If you don&rsquo;t, use a strict markdown-only parser and strip all HTML tags.</p>
+<p>If you <em>do</em> need HTML, there&rsquo;s two main options:</p>
+<ul>
+<li>Use <a href="https://github.com/cure53/DOMPurify">DOMPurify</a> to sanitize. It handles weird edge cases like nested parsers and DOM clobbering.</li>
+<li>Render the HTML in a sandboxed iframe with <code>sandbox=&quot;allow-scripts&quot;</code>. This gives you proper origin isolation - any XSS is contained to the sandboxed frame.</li>
+</ul>
+<p>One thing to watch out for is injecting dynamic content after sanitization. If the editor lets users inject variables or templates into the markdown (like <code>${user.name}</code>), you need to sanitize at render time, not just at parse time.</p>
+<h2 id="cloud-security">Cloud security</h2>
+<h5 id="youve-found-an-ssrf-vulnerability-running-on-a-ec2-instance-how-can-you-exploit-this">You&rsquo;ve found an SSRF vulnerability running on a EC2 instance, how can you exploit this?</h5>
+<h5 id="how-would-you-implement-security-for-a-kubernetes-cluster-deployed-on-eks">How would you implement security for a Kubernetes cluster deployed on EKS?</h5>
+<h5 id="how-would-you-manage-secrets-for-an-application">How would you manage secrets for an application?</h5>
+<h2 id="application-security">Application security</h2>
+<h5 id="a-aws-secret-key-was-committed-to-our-github-repository-what-steps-need-to-be-taken">A AWS Secret key was committed to our Github repository, what steps need to be taken?</h5>
+<h5 id="an-api-system-lets-you-used-an-admin-api-key-or-a-finer-grained-one-developers-are-lazy-and-use-admin-api-keys-on-the-client-side-how-can-you-prevent-this-and-nudge-developers-to-update">An API system lets you used an admin API key, or a finer-grained one. Developers are lazy and use admin API keys on the client-side. How can you prevent this and nudge developers to update?</h5>
+<h5 id="how-can-you-prevent-secrets-from-getting-logged-in-an-application">How can you prevent secrets from getting logged in an application?</h5>
+<p>This is actually a pretty tricky problem&ndash; secrets have a nasty habit of sneaking into logs through error messages, debug traces, and HTTP traces. In 2018, <a href="https://www.bleepingcomputer.com/news/security/twitter-admits-recording-plaintext-passwords-in-internal-logs-just-like-github/">Twitter logged plaintext passwords</a>.</p>
+<p>Getting this right requires a lot of trial and error, and playing Whack-A-Mole as new log sites get added. At a higher level, making sure secrets are scoped to areas where they&rsquo;re needed and not getting passed around all over the application makes a big difference.</p>
+<p>Languages like Python and JavaScript let you override <code>__str__</code> or <code>toJSON</code> methods on sensitive objects. <a href="https://github.com/transcend-io/secret-value">secret-value</a> is a Typescript library that does this for you by wrapping secrets in an object. If your application uses a logging library like <a href="https://github.com/winstonjs/winston">Winston</a> or <a href="https://logging.apache.org/log4j/2.x/index.html">Log4j</a>, you can modify the log stream to redact information.</p>
+<p>An area that I&rsquo;m not particularly familiar with, but is also worth knowing about is crash dumps. <a href="https://msrc.microsoft.com/blog/2023/09/results-of-major-technical-investigations-for-storm-0558-key-acquisition/">Storm-0558 hacked into US Cabinet emails through a Microsoft crash dump</a> that didn&rsquo;t have the signing keys scrubbed.</p>
+<p>Another approach is to inject canary values and alert if they appear in logs. Then, you can go and fix where in your application they&rsquo;re coming from. The <a href="https://github.com/DataDog/dd-sensitive-data-scanner">core of Datadog&rsquo;s sensitive data scanner</a> library which is designed to detect secrets in logs is open-source on Github.</p>
+<h2 id="design">Design</h2>
+<h5 id="how-would-you-design-login-for-a-web-app">How would you design login for a web app?</h5>
+<p>This question covers:</p>
+<ul>
+<li>Password storage (bcrypt), maybe 2FA</li>
+<li>Session revocation (session table, JWT)</li>
+</ul>
+<p>My first answer is &ldquo;don&rsquo;t - instead use oauth with Github/Google&rdquo;, but that makes the question much less interesting!</p>
+<h5 id="we-want-to-design-a-system-to-run-user-code-how-can-we-sandbox-it">We want to design a system to run user code, how can we sandbox it?</h5>
+<p>The right approach depends a lot on the use-case, some potential questions to consider:</p>
+<ul>
+<li>Is the system latency sensitive?</li>
+<li>Write/Run ratio for code (REPL vs cron job)</li>
+<li>What is the code doing? Does it need to interact with packages, drivers, or hardware?</li>
+</ul>
+<p>A few wrong answers:</p>
+<ul>
+<li>AWS Lambda
+<ul>
+<li>Lambdas will get re-used between invocations, and an attacker can potentially modify state to affect the next invocation</li>
+</ul>
+</li>
+<li>Docker container
+<ul>
+<li>A container is generally not a strong security boundary</li>
+</ul>
+</li>
+</ul>
+<p>Some options:</p>
+<ul>
+<li>VM
+<ul>
+<li><strong>Pros:</strong> each VM receives it&rsquo;s own kernel</li>
+<li><strong>Cons</strong> large amount of overhead</li>
+</ul>
+</li>
+<li><strong>Nsjail</strong>: an open-source sandboxing library
+<ul>
+<li><strong>Pros:</strong> flexible with where it can run</li>
+<li><strong>Cons:</strong></li>
+</ul>
+</li>
+<li>Firecracker: micro VM
+<ul>
+<li><strong>Pros:</strong> fast</li>
+<li><strong>Cons:</strong> needs to be run on bare metal machines, much more expensive if you&rsquo;re using a cloud provider</li>
+</ul>
+</li>
+<li>gVisor</li>
+</ul>
+<p>I&rsquo;m planning on writing an in-depth dive comparing different sandboxing technologies and who uses what. More to come on that later!</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Say what you want about Leetcode, but it is easily grindable and possible to get better at with effort. There&rsquo;s a huge mini-industry around interview prep and practice for software engineers that doesn&rsquo;t exist in the same way for security engineers.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</main>
+
+  <footer>
+  <script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src="//yihui.org/js/center-img.js"></script>
+<link rel="stylesheet" href="/themes/custom.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YT0WLW116B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YT0WLW116B');
+</script>
+
+  
+  <hr/>
+  © <a href="https://hmcguinn.com">Houlton McGuinn</a> 2020 &ndash; 2025 | <a href="https://github.com/hmcguinn">Github</a>
+  
+  </footer>
+  </body>
+</html>
+
