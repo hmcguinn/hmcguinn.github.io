@@ -86,6 +86,13 @@
       <description>&lt;p&gt;This was the first piece of generative art I&amp;rsquo;ve made!&lt;/p&gt;&#xA;&lt;p&gt;Modify it &lt;a href=&#34;https://editor.p5js.org/hmcguinn/sketches/R_F000CUQ&#34;&gt;here!&lt;/a&gt;&lt;/p&gt;&#xA;&lt;div align=&#34;center&#34;&gt;&lt;iframe height=&#34;530&#34; width=&#34;500&#34; src=&#34;https://editor.p5js.org/hmcguinn/full/R_F000CUQ&#34;&gt;&lt;/iframe&gt;&lt;/div&gt;</description>
     </item>
     <item>
+      <title>A Cryptographic Dead Person&#39;s Switch</title>
+      <link>https://hmcguinn.com/posts/cryptographic-dead-persons-switch/</link>
+      <pubDate>Fri, 27 May 2022 00:02:50 -0800</pubDate>
+      <guid>https://hmcguinn.com/posts/cryptographic-dead-persons-switch/</guid>
+      <description>&lt;p&gt;This was my final project for &lt;a href=&#34;https://www.cs.unc.edu/~saba/priv_class/index.html&#34;&gt;COMP 590: Privacy Enhancing Technologies&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;iframe src=&#34;https://hmcguinn.com/pdf/dead-persons-switch.pdf&#34; width=&#34;100%&#34; height=&#34;800px&#34;&gt;&#xA;    This browser does not support PDFs. Please download the PDF to view it: &lt;a href=&#34;https://hmcguinn.com/pdf/dead-persons-switch.pdf&#34;&gt;Download PDF&lt;/a&gt;.&#xA;&lt;/iframe&gt;</description>
+    </item>
+    <item>
       <title>Automated Backyard Hydrogen Line Astronomy</title>
       <link>https://hmcguinn.com/posts/hydrogen-line/</link>
       <pubDate>Sun, 02 Jan 2022 23:19:26 -0500</pubDate>
