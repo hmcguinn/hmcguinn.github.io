@@ -1,5 +1,5 @@
 ---
-title: Writing a diamond manifold prediction bot in a weekend
+title: Building a diamond Manifold prediction bot in a weekend
 date: 2025-04-01T21:51:02-07:00
 draft: false
 ---
