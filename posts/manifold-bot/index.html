@@ -1,0 +1,95 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Writing a diamond manifold prediction bot in a weekend | Houlton McGuinn</title>
+<link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css></head><body><nav><ul class=menu><li><a href=/>Home</a></li><li><a href=/about/>About</a></li><li><a href=/interests/>Things I like</a></li><li><a href=/posts/>Blog</a></li><li><a href=/links/>Links</a></li></ul><hr></nav><div class=article-meta><h1><span class=title>Writing a diamond manifold prediction bot in a weekend</span></h1><h2 class=date>2025/04/01</h2></div><main><p>I built a prediction market bot in a few hours that ranked fourth in <a href=https://manifold.markets/leagues/23/platinum/sage-gremlins/Te00Mp9cXobRVXjKbYIgn8DPhah2>Manifold&rsquo;s Platinum Sage Gremlins league for March</a>. The bot has 10x&rsquo;d it&rsquo;s mana using nothing but free tools and simple LLM prompting over the last 2 months.</p><h3 id=why-prediction-markets-matter>Why prediction markets matter</h3><p>Prediction markets like Manifold let people &ldquo;bet&rdquo; on future events and reward accuracy. Metaculus and Manifold are two sites that offer play money, while Kalshi and Polymarket let you wager real money.</p><p><a href=https://manifold.markets/HoultonMcGuinn>I&rsquo;m not particularly well-calibrated at predictions</a>, so I wanted to see if I could build a bot to do better. Building it took just a few hours, it runs on <a href=https://retool.com/workflows>Retool Workflows</a> (which lets us take advantage of free OpenAI credits!), and it has been surprisingly effective.</p><h3 id=llm-consensus>LLM consensus</h3><p>The bot&rsquo;s logic is straightforward:</p><ul><li>Check our balance</li><li>Get the 15 most recent markets on Manifold</li><li>Ask both GPT-4o and o1 to predict the probability</li><li>Only place bets when:<ul><li>Both models agree within 10% of each other</li><li>Their consensus differs from the market price by at least 30%</li></ul></li></ul><p>Adding instructions to return 0.0 if the model was not confident, and using the consensus of two models meant when both agreed on a significantly different probability than the market, they were usually right.</p><p>The bot currently only works for <a href="https://manifoldmarkets.notion.site/Types-of-markets-399d8d2eb2ba4569aaa28a9952eafb23?pvs=25">Yes/No markets</a>, which are the simplest markets on Manifold.</p><p>The market selection logic is pretty crude. I limited it to the 15 most recent markets because of Retool&rsquo;s rate limiting for OpenAI tokens. Since Manifold&rsquo;s API returns markets in chronological order, this approach focuses on newly created markets—which turns out to be where most of the alpha is.</p><p>An example API response with market&rsquo;s information <a href=https://docs.manifold.markets/api#get-v0markets>looks like this</a>:</p><pre><code>[
+	{
+	  &quot;id&quot;: &quot;A2NuS86yps&quot;,
+	  &quot;creatorId&quot;: &quot;b1QnZhu3AfSelAPwOuQ8hzJQ43v1&quot;,
+	  &quot;creatorUsername&quot;: &quot;BJensen&quot;,
+	  &quot;creatorName&quot;: &quot;B Jensen&quot;,
+	  &quot;createdTime&quot;: 1741574763971,
+	  &quot;creatorAvatarUrl&quot;: &quot;https://lh3.googleusercontent.com/a/ACg8ocLkmEIpPNEXJGXYIL9w8GW89gVYLWGSB3qbzjKS1fdVr5xhAw=s96-c&quot;,
+	  &quot;closeTime&quot;: 1742187540000,
+	  &quot;question&quot;: &quot;Will the Machines rise up against us?&quot;,
+	  &quot;slug&quot;: &quot;will-the-machines-rise-up-against-u&quot;,
+	  &quot;url&quot;: &quot;https://manifold.markets/BJensen/will-the-machines-rise-up-against-u&quot;,
+	  &quot;pool&quot;: {
+	    &quot;NO&quot;: 588.2792760938454,
+	    &quot;YES&quot;: 1699.872901591853
+	  },
+	  &quot;probability&quot;: 0.25709796832169085,
+	  &quot;p&quot;: 0.5000000000000001,
+	  &quot;totalLiquidity&quot;: 1000,
+	  &quot;outcomeType&quot;: &quot;BINARY&quot;,
+	  &quot;mechanism&quot;: &quot;cpmm-1&quot;,
+	  &quot;volume&quot;: 2320.127098408147,
+	  &quot;volume24Hours&quot;: 0,
+	  &quot;isResolved&quot;: false,
+	  &quot;uniqueBettorCount&quot;: 2,
+	  &quot;lastUpdatedTime&quot;: 1741575274325,
+	  &quot;lastBetTime&quot;: 1741575274325,
+	  &quot;lastCommentTime&quot;: 1741574943821
+	}
+]
+</code></pre><p>We&rsquo;ll extract the <code>question</code>, <code>description</code>, <code>probability</code>, <code>totalLiquidity</code>, <code>uniqueBettorCount</code>, and <code>pool</code> fields for more analysis.</p><h3 id=decision-making-logic>Decision making logic</h3><p>The core of the bot is passing each market&rsquo;s information to <code>o1</code> / <code>gpt-4o</code> to generate probability estimates. We pass it to these two models, to try and get some consensus on what the expected probability should be.</p><p>For each market, we pass the relevant information to both models with this prompt:</p><pre><code>Analyze this prediction market question and estimate the probability of it resolving to YES.
+Consider all available information and provide a numerical probability between 0 and 1.
+
+Market title: {{value.question}}
+Description: {{value.description }} 
+
+Current market probability: {{ value.probability }} 
+Total liquidity: {{value.totalLiquidity }}
+Unique bettors: {{value.uniqueBettorCount }}
+Unique bettors: {{value.pool }}
+
+If you are not confident in a prediction, return 0.0. 
+
+Provide ONLY the numerical probability estimate with 2 decimal places, nothing else.
+</code></pre><p>I originally did not include the current market probability and liquidity, but found it helpful to give additional context to the models.</p><p>The decision algorithm has two criterion:</p><ul><li>The prediction probability for <code>gpt-4o</code> and <code>o1</code> is within 10%, and</li><li>The consensus prediction is different from the market&rsquo;s current probability by at least 30%</li></ul><p>This double-check system helps filter out noisy predictions and focuses on markets with significant mispricing:</p><pre><code>MIN_PROBABILITY_DIFFERENCE = 0.30  # Only bet when 30% different from market
+MAX_PROB_DIFFERENCE = 0.1  # Models must agree within 10%
+
+successful_bets = []
+
+for i, market in enumerate(markets):
+    # Skip resolved markets or markets without probability
+    if market.get('isResolved', False) or 'probability' not in market:
+        continue
+    
+    # Skip if no o1 probability available
+    if not get_o1_probabilities.data[i] or not get_4o_probabilities.data[i]:
+        continue
+        
+    current_prob = market['probability']
+    o1_prob = float(get_probabilities.data[i])
+    4o_prob = float(get_probabilities_raw.data[i])
+    
+    # Check for large discrepancies between probabilities
+    if abs(o1_prob - 4o_prob) &gt; MAX_PROB_DIFFERENCE:
+        print(f&quot;Large difference on {market['question']}: {o1_prob} vs {4o_prob}&quot;)
+		continue
+    
+    # Skip markets where AI is not confident
+    if o1_prob == 0 and 4o_prob == 0:
+        print(f&quot;NOT CONFIDENT: {market['question']}&quot;)
+        continue
+    
+    # Determine trade direction based on probability difference
+    if o1_prob &gt; current_prob + MIN_PROBABILITY_DIFFERENCE:
+        outcome = &quot;YES&quot;
+    elif o1_prob &lt; current_prob - MIN_PROBABILITY_DIFFERENCE:
+        outcome = &quot;NO&quot;
+    else:
+        print(f&quot;{market['question']}. Expected probability {o1_prob}. Difference {current_prob - o1_prob}&quot;)
+        continue
+    
+    # Place bet and track results
+    print(f&quot;Placing {outcome} bet on {market['question']}. Expected probability {o1_prob}&quot;)
+    success = place_bet(market['id'], INITIAL_BET_AMOUNT, outcome)
+    
+    if success:
+        successful_bets.append(
+            f&quot;Placed {outcome} bet on {market['question']}. Expected probability {o1_prob}. Current probability {current_prob}&quot;
+        )
+    else:
+        print(&quot;Failed to place bet&quot;)
+
+return successful_bets
+</code></pre><h3 id=results-a-slow-but-steady-climb>Results: A slow but steady climb</h3><p>This <a href=https://manifold.markets/SlicerBot>bot</a> has been running for ~2 months and has grown its mana from the initial 100 to 1000- a 10x increase. While not amazing, seeing it generate consistent mana has been pretty cool.</p><p><img src=/img/manifold-mana.png alt=mana></p><h4 id=most-profitable-bets>Most profitable bets</h4><ul><li><a href=https://manifold.markets/lakshaytalkstocomputer/liang-wenfeng-in-forbes-top-10-bill>Liang Wenfeng in Forbes&rsquo; Top 10 Billionaires List by December 31, 2035</a> - 38 mana (+110%) with NO bet at 80% probability</li><li><a href=https://manifold.markets/Dtm999992/will-neymar-jr-be-announced-by-sant>Will Neymar Jr. be announced by Santos FC by Wednesday?</a> - 24 mana (+81%) with NO bet at 50% probability</li><li><a href=https://manifold.markets/BenKloester/will-buloke-shire-council-grant-a-p>Will Buloke shire council grant a planning permit for Esoteric Festival in time for the March 2025 event?</a> - 19 mana (+396%) with YES bet at 20% probability</li><li><a href=https://manifold.markets/LittleBunnyvzsw/will-trump-announce-mass-layoffs-on>Will Trump announce mass layoffs on Feb 7?</a> - 18 mana (+125%) with NO bet at 74% probability</li><li><a href=https://manifold.markets/7sB/space-agency-announces-mission-to-d>Space agency announces mission to divert asteroid 2024 YR4 before 22 Dec 2032</a> - 15 mana (+50%) with NO bet at 47% probability</li></ul><h4 id=least-profitable-bets>Least profitable bets</h4><ul><li><a href=https://manifold.markets/Ernie/gulf-of-america-is-renamed-again-by>Gulf of America is renamed again by mid 2035 (in Google maps)</a> - 23 mana (-51%) with NO bet at 55% probability</li><li><a href=https://manifold.markets/Manifest/will-trump-sign-a-bill-into-law-in>Will Trump sign a bill into law in his first week?</a> - 20 mana (-100%) with YES bet at 31% probability</li><li><a href=https://manifold.markets/predyx_markets/bitcoin-below-75k-before-march-14>Bitcoin below $75K before March 15?</a> - 16 mana (-47%) with YES bet at 39% probability</li><li><a href=https://manifold.markets/strutheo/will-andrew-cuomo-announce-he-is-ru-hZLqNplOEd>Will Andrew Cuomo announce he is running for NYC mayor by the end of March?</a> - 14 mana (-98%) with NO bet at 50% probability</li><li><a href=https://manifold.markets/MarnixV/will-the-sp-500-stock-index-close-h-NtOsA5C2AS>Will the S&amp;P 500 stock index close higher on Feb 3 than it closed on Jan 31?</a> - 10 mana (-100%) with YES bet at 33% probability</li></ul><h3 id=what-it-does-well>What it does well</h3><p>The bot excels at catching newly created markets where the initial probability of 50% is misaligned. By running on a cron job every 2 hours, it can react relatively quickly to new questions. The limiting factor for run frequency is Retool&rsquo;s limit of 500 free workflow runs per month.</p><p>The bot bets a very small amount- 5 mana. This doesn&rsquo;t move the market much, even on questions with little liquidity. This is definitely below the threshold that people would choose to manually trade at.</p><h3 id=what-it-doesnt-do-well>What it doesn&rsquo;t do well</h3><p>The bot struggles with questions about recent news events. Since <code>o1</code> and <code>gpt-4o</code> have a <a href=https://help.openai.com/en/articles/9824965-using-openai-o1-models-and-gpt-4o-models-on-chatgpt#h_586632b812>knowledge cutoff of October 2023</a> (and a lot has happened since then!), it can&rsquo;t accurately assess probabilities for events that depend on post-cutoff information. 3 of the bots worst trades are politics related questions that it has no knowledge of.</p><h3 id=future-improvements>Future improvements</h3><p>There&rsquo;s a ton of things that could improve this bot:</p><h4 id=dynamic-bet-sizing>Dynamic bet sizing</h4><p>The bot currently places a fixed bet of 5 mana regardless of confidence or mana balance. This was a quick initial value I chose and never revisited. Now that the mana balance has grown 10x, using Kelly criterion or another position sizing method would make more sense.</p><h4 id=position-management>Position management</h4><p>This is probably the #1 thing I want to add. Right now, I manually review and sell the most profitable positions every few days to free up Mana. Automating this process would free up my time and potentially improve results through more disciplined exits.</p><h4 id=web-search-integration>Web search integration</h4><p>The largest losses come from questions about recent events due to the models&rsquo; knowledge cutoff. Adding tool calling or web search capabilities would help address this blindspot, though this would increase complexity and potentially API costs.</p><h3 id=lessons-learned>Lessons learned</h3><p>Building this was a lot of fun! It&rsquo;s been able to make a slow, but steady profit.</p><p>If you found this interesting, Metaculus also recently put out a <a href=https://www.loom.com/share/fc3c1a643b984a15b510647d8f760685>video on how to build a Metaculus bot in 30 minutes</a> uses a <a href=https://github.com/Metaculus/metac-bot-template/blob/main/main.py>similar approach</a>.</p></main><footer><script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script><script defer src=//yihui.org/js/center-img.js></script><link rel=stylesheet href=/themes/custom.css><script async src="https://www.googletagmanager.com/gtag/js?id=G-YT0WLW116B"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-YT0WLW116B")</script><hr>© <a href=https://hmcguinn.com>Houlton McGuinn</a> 2020 &ndash; 2025 | <a href=https://github.com/hmcguinn>Github</a></footer></body></html>
