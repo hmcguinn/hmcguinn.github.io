@@ -194,4 +194,4 @@ The largest losses come from questions about recent events due to the models' kn
 ### Lessons learned 
 Building this was a lot of fun! It's been able to make a slow, but steady profit.
 
-If you found this interesting, Metaculus also recently put out a [video on how to build a Metaculus bot in 30 minutes](https://www.loom.com/share/fc3c1a643b984a15b510647d8f760685) uses a [similar approach](https://github.com/Metaculus/metac-bot-template/blob/main/main.py). 
+If you found this interesting, Metaculus also recently put out a [video on how to build a Metaculus bot in 30 minutes](https://www.loom.com/share/fc3c1a643b984a15b510647d8f760685) that uses a [similar approach](https://github.com/Metaculus/metac-bot-template/blob/main/main.py). 
