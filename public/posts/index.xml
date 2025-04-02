@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Houlton McGuinn</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jan 2025 18:45:38 -0800</lastBuildDate>
+    <lastBuildDate>Tue, 01 Apr 2025 21:51:02 -0700</lastBuildDate>
     <atom:link href="https://hmcguinn.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Writing a diamond manifold prediction bot in a weekend</title>
+      <link>https://hmcguinn.com/posts/manifold-bot/</link>
+      <pubDate>Tue, 01 Apr 2025 21:51:02 -0700</pubDate>
+      <guid>https://hmcguinn.com/posts/manifold-bot/</guid>
+      <description>&lt;p&gt;I built a prediction market bot in a few hours that ranked fourth in &lt;a href=&#34;https://manifold.markets/leagues/23/platinum/sage-gremlins/Te00Mp9cXobRVXjKbYIgn8DPhah2&#34;&gt;Manifold&amp;rsquo;s Platinum Sage Gremlins league for March&lt;/a&gt;. The bot has 10x&amp;rsquo;d it&amp;rsquo;s mana using nothing but free tools and simple LLM prompting over the last 2 months.&lt;/p&gt;&#xA;&lt;h3 id=&#34;why-prediction-markets-matter&#34;&gt;Why prediction markets matter&lt;/h3&gt;&#xA;&lt;p&gt;Prediction markets like Manifold let people &amp;ldquo;bet&amp;rdquo; on future events and reward accuracy. Metaculus and Manifold are two sites that offer play money, while Kalshi and Polymarket let you wager real money.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>I&#39;m doing office hours</title>
       <link>https://hmcguinn.com/posts/office-hours/</link>
