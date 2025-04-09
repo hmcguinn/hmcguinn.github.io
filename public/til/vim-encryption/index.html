@@ -36,12 +36,10 @@
 <main>
 <p>Vim apparently has built-in encryption features. From the <a href="https://linuxcommand.org/lc3_man_pages/vim1.html">vim man page</a>:</p>
 <blockquote>
-<p>-x  Use encryption when writing files.  Will prompt for  a crypt key.</p>
-</blockquote>
+<p>-x  Use encryption when writing files.  Will prompt for  a crypt key.</p></blockquote>
 <p>The vim docs also call out:</p>
 <blockquote>
-<p>There is never 100% safety.  The encryption in Vim has not been tested for robustness.</p>
-</blockquote>
+<p>There is never 100% safety.  The encryption in Vim has not been tested for robustness.</p></blockquote>
 <p>If you&rsquo;ve ever struggled to exit vim, don&rsquo;t even think about turning on the encryption &ndash; <em>&ldquo;when you reopen the file, Vim will ask for the key; if you enter the wrong key, Vim will &lsquo;decrypt&rsquo; it to gibberish content. DO NOT SAVE such a gibberish buffer, or your data will be corrupted.&rdquo;</em></p>
 <h3 id="history-of-encryption-in-vim">history of encryption in vim</h3>
 <p>The original encryption method in vim was <code>zip</code> (still the default). It&rsquo;s a stream cipher based on <a href="https://en.wikipedia.org/wiki/PKZIP">PKZIP compression</a>, which is about as secure as it sounds. Zip is vulnerable to <a href="https://github.com/kimci86/bkcrack">known-plaintext attacks</a> and uses a RNG that isn&rsquo;t <a href="https://math.ucr.edu/~mike/zipattacks.pdf">cryptographically secure</a>.</p>

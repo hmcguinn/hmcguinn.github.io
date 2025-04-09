@@ -44,8 +44,7 @@
 </code></pre>
 <p>&hellip; padded to 20 bytes would be:</p>
 <pre><code>&quot;YELLOW SUBMARINE\x04\x04\x04\x04&quot;
-</code></pre>
-</blockquote>
+</code></pre></blockquote>
 <p><a href="https://en.wikipedia.org/wiki/Padding_(cryptography)#PKCS#5_and_PKCS#7">Wikipedia</a> is pretty clear on how to implement PKCS#7. At first, I missed that if the unpadded text is a multiple of the block length, an extra block is added at the end!</p>
 <pre><code>def pad(unpadded, block_len):
     to_pad = (block_len - len(unpadded)) if len(unpadded) % block_len != 0 else block_len
@@ -60,8 +59,7 @@
 <p>In CBC mode, each ciphertext block is added to the next plaintext block before the next call to the cipher core.</p>
 <p>The first plaintext block, which has no associated previous ciphertext block, is added to a &ldquo;fake 0th ciphertext block&rdquo; called the initialization vector, or IV.</p>
 <p>Implement CBC mode by hand by taking the ECB function you wrote earlier, making it encrypt instead of decrypt (verify this by decrypting whatever you encrypt to test), and using your XOR function from the previous exercise to combine them.</p>
-<p>The file here is intelligible (somewhat) when CBC decrypted against &ldquo;YELLOW SUBMARINE&rdquo; with an IV of all ASCII 0 (\x00\x00\x00)</p>
-</blockquote>
+<p>The file here is intelligible (somewhat) when CBC decrypted against &ldquo;YELLOW SUBMARINE&rdquo; with an IV of all ASCII 0 (\x00\x00\x00)</p></blockquote>
 <p>Implementing CBC mode is the first challenge where it starts to get a bit more complex. We&rsquo;ll write an encryption and a decryption function, making sure that we pad the blocks to 16-bytes. Also, since we already wrote an ECB encrypt/decrypt functions, we&rsquo;ll leverage those.</p>
 <pre><code>def cbc_encrypt(pt, key, iv):
     padded = pad(pt, len(pt) + (16 - len(pt) % 16)) # pad to next multiple of 16
@@ -104,8 +102,7 @@
 </code></pre>
 <p>Under the hood, have the function append 5-10 bytes (count chosen randomly) before the plaintext and 5-10 bytes after the plaintext.</p>
 <p>Now, have the function choose to encrypt under ECB 1/2 the time, and under CBC the other half (just use random IVs each time for CBC). Use rand(2) to decide which to use.</p>
-<p>Detect the block cipher mode the function is using each time. You should end up with a piece of code that, pointed at a block box that might be encrypting ECB or CBC, tells you which one is happening.</p>
-</blockquote>
+<p>Detect the block cipher mode the function is using each time. You should end up with a piece of code that, pointed at a block box that might be encrypting ECB or CBC, tells you which one is happening.</p></blockquote>
 <p>Now we&rsquo;re really starting to get into it! This challenge relies on the hamming_dist() function we wrote for challenge 3, the divide_chunks() from challenge 5, and our ECB/CBC encryption. One of my favorite things about Cryptopals is how much each challenge builds off of each other. Also, this means a lot of restructuring my code to be reused the next time I need it!</p>
 <p>Let&rsquo;s start off with our function to encrypt a ciphertext using either ECB or CBC.</p>
 <pre><code>def encrypt_rand(data):
@@ -164,8 +161,7 @@ YnkK
 <li>Match the output of the one-byte-short input to one of the entries in your dictionary. You&rsquo;ve now discovered the first byte of unknown-string.</li>
 <li>Repeat for the next byte.</li>
 </ol>
-<p>This is the first challenge we&rsquo;ve given you whose solution will break real crypto. Lots of people know that when you encrypt something in ECB mode, you can see penguins through it. Not so many of them can decrypt the contents of those ciphertexts, and now you can. If our experience is any guideline, this attack will get you code execution in security tests about once a year.</p>
-</blockquote>
+<p>This is the first challenge we&rsquo;ve given you whose solution will break real crypto. Lots of people know that when you encrypt something in ECB mode, you can see penguins through it. Not so many of them can decrypt the contents of those ciphertexts, and now you can. If our experience is any guideline, this attack will get you code execution in security tests about once a year.</p></blockquote>
 <p>Before this challenge, I knew that ECB leaks data in the form of a Tux but did not know that you could exploit it to fully recover plaintexts! That&rsquo;s exactly what we&rsquo;ll be doing for this challenge.</p>
 <p>As an aside, there&rsquo;s an awesome, Warholesque ECB Tux image I found <a href="https://words.filippo.io/the-ecb-penguin/">here.</a></p>
 <p><img src="https://words.filippo.io/content/images/2015/11/POP-xsmall.png" alt="ECB&rsquo;d Tux"></p>
@@ -246,8 +242,7 @@ for i in range(0, 9):
 <li>Encrypt the encoded user profile under the key; &ldquo;provide&rdquo; that to the &ldquo;attacker&rdquo;.</li>
 <li>Decrypt the encoded user profile and parse it.</li>
 </ol>
-<p>Using only the user input to <code>profile_for()</code> (as an oracle to generate &ldquo;valid&rdquo; ciphertexts) and the ciphertexts themselves, make a <code>role=admin</code> profile.</p>
-</blockquote>
+<p>Using only the user input to <code>profile_for()</code> (as an oracle to generate &ldquo;valid&rdquo; ciphertexts) and the ciphertexts themselves, make a <code>role=admin</code> profile.</p></blockquote>
 <p>In our 13th challenge, we&rsquo;ll be taking advantage of the fact that ECB has no ciphertext integrity! Also, since ECB of a block always results in the same ciphertext, we can easily &ldquo;cut-and-paste&rdquo; a new block in! The tricky part is lining up the blocks so that the text still makes sense when decrypted.</p>
 <p>Let&rsquo;s start by writing our <code>encode_profile()</code> and <code>parse()</code> function.</p>
 <pre><code>def parse(unparsed):
@@ -329,8 +324,7 @@ profile = decrypt_under_key(spliced_ct, key)
 <p>Same goal: decrypt the target-bytes.
 Stop and think for a second.</p>
 <p>What&rsquo;s harder than challenge #12 about doing this? How would you overcome that obstacle? The hint is: you&rsquo;re using all the tools you already have; no crazy math is required.</p>
-<p>Think &ldquo;STIMULUS&rdquo; and &ldquo;RESPONSE&rdquo;.</p>
-</blockquote>
+<p>Think &ldquo;STIMULUS&rdquo; and &ldquo;RESPONSE&rdquo;.</p></blockquote>
 <p>I was originally a little confused on how to approach this problem. If we generate a prefix of random length each time the oracle encrypts, it would be difficult to successfully decrypt. I think it&rsquo;s still doable, but looking at other peoples write-ups, it seems they generate a fixed random prefix each time the file is run. That&rsquo;s more doable! Let&rsquo;s take it on.</p>
 <p>We already have the code to do byte-at-a-time ECB decryption from challenge 12. The only complication, is we don&rsquo;t know how many bytes we need to be 1-byte short of a block. Once we learn the prefix length, we can approach the challenge just like 12.</p>
 <pre><code>def decode_length():
@@ -364,8 +358,7 @@ Stop and think for a second.</p>
 <pre><code>&quot;ICE ICE BABY\x01\x02\x03\x04&quot;
 </code></pre>
 <p>If you are writing in a language with exceptions, like Python or Ruby, make your function throw an exception on bad padding.</p>
-<p>Crypto nerds know where we&rsquo;re going with this. Bear with us.</p>
-</blockquote>
+<p>Crypto nerds know where we&rsquo;re going with this. Bear with us.</p></blockquote>
 <p>For this challenge, we&rsquo;re extending our PKCS#7 padding from challenge 9 to throw exceptions on invalid padding.</p>
 <pre><code>def safe_unpad(padded):
     to_unpad = None
@@ -409,8 +402,7 @@ Stop and think for a second.</p>
 <ol>
 <li>Completely scrambles the block the error occurs in</li>
 <li>Produces the identical 1-bit error(/edit) in the next ciphertext block.</li>
-</ol>
-</blockquote>
+</ol></blockquote>
 <p>Similar to the ECB cut-and-paste, this is another attack on ciphertext integrity. We&rsquo;ll take advantage of the fact that a 1-bit flip in a block flips the same bit in the next block. Our goal is to get &ldquo;;admin=true;&rdquo; to be a part of the plaintext. However, we&rsquo;ll quote out ; and = characters, so we&rsquo;ll have to flip some bits to get there!</p>
 <p>The challenge asks us to place our text in between a suffix and a prefix, let&rsquo;s do that:</p>
 <pre><code>from urllib.parse import quote

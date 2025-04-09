@@ -39,8 +39,7 @@
 <p>Back to CTR. Encrypt the recovered plaintext from this file (the ECB exercise) under CTR with a random key (for this exercise the key should be unknown to you, but hold on to it).</p>
 <p>Now, write the code that allows you to &ldquo;seek&rdquo; into the ciphertext, decrypt, and re-encrypt with different plaintext. Expose this as a function, like, &ldquo;edit(ciphertext, key, offset, newtext)&rdquo;.</p>
 <p>Imagine the &ldquo;edit&rdquo; function was exposed to attackers by means of an API call that didn&rsquo;t reveal the key or the original plaintext; the attacker has the ciphertext and controls the offset and &ldquo;new text&rdquo;.</p>
-<p>Recover the original plaintext.</p>
-</blockquote>
+<p>Recover the original plaintext.</p></blockquote>
 <p>For this challenge, we will mount a chosen-plaintext attack on a CTR mode ciphertext with an unknown key. Since CTR mode works by XOR&rsquo;ing the keystream with the plaintext, if we control the plaintext we can recover the keystream and then ultimately obtain the plaintext!</p>
 <pre><code>pt = &quot;I'm back and I'm ringin' the bell \nA rockin' on the mike while the fly girls yell \nIn ecstasy in the back of me \nWell that's my DJ Deshay cuttin' all them Z's \nHittin' hard and the girlies goin' crazy \nVanilla's on the mike, man I'm not lazy. \n\nI'm lettin' my drug kick in \nIt controls my mouth and I begin \nTo just let it flow, let my concepts go \nMy posse's to the side yellin', Go Vanilla Go! \n\nSmooth 'cause that's the way I will be \nAnd if you don't give a damn, then \nWhy you starin' at me \nSo get off 'cause I control the stage \nThere's no dissin' allowed \nI'm in my own phase \nThe girlies sa y they love me and that is ok \nAnd I can dance better than any kid n' play \n\nStage 2 -- Yea the one ya' wanna listen to \nIt's off my head so let the beat play through \nSo I can funk it up and make it sound good \n1-2-3 Yo -- Knock on some wood \nFor good luck, I like my rhymes atrocious \nSupercalafragilisticexpialidocious \nI'm an effect and that you can bet \nI can take a fly girl and make her wet. \n\nI'm like Samson -- Samson to Delilah \nThere's no denyin', You can try to hang \nBut you'll keep tryin' to get my style \nOver and over, practice makes perfect \nBut not if you're a loafer. \n\nYou'll get nowhere, no place, no time, no girls \nSoon -- Oh my God, homebody, you probably eat \nSpaghetti with a spoon! Come on and say it! \n\nVIP. Vanilla Ice yep, yep, I'm comin' hard like a rhino \nIntoxicating so you stagger like a wino \nSo punks stop trying and girl stop cryin' \nVanilla Ice is sellin' and you people are buyin' \n'Cause why the freaks are jockin' like Crazy Glue \nMovin' and groovin' trying to sing along \nAll through the ghetto groovin' this here song \nNow you're amazed by the VIP posse. \n\nSteppin' so hard like a German Nazi \nStartled by the bases hittin' ground \nThere's no trippin' on mine, I'm just gettin' down \nSparkamatic, I'm hangin' tight like a fanatic \nYou trapped me once and I thought that \nYou might have it \nSo step down and lend me your ear \n'89 in my time! You, '90 is my year. \n\nYou're weakenin' fast, YO! and I can tell it \nYour body's gettin' hot, so, so I can smell it \nSo don't be mad and don't be sad \n'Cause the lyrics belong to ICE, You can call me Dad \nYou're pitchin' a fit, so step back and endure \nLet the witch doctor, Ice, do the dance to cure \nSo come up close and don't be square \nYou wanna battle me -- Anytime, anywhere \n\nYou thought that I was weak, Boy, you're dead wrong \nSo come on, everybody and sing this song \n\nSay -- Play that funky music Say, go white boy, go white boy go \nplay that funky music Go white boy, go white boy, go \nLay down and boogie and play that funky music till you die. \n\nPlay that funky music Come on, Come on, let me hear \nPlay that funky music white boy you say it, say it \nPlay that funky music A little louder now \nPlay that funky music, white boy Come on, Come on, Come on \nPlay that funky music&quot;.encode('ascii')
 key = os.urandom(16)
@@ -76,8 +75,7 @@ pt = cbc.xor(ctr_stream, ct)
 <h2 id="26-ctr-bitflipping">26. CTR bitflipping</h2>
 <blockquote>
 <p>There are people in the world that believe that CTR resists bit flipping attacks of the kind to which CBC mode is susceptible.</p>
-<p>Re-implement the CBC bitflipping exercise from earlier to use CTR mode instead of CBC mode. Inject an &ldquo;admin=true&rdquo; token.</p>
-</blockquote>
+<p>Re-implement the CBC bitflipping exercise from earlier to use CTR mode instead of CBC mode. Inject an &ldquo;admin=true&rdquo; token.</p></blockquote>
 <p>For this challenge, we&rsquo;re re-implementing our bitflipping attack from <a href="https://cryptopals.com/sets/2/challenges/16">challenge 16</a>.</p>
 <p>The attack works the same way as the CBC bitflipping attack, except instead of modifying the previous block we change the block we want to affect directly. Since CTR ciphertexts are directly XOR&rsquo;d with the keystream&ndash; instead of being XOR&rsquo;d with the previous block like CBC mode.</p>
 <p>Now let&rsquo;s write a function to bitflip admin in! Our crafted plaintext is:</p>
@@ -122,8 +120,7 @@ detected = bitflip_decrypt(ct)
 <p>Decrypt the message (you are now the receiver) and raise the appropriate error if high-ASCII is found.</p>
 <p>As the attacker, recovering the plaintext from the error, extract the key:</p>
 <pre><code>P'_1 XOR P'_3
-</code></pre>
-</blockquote>
+</code></pre></blockquote>
 <p>For this challenge, we decrypt a CBC encrypted ciphertext raising an error that returns the decrypted plaintext if a non-ASCII value is detected.</p>
 <pre><code>def decrypt(ct):
     pt = no_pad_cbc_decrypt(ct, key, iv)
@@ -162,8 +159,7 @@ p_1 ^ p_3 = D(c_1) ^ D(c_1) ^ IV
 <p>Write a function to authenticate a message under a secret key by using a secret-prefix MAC, which is simply:</p>
 <pre><code>SHA1(key || message)
 </code></pre>
-<p>Verify that you cannot tamper with the message without breaking the MAC you&rsquo;ve produced, and that you can&rsquo;t produce a new MAC without knowing the secret key.</p>
-</blockquote>
+<p>Verify that you cannot tamper with the message without breaking the MAC you&rsquo;ve produced, and that you can&rsquo;t produce a new MAC without knowing the secret key.</p></blockquote>
 <p>This challenge was luckily simple enough! Once you find a SHA-1 implementation online (or dive into the <a href="https://www.rfc-editor.org/rfc/rfc3174">RFC</a> and roll your own crypto) we implement:</p>
 <pre><code>def prefix_mac(message):
     return sha1(key + message)
@@ -185,12 +181,10 @@ p_1 ^ p_3 = D(c_1) ^ D(c_1) ^ IV
 <p>Using this attack, generate a secret-prefix MAC under a secret key (choose a random word from /usr/share/dict/words or something) of the string:</p>
 <pre><code>&quot;comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon&quot;
 </code></pre>
-<p>Forge a variant of this message that ends with &ldquo;;admin=true&rdquo;.</p>
-</blockquote>
+<p>Forge a variant of this message that ends with &ldquo;;admin=true&rdquo;.</p></blockquote>
 <h2 id="30-break-an-md4-keyed-mac-using-length-extension">30. Break an MD4 keyed MAC using length extension</h2>
 <blockquote>
-<p>Second verse, same as the first, but use MD4 instead of SHA-1. Having done this attack once against SHA-1, the MD4 variant should take much less time; mostly just the time you&rsquo;ll spend Googling for an implementation of MD4.</p>
-</blockquote>
+<p>Second verse, same as the first, but use MD4 instead of SHA-1. Having done this attack once against SHA-1, the MD4 variant should take much less time; mostly just the time you&rsquo;ll spend Googling for an implementation of MD4.</p></blockquote>
 <h2 id="31-implement-and-break-hmac-sha1-with-an-artificial-timing-leak">31. Implement and break HMAC-SHA1 with an artificial timing leak</h2>
 <blockquote>
 <p>The psuedocode on Wikipedia should be enough. HMAC is very easy.</p>
@@ -201,8 +195,7 @@ p_1 ^ p_3 = D(c_1) ^ D(c_1) ^ IV
 <p>Write a function, call it &ldquo;insecure_compare&rdquo;, that implements the == operation by doing byte-at-a-time comparisons with early exit (ie, return false at the first non-matching byte).</p>
 <p>In the loop for &ldquo;insecure_compare&rdquo;, add a 50ms sleep (sleep 50ms after each byte).</p>
 <p>Use your &ldquo;insecure_compare&rdquo; function to verify the HMACs on incoming requests, and test that the whole contraption works. Return a 500 if the MAC is invalid, and a 200 if it&rsquo;s OK.</p>
-<p>Using the timing leak in this application, write a program that discovers the valid MAC for any file.</p>
-</blockquote>
+<p>Using the timing leak in this application, write a program that discovers the valid MAC for any file.</p></blockquote>
 <p>This challenge doesn&rsquo;t take advantage of a flaw in SHA1, but instead attacks the timing side channel that checks if the HMAC is correct. Getting this challenge exactly right is a little finicky as the timing over the network is sensitive!</p>
 <p>We can start by implementing <a href="https://en.wikipedia.org/wiki/HMAC#Implementation">HMAC-SHA1</a>:</p>
 <pre><code>def hmac(key, msg, blockSize=64, output=20):
@@ -321,11 +314,9 @@ if __name__ == &quot;__main__&quot;:
 <p>This approach works and is fairly straightforward, but does take a while! It took about 30 minutes to recover the HMAC signature.</p>
 <h2 id="32-break-hmac-sha1-with-a-slightly-less-artificial-timing-leak">32. Break HMAC-SHA1 with a slightly less artificial timing leak</h2>
 <blockquote>
-<p>Reduce the sleep in your &ldquo;insecure_compare&rdquo; until your previous solution breaks. (Try 5ms to start.)</p>
-</blockquote>
+<p>Reduce the sleep in your &ldquo;insecure_compare&rdquo; until your previous solution breaks. (Try 5ms to start.)</p></blockquote>
 <blockquote>
-<p>Now break it again.</p>
-</blockquote>
+<p>Now break it again.</p></blockquote>
 
 </main>
 

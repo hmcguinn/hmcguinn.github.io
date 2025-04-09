@@ -47,8 +47,7 @@
 </code></pre>
 <p>So go ahead and make that happen. You&rsquo;ll need to use this code for the rest of the exercises.
 Cryptopals Rule</p>
-<p>Always operate on raw bytes, never on encoded strings. Only use hex and base64 for pretty-printing.</p>
-</blockquote>
+<p>Always operate on raw bytes, never on encoded strings. Only use hex and base64 for pretty-printing.</p></blockquote>
 <p>The challenges start off fairly simple. For this one, we&rsquo;ll just convert this hex-encoded string to a b64-encoded string. The challenge wants us to operate on raw bytes, so we&rsquo;ll first have to convert the hex-encoded-string to bytes:</p>
 <pre><code>import base64
 
@@ -75,8 +74,7 @@ b64_bytes = bytes_to_b64(hex_bytes)
 </code></pre>
 <p>&hellip; should produce:</p>
 <pre><code>746865206b696420646f6e277420706c6179
-</code></pre>
-</blockquote>
+</code></pre></blockquote>
 <p>Next up is to XOR two byte buffers together. The challenge input is given as a hex string, so like last time, we&rsquo;ll have to convert this to bytes first. Luckily we just wrote a function to do that!</p>
 <pre><code>def xor(b1, b2):
     xord = bytearray(min(len(b1), len(b2)))
@@ -99,8 +97,7 @@ xord = xor(b1, b2)
 </code></pre>
 <p>&hellip; has been XOR&rsquo;d against a single character. Find the key, decrypt the message.</p>
 <p>You can do this by hand. But don&rsquo;t: write code to do it for you.</p>
-<p>How? Devise some method for &ldquo;scoring&rdquo; a piece of English plaintext. Character frequency is a good metric. Evaluate each output and choose the one with the best score.</p>
-</blockquote>
+<p>How? Devise some method for &ldquo;scoring&rdquo; a piece of English plaintext. Character frequency is a good metric. Evaluate each output and choose the one with the best score.</p></blockquote>
 <p>We&rsquo;re given a hex encoded string that&rsquo;s been XOR&rsquo;d with an unknown key.</p>
 <pre><code>ciphertext = hex_to_bytes(&quot;1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736&quot;)
 </code></pre>
@@ -127,8 +124,7 @@ xord = xor(b1, b2)
 <blockquote>
 <p>One of the 60-character strings in this file has been encrypted by single-character XOR.</p>
 <p>Find it.</p>
-<p>(Your code from #3 should help.)</p>
-</blockquote>
+<p>(Your code from #3 should help.)</p></blockquote>
 <p>This challenge is pretty similar to the previous one. We&rsquo;re given a number of strings, one of which was &ldquo;encrypted&rdquo; by single-character XOR. Using the detect_xor() function we wrote for the last challenge, we can try each line individually.</p>
 <pre><code>with open('detect_xor.txt') as f:
     lines = f.readlines()
@@ -158,8 +154,7 @@ I go crazy when I hear a cymbal&quot;
 <p>It should come out to:</p>
 <pre><code>0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272
 a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f
-</code></pre>
-</blockquote>
+</code></pre></blockquote>
 <p>Let&rsquo;s implement a very secure cipher!</p>
 <pre><code>pt = &quot;Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal&quot;.encode('ascii')
 key = &quot;ICE&quot;.encode('ascii')
@@ -187,8 +182,7 @@ ct = xor_encrypt(key, pt)
 <li>Solve each block as if it was single-character XOR. You already have code to do this.</li>
 <li>For each block, the single-byte XOR key that produces the best looking histogram is the repeating-key XOR key byte for that block. Put them together and you have the key.</li>
 </ol>
-<p>This code is going to turn out to be surprisingly useful later on. Breaking repeating-key XOR (&ldquo;Vigenere&rdquo;) statistically is obviously an academic exercise, a &ldquo;Crypto 101&rdquo; thing. But more people &ldquo;know how&rdquo; to break it than can actually break it, and a similar technique breaks something much more important.</p>
-</blockquote>
+<p>This code is going to turn out to be surprisingly useful later on. Breaking repeating-key XOR (&ldquo;Vigenere&rdquo;) statistically is obviously an academic exercise, a &ldquo;Crypto 101&rdquo; thing. But more people &ldquo;know how&rdquo; to break it than can actually break it, and a similar technique breaks something much more important.</p></blockquote>
 <p>This is the trickiest challenge so far. Luckily, we&rsquo;re given pretty specific steps on how we can break it!</p>
 <p>Let&rsquo;s start by writing a function to calculate the hamming distance:</p>
 <pre><code>def hamming_dist(b1, b2):
@@ -278,8 +272,7 @@ key = plaintexts[-1][2]
 <p>Decrypt it. You know the key, after all.</p>
 <p>Easiest way: use OpenSSL::Cipher and give it AES-128-ECB as the cipher.
 <strong>Do this with code.</strong></p>
-<p>You can obviously decrypt this using the OpenSSL command-line tool, but we&rsquo;re having you get ECB working in code for a reason. You&rsquo;ll need it a lot later on, and not just for attacking ECB.</p>
-</blockquote>
+<p>You can obviously decrypt this using the OpenSSL command-line tool, but we&rsquo;re having you get ECB working in code for a reason. You&rsquo;ll need it a lot later on, and not just for attacking ECB.</p></blockquote>
 <p>For this challenge, we&rsquo;re implementing AES in ECB mode.</p>
 <pre><code>with open('encrypted-cbc.txt') as f:
     file = base64.b64decode(f.read())
@@ -305,8 +298,7 @@ pt = ecb_decrypt(file, key)
 <p>In this file are a bunch of hex-encoded ciphertexts.</p>
 <p>One of them has been encrypted with ECB.</p>
 <p>Detect it.</p>
-<p>Remember that the problem with ECB is that it is stateless and deterministic; the same 16 byte plaintext block will always produce the same 16 byte ciphertext.</p>
-</blockquote>
+<p>Remember that the problem with ECB is that it is stateless and deterministic; the same 16 byte plaintext block will always produce the same 16 byte ciphertext.</p></blockquote>
 <p>For this challenge, we&rsquo;re detecting which ciphertext has been encrypted with ECB. To do this, we&rsquo;ll make the assumption that there is some repeating block of plaintext and therefore a repeating block of ciphertext too!</p>
 <p>First, we&rsquo;ll read in the file and convert the hex-encoded string to bytes.</p>
 <pre><code>with open('8.txt') as f:

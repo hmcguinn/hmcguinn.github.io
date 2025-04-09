@@ -61,8 +61,7 @@ MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93
 <p>02h 02h <em>is</em> valid padding, but is much less likely to occur randomly than 01h.</p>
 <p>03h 03h 03h is even less likely.</p>
 <p>So you can assume that if you corrupt a decryption AND it had valid padding, you know what that padding byte is.</p>
-<p>It is easy to get tripped up on the fact that CBC plaintexts are &ldquo;padded&rdquo;. <strong>Padding oracles have nothing to do with the actual padding on a CBC plaintext</strong>. It&rsquo;s an attack that targets a specific bit of code that handles decryption. You can mount a padding oracle <em>on any CBC block</em>, whether it&rsquo;s padded or not.</p>
-</blockquote>
+<p>It is easy to get tripped up on the fact that CBC plaintexts are &ldquo;padded&rdquo;. <strong>Padding oracles have nothing to do with the actual padding on a CBC plaintext</strong>. It&rsquo;s an attack that targets a specific bit of code that handles decryption. You can mount a padding oracle <em>on any CBC block</em>, whether it&rsquo;s padded or not.</p></blockquote>
 <p>Understanding exactly how the CBC padding oracle works took a very long time. Getting my code to work took even longer. I even &ldquo;knew&rdquo; about this attack before! For this attack, we&rsquo;re not trying to recover the padding. It&rsquo;s different from the ECB byte-at-a-time oracle in that we&rsquo;re trying to learn the output of the block cipher decryption, not directly decoding the plaintext.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/CBC_decryption.svg" alt="CBC decryption"></p>
 <p>To mount this attack, we&rsquo;ll rely on an oracle that decrypts a ciphertext and tells us whether it has valid padding or not:</p>
@@ -168,8 +167,7 @@ print(pt)
 </code></pre>
 <p>CTR mode does not require padding; when you run out of plaintext, you just stop XOR&rsquo;ing keystream and stop generating keystream.</p>
 <p>Decryption is identical to encryption. Generate the same keystream, XOR, and recover the plaintext.</p>
-<p>Decrypt the string at the top of this function, then use your CTR function to encrypt and decrypt other things.</p>
-</blockquote>
+<p>Decrypt the string at the top of this function, then use your CTR function to encrypt and decrypt other things.</p></blockquote>
 <p>For our next challenge, we&rsquo;re implementing AES CTR mode. CTR mode is really nice to work with, and we&rsquo;ll only need one function for encryption/decryption. We can get an idea of how it works from <a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)">Wikipedia:</a></p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/CTR_encryption_2.svg" alt="CTR mode"></p>
 <pre><code>def ctr_mode(pt, key, nonce):
@@ -244,8 +242,7 @@ QSB0ZXJyaWJsZSBiZWF1dHkgaXMgYm9ybi4=
 <pre><code>CIPHERTEXT-BYTE XOR KEYSTREAM-BYTE = PLAINTEXT-BYTE (ie, &quot;you don't
 say!&quot;)
 </code></pre>
-<p>Attack this cryptosystem piecemeal: guess letters, use expected English language frequence to validate guesses, catch common English trigrams, and so on.</p>
-</blockquote>
+<p>Attack this cryptosystem piecemeal: guess letters, use expected English language frequence to validate guesses, catch common English trigrams, and so on.</p></blockquote>
 <p>I started to work on this one but decided to skip finishing it after realizing how tedious it is. The basic idea is to use common bigrams/trigrams to attack two ciphertexts XOR&rsquo;d together. From there, cribbing can be used to decrypt the ciphertexts. There&rsquo;s a much easier way to do this though which we&rsquo;ll see in the next challenge!</p>
 <h2 id="20-break-fixed-nonce-ctr-statistically">20. Break fixed-nonce CTR statistically</h2>
 <blockquote>
@@ -253,8 +250,7 @@ say!&quot;)
 <p>Instead of making spot guesses at to known plaintext, treat the collection of ciphertexts the same way you would repeating-key XOR.</p>
 <p>Obviously, CTR encryption appears different from repeated-key XOR, but with a fixed nonce they are effectively the same thing.</p>
 <p>To exploit this: take your collection of ciphertexts and truncate them to a common length (the length of the smallest ciphertext will work).</p>
-<p>Solve the resulting concatenation of ciphertexts as if for repeating- key XOR, with a key size of the length of the ciphertext you XOR&rsquo;d.</p>
-</blockquote>
+<p>Solve the resulting concatenation of ciphertexts as if for repeating- key XOR, with a key size of the length of the ciphertext you XOR&rsquo;d.</p></blockquote>
 <p>CTR mode with a fixed-nonce is equivalent to repeated-key XOR! Each plaintext is XOR&rsquo;d against the same keystream, so we can break it in the same way we broke the ciphertexts in <a href="https://cryptopals.com/sets/1/challenges/6">challenge 6</a>.</p>
 <p>We start by combining the <em>i&rsquo;th</em> bytes of each ciphertext:</p>
 <pre><code>max_len = max(cts, key=len)
@@ -281,8 +277,7 @@ for block in cts:
 <h2 id="21-implement-the-mt19937-mersenne-twister-rng">21. Implement the MT19937 Mersenne Twister RNG</h2>
 <blockquote>
 <p>You can get the psuedocode for this from Wikipedia.</p>
-<p>If you&rsquo;re writing in Python, Ruby, or (gah) PHP, your language is probably already giving you MT19937 as &ldquo;rand()&rdquo;; don&rsquo;t use rand(). Write the RNG yourself.</p>
-</blockquote>
+<p>If you&rsquo;re writing in Python, Ruby, or (gah) PHP, your language is probably already giving you MT19937 as &ldquo;rand()&rdquo;; don&rsquo;t use rand(). Write the RNG yourself.</p></blockquote>
 <p>This challenge is straightforward using the <a href="https://en.wikipedia.org/wiki/Mersenne_Twister#Pseudocode">psuedocode from Wikipedia</a>:</p>
 <pre><code># CONSTANTS:
 w, n, m, r = 32, 624, 397, 31
@@ -344,8 +339,7 @@ class MT19937:
 <li>Returns the first 32 bit output of the RNG.</li>
 </ul>
 <p>You get the idea. Go get coffee while it runs. Or just simulate the passage of time, although you&rsquo;re missing some of the fun of this exercise if you do that.</p>
-<p>From the 32 bit RNG output, discover the seed.</p>
-</blockquote>
+<p>From the 32 bit RNG output, discover the seed.</p></blockquote>
 <p>In this challenge, we&rsquo;re recovering a seed given the first 32 bits of output of a Mersenne Twister.</p>
 <p>The challenge asks us to seed the MT using the current unix timestamp + some offset in seconds. We then return the output:</p>
 <pre><code>def seed_and_return():
@@ -375,8 +369,7 @@ class MT19937:
 <p>The tempering function is invertible; you can write an &ldquo;untemper&rdquo; function that takes an MT19937 output and transforms it back into the corresponding element of the MT19937 state array.</p>
 <p>To invert the temper transform, apply the inverse of each of the operations in the temper transform in reverse order. There are two kinds of operations in the temper transform each applied twice; one is an XOR against a right-shifted value, and the other is an XOR against a left-shifted value AND&rsquo;d with a magic number. So you&rsquo;ll need code to invert the &ldquo;right&rdquo; and the &ldquo;left&rdquo; operation.</p>
 <p>Once you have &ldquo;untemper&rdquo; working, create a new MT19937 generator, tap it for 624 outputs, untemper each of them to recreate the state of the generator, and splice that state into a new instance of the MT19937 generator.</p>
-<p>The new &ldquo;spliced&rdquo; generator should predict the values of the original.</p>
-</blockquote>
+<p>The new &ldquo;spliced&rdquo; generator should predict the values of the original.</p></blockquote>
 <p>I&rsquo;m still working on this one! Untempering the bitwise operations is a little tricky :)</p>
 <h2 id="24-create-the-mt19937-stream-cipher-and-break-it">24. Create the MT19937 stream cipher and break it</h2>
 <blockquote>
@@ -385,8 +378,7 @@ class MT19937:
 <p>Use your function to encrypt a known plaintext (say, 14 consecutive &lsquo;A&rsquo; characters) prefixed by a random number of random characters.</p>
 <p>From the ciphertext, recover the &ldquo;key&rdquo; (the 16 bit seed).</p>
 <p>Use the same idea to generate a random &ldquo;password reset token&rdquo; using MT19937 seeded from the current time.</p>
-<p>Write a function to check if any given password token is actually the product of an MT19937 PRNG seeded with the current time.</p>
-</blockquote>
+<p>Write a function to check if any given password token is actually the product of an MT19937 PRNG seeded with the current time.</p></blockquote>
 <p>I&rsquo;m still working on this one as well!</p>
 
 </main>

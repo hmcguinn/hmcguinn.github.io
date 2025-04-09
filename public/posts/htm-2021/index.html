@@ -44,8 +44,7 @@
 <p>The ship replica had a central CAN bus backbone that carried commands to their components. The specific protocol to interface with the tools is <a href="https://en.wikipedia.org/wiki/NMEA_2000">NMEA 2000</a>. I&rsquo;d never heard of this protocol before the competition, but diving into it was pretty cool.</p>
 <p>Like many &ldquo;secure&rdquo; protocols in operational technology, <a href="https://en.wikipedia.org/wiki/NMEA_2000#History">it&rsquo;s proprietary</a>:</p>
 <blockquote>
-<p>Although the National Marine Electronics Association divulges some information regarding the standard, it claims copyright over the standard and thus its full contents are not publicly available. For example, the NMEA publicizes which messages exist and which fields they contain, but they do not disclose how to interpret the values contained in those fields.</p>
-</blockquote>
+<p>Although the National Marine Electronics Association divulges some information regarding the standard, it claims copyright over the standard and thus its full contents are not publicly available. For example, the NMEA publicizes which messages exist and which fields they contain, but they do not disclose how to interpret the values contained in those fields.</p></blockquote>
 <p>Interestingly, the NMEA 2000 protocol is totally unauthenticated and operates on an implicit trust model - the bus carrying the commands is assumed to be secure. Given physical access, you can inject arbitrary commands, which we leveraged for the challenges.</p>
 <p><a href="https://github.com/canboat/canboat">CANBOAT</a> is a repo with a collection of reverse engineered NMEA 2000 messages. It was a super helpful utility for understanding some of the offline challenges, and I was able to find PCAPs others had posted online to see what normal traffic looks like.</p>
 <h1 id="live-hacking">Live hacking</h1>
