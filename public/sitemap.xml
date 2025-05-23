@@ -2,10 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hmcguinn.com/posts/manifold-bot/</loc>
-    <lastmod>2025-04-01T21:51:02-07:00</lastmod>
-  </url><url>
     <loc>https://hmcguinn.com/posts/</loc>
+    <lastmod>2025-05-22T20:38:34-05:00</lastmod>
+  </url><url>
+    <loc>https://hmcguinn.com/posts/sec-eng-interview-questions/</loc>
+    <lastmod>2025-05-22T20:38:34-05:00</lastmod>
+  </url><url>
+    <loc>https://hmcguinn.com/posts/manifold-bot/</loc>
     <lastmod>2025-04-01T21:51:02-07:00</lastmod>
   </url><url>
     <loc>https://hmcguinn.com/til/</loc>

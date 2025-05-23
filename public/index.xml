@@ -6,8 +6,15 @@
     <description>Recent content in About Me on Houlton McGuinn</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Apr 2025 21:51:02 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 22 May 2025 20:38:34 -0500</lastBuildDate>
     <atom:link href="https://hmcguinn.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Security Engineer Interview Guide I Wish I Had</title>
+      <link>https://hmcguinn.com/posts/sec-eng-interview-questions/</link>
+      <pubDate>Thu, 22 May 2025 20:38:34 -0500</pubDate>
+      <guid>https://hmcguinn.com/posts/sec-eng-interview-questions/</guid>
+      <description>&lt;p&gt;(Un)-fortunately, there&amp;rsquo;s no standardized Leetcode-esque interview process for security engineers &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. There are a number of online resources for security engineer interview questions, but I found them to be too high level (explain encoding vs encryption vs hashing) compared to interviews I&amp;rsquo;ve been in. A lot didn&amp;rsquo;t have answers. I spent some time prepping when I switched jobs earlier this year, and this is my attempt to collate some interesting questions + answers all in one place!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Building a diamond Manifold prediction bot in a weekend</title>
       <link>https://hmcguinn.com/posts/manifold-bot/</link>
