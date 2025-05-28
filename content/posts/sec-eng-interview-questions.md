@@ -1,5 +1,5 @@
 ---
-title: "The Security Engineer Interview Guide I Wish I Had"
+title: "Security Engineer Interview Questions & Answers"
 date: 2025-05-22T20:38:34-05:00
 draft: false
 ---
