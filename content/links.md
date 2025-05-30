@@ -120,11 +120,12 @@ This is my collection of interesting corners of the internet. I'm particularly i
 
 ---
 
-## Astronomy
+## Astronomy & Science
 
 **Blogs:**
   - [Triton Station](https://tritonstation.com/)
   - [Hawkesbury Radio Astronomy Observatory](https://sites.google.com/view/hawkrao/home?authuser=0)
+  - [Nick Touran](https://partofthething.com/)
 
 **Posts:**
   - [Defcon 19: build your own radar system](http://dangerousprototypes.com/blog/2011/11/14/defcon-19-build-your-own-radar-system/)
