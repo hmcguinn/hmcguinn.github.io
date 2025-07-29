@@ -131,6 +131,9 @@ This is my collection of interesting corners of the internet. I'm particularly i
   - [Defcon 19: build your own radar system](http://dangerousprototypes.com/blog/2011/11/14/defcon-19-build-your-own-radar-system/)
   - [Detection in space warfare](https://projectrho.com/public_html/rocket/spacewardetect.php)
 
+**Papers:**
+  - [Fast Radio Bursts: An Extragalactic Enigma](https://hosting.astro.cornell.edu/~shami/psrintro/papers/CC19.frb-review-araa.pdf)
+
 ---
 
 ## Interesting finds
