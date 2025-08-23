@@ -8,7 +8,7 @@ draft: false
 
 # it's nice to meet you :)
 
-I'm **Houlton McGuinn,** a software engineer and security researcher. I work on product security at [Character.AI](https://character.ai/), and previously worked on security at [Retool](https://retool.com).
+I'm **Houlton McGuinn,** a software engineer and security researcher. I work on product security at [Harvey](https://harvey.ai). I previously worked on product security at [Character.AI](https://character.ai/) and did all things security at [Retool](https://retool.com).
 
 I graduated from [UNC Chapel Hill](https://www.cs.unc.edu) in December 2022. In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.
 
