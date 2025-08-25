@@ -18,6 +18,7 @@ This is my collection of interesting corners of the internet. I'm particularly i
   - [Filippo Valsorda](https://filippo.io/)
   - [Schneier on Security](https://www.schneier.com/)
   - [Trail of Bits](https://blog.trailofbits.com/)
+  - [Lars Hupel](https://lars.hupel.info/)
 
 **Papers**
   - [Evaluation of Some Blockcipher Modes of Operation](https://web.cs.ucdavis.edu/~rogaway/papers/modes.pdf)
@@ -53,6 +54,8 @@ This is my collection of interesting corners of the internet. I'm particularly i
   - [Robert Heaton](https://robertheaton.com)
   - [Simon Willison](https://simonwillison.net/)
   - [lvh](https://www.lvh.io/)
+  - [SeniorMars](https://seniormars.com/) 
+  - [Hillel Wayne](https://www.hillelwayne.com/about/)
 
 **Books:**
   - [Introduction to Theoretical Computer Science](https://introtcs.org/public/)
