@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Neovim Setup | Houlton McGuinn</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/interests/">Things I like</a></li>
+      
+      <li><a href="/posts/">Blog</a></li>
+      
+      <li><a href="/links/">Links</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">My Neovim Setup</span></h1>
+
+<h2 class="date">2025/08/23</h2>
+</div>
+
+<main>
+<p>I&rsquo;ve been using neovim as my main development environment for the last ~5 years
+<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, my setup has evolved a lot overtime. This is what I&rsquo;m using right now and things I&rsquo;ve done to make it work better for my workflows.</p>
+<p>I switched to <a href="https://nvchad.com/">Nvchad</a> with the <a href="https://nvchad.com/themes/falcon.webp">falcon</a> theme as my base config. I appreciate its speed, sensible defaults, and easy customization. I always have a tmux session open as well. I haven&rsquo;t done a lot of customization of tmux, other than <a href="https://github.com/hmcguinn/dot-files/blob/master/tmux.conf#L7">enabling vim-keybindings</a>, using <code>C-a</code> instead of <code>C-b</code> as a command prefix, and displaying my active Spotify song to the status bar .</p>
+<p>I use these plugins:</p>
+<ul>
+<li><a href="https://github.com/nvim-treesitter/nvim-treesitter">nvim-treesitter</a></li>
+<li><a href="https://github.com/nvim-tree/nvim-tree.lua">nvim-tree.lua</a>,</li>
+<li><a href="https://github.com/nvim-telescope/telescope.nvim">telescope.nvim</a></li>
+<li><a href="https://github.com/f-person/git-blame.nvim">git-blame.nvim</a></li>
+<li><a href="https://github.com/prettier/vim-prettier">prettier</a></li>
+<li><a href="https://github.com/github/copilot.vim">copilot.vim</a></li>
+</ul>
+<p>Things that I&rsquo;ve remapped in vim:</p>
+<ul>
+<li><code>jk</code> to exit insert mode</li>
+<li><code>&lt;C-W&gt;&lt;C-D&gt;</code> to see the entire diagnostic line</li>
+<li><code>&lt;leader&gt; + go</code> to <code>:GitBlameOpenFileURL</code> to open on Github. Very useful for slacking links to people</li>
+<li><code>&lt;leader&gt; + gg</code> to disable git blame</li>
+<li><code>gh</code> to move cursor to the beginning of the line. I picked this up from using <a href="https://helix-editor.com/">Helix</a>, as my primary editor for a time.</li>
+</ul>
+<p>These options:</p>
+<ul>
+<li><code>vim.opt.ignorecase = true</code></li>
+<li><code>vim.opt.smartcase = true</code></li>
+</ul>
+<p>I like to think I&rsquo;m pretty good at moving around in vim, but <a href="https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim/1220118#1220118">vim-fu goes deep</a>. I&rsquo;m trying to use these commands more in my daily workflows:</p>
+<ul>
+<li><code>grr</code>: show all references</li>
+<li><code>gD</code>: go to definition</li>
+<li><code>&lt;leader&gt; + ra</code>: renames (I often reach for <code>:%s/old/new/g</code> instead)</li>
+<li><code>&lt;leader&gt; + ma</code> : opens marks</li>
+<li><code>m&lt;letter&gt;</code> : add a mark</li>
+<li><code>'&lt;letter&gt;</code> : go to mark</li>
+<li><code>&lt;leader&gt; + ds</code> : opens lsp diagnostics at bottom</li>
+<li><code>&lt;leader&gt; + fm</code> : format file</li>
+<li><code>:r !date</code> : inserts <code>date</code> (or another bash command)</li>
+<li><code>{</code> or <code>}</code> to go to beginning or end of a paragraph</li>
+</ul>
+<p>These resources have helped my understanding of vim/vim setup:</p>
+<ul>
+<li><a href="https://seniormars.com/posts/neovim-workflow/">An Experienced (Neo)Vimmer&rsquo;s Workflow</a></li>
+<li><a href="https://github.com/wsdjeg/SpaceVim">SpaceVim</a></li>
+<li><a href="https://thevaluable.dev/vim-advanced/">A Vim Guide for Advanced Users</a></li>
+</ul>
+<p>My <a href="https://github.com/hmcguinn/dot-files">dot-files</a> live here.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>My first internship gave me a virtual desktop instead of a laptop. I also had to spend a lot of time SSHd into shared research clusters from this virtual desktop, and VSCode with SSH forwarding over a virtual desktop was miserable. I got really good at using vim that summer (<a href="https://github.com/wsdjeg/SpaceVim">SpaceVim</a> at the time).&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</main>
+
+  <footer>
+  <script defer src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script defer src="//yihui.org/js/center-img.js"></script>
+<link rel="stylesheet" href="/themes/custom.css">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YT0WLW116B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YT0WLW116B');
+</script>
+
+  
+  <hr/>
+  © <a href="https://hmcguinn.com">Houlton McGuinn</a> 2020 &ndash; 2025 | <a href="https://github.com/hmcguinn">Github</a>
+  
+  </footer>
+  </body>
+</html>
+
