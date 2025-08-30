@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tils on Houlton McGuinn</title><link>https://hmcguinn.com/til/</link><description>Recent content in Tils on Houlton McGuinn</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 10 Jan 2025 06:21:57 -0800</lastBuildDate><atom:link href="https://hmcguinn.com/til/index.xml" rel="self" type="application/rss+xml"/><item><title>Vim has encryption? 😧</title><link>https://hmcguinn.com/til/vim-encryption/</link><pubDate>Fri, 10 Jan 2025 06:21:57 -0800</pubDate><guid>https://hmcguinn.com/til/vim-encryption/</guid><description>&lt;p>Vim apparently has built-in encryption features. From the &lt;a href="https://linuxcommand.org/lc3_man_pages/vim1.html">vim man page&lt;/a>:&lt;/p>
-&lt;blockquote>
-&lt;p>-x Use encryption when writing files. Will prompt for a crypt key.&lt;/p>&lt;/blockquote>
-&lt;p>The vim docs also call out:&lt;/p>
-&lt;blockquote>
-&lt;p>There is never 100% safety. The encryption in Vim has not been tested for robustness.&lt;/p>&lt;/blockquote>
-&lt;p>If you&amp;rsquo;ve ever struggled to exit vim, don&amp;rsquo;t even think about turning on the encryption &amp;ndash; &lt;em>&amp;ldquo;when you reopen the file, Vim will ask for the key; if you enter the wrong key, Vim will &amp;lsquo;decrypt&amp;rsquo; it to gibberish content. DO NOT SAVE such a gibberish buffer, or your data will be corrupted.&amp;rdquo;&lt;/em>&lt;/p></description></item><item><title>Vim tricks</title><link>https://hmcguinn.com/til/vim-tricks/</link><pubDate>Sun, 02 Apr 2023 15:00:29 -0700</pubDate><guid>https://hmcguinn.com/til/vim-tricks/</guid><description>&lt;p>I&amp;rsquo;ve been using (neo)vim as my main IDE for the last several years. If you&amp;rsquo;re interested in my config, you can find it &lt;a href="https://github.com/hmcguinn/dot-files/tree/master/nvchad">here&lt;/a>. These are some tricks that I&amp;rsquo;ve picked up from using vim.&lt;/p>
-&lt;h3 id="wrap-lines">Wrap lines&lt;/h3>
-&lt;p>Sometimes, I&amp;rsquo;ll write long-form content in vim (like this blog). It gets a lot easier to edit if you use:&lt;/p>
-&lt;pre>&lt;code>:set wrap
-&lt;/code>&lt;/pre>
-&lt;p>To undo it:&lt;/p>
-&lt;pre>&lt;code>:set nowrap
-&lt;/code>&lt;/pre>
-&lt;h3 id="visual-block-mode">Visual block mode&lt;/h3>
-&lt;h4 id="deletion">Deletion&lt;/h4>
-&lt;p>You can use &lt;code>Ctrl-v&lt;/code> to enter visual block mode. This is useful when you want to delete several part of consecutive lines. For example, given the text:&lt;/p></description></item><item><title>Revocable encryption exists!</title><link>https://hmcguinn.com/til/quantum-encryption/</link><pubDate>Sun, 12 Mar 2023 18:25:49 -0700</pubDate><guid>https://hmcguinn.com/til/quantum-encryption/</guid><description>&lt;p>Today I learned that revocable encryption exists!&lt;/p>
-&lt;h2 id="a-cryptographic-dead-persons-switch">A cryptographic dead person&amp;rsquo;s switch&lt;/h2>
-&lt;p>Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?&lt;/p>
-&lt;p>I built a &lt;a href="https://github.com/hmcguinn/dead-persons-switch">version of this&lt;/a> for my &lt;a href="https://www.cs.unc.edu/~saba/priv_class/index.html">Privacy Preserving Technologies&lt;/a> class with the caveat that you have to trust some threshold of servers to be honest. While a fun project, having to trust a threshold of the servers limits how useful it is. We want cryptographic guarantees for both of the above properties.&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tils on Houlton McGuinn</title><link>https://hmcguinn.com/til/</link><description>Recent content in Tils on Houlton McGuinn</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Fri, 10 Jan 2025 06:21:57 -0800</lastBuildDate><atom:link href="https://hmcguinn.com/til/index.xml" rel="self" type="application/rss+xml"/><item><title>Vim has encryption? 😧</title><link>https://hmcguinn.com/til/vim-encryption/</link><pubDate>Fri, 10 Jan 2025 06:21:57 -0800</pubDate><guid>https://hmcguinn.com/til/vim-encryption/</guid><description>&lt;p&gt;Vim apparently has built-in encryption features. From the &lt;a href="https://linuxcommand.org/lc3_man_pages/vim1.html"&gt;vim man page&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;-x Use encryption when writing files. Will prompt for a crypt key.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;The vim docs also call out:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There is never 100% safety. The encryption in Vim has not been tested for robustness.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;If you&amp;rsquo;ve ever struggled to exit vim, don&amp;rsquo;t even think about turning on the encryption &amp;ndash; &lt;em&gt;&amp;ldquo;when you reopen the file, Vim will ask for the key; if you enter the wrong key, Vim will &amp;lsquo;decrypt&amp;rsquo; it to gibberish content. DO NOT SAVE such a gibberish buffer, or your data will be corrupted.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description></item><item><title>Vim tricks</title><link>https://hmcguinn.com/til/vim-tricks/</link><pubDate>Sun, 02 Apr 2023 15:00:29 -0700</pubDate><guid>https://hmcguinn.com/til/vim-tricks/</guid><description>&lt;p&gt;I&amp;rsquo;ve been using (neo)vim as my main IDE for the last several years. If you&amp;rsquo;re interested in my config, you can find it &lt;a href="https://github.com/hmcguinn/dot-files/tree/master/nvchad"&gt;here&lt;/a&gt;. These are some tricks that I&amp;rsquo;ve picked up from using vim.&lt;/p&gt;
+&lt;h3 id="wrap-lines"&gt;Wrap lines&lt;/h3&gt;
+&lt;p&gt;Sometimes, I&amp;rsquo;ll write long-form content in vim (like this blog). It gets a lot easier to edit if you use:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:set wrap
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To undo it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:set nowrap
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id="visual-block-mode"&gt;Visual block mode&lt;/h3&gt;
+&lt;h4 id="deletion"&gt;Deletion&lt;/h4&gt;
+&lt;p&gt;You can use &lt;code&gt;Ctrl-v&lt;/code&gt; to enter visual block mode. This is useful when you want to delete several part of consecutive lines. For example, given the text:&lt;/p&gt;</description></item><item><title>Revocable encryption exists!</title><link>https://hmcguinn.com/til/quantum-encryption/</link><pubDate>Sun, 12 Mar 2023 18:25:49 -0700</pubDate><guid>https://hmcguinn.com/til/quantum-encryption/</guid><description>&lt;p&gt;Today I learned that revocable encryption exists!&lt;/p&gt;
+&lt;h2 id="a-cryptographic-dead-persons-switch"&gt;A cryptographic dead person&amp;rsquo;s switch&lt;/h2&gt;
+&lt;p&gt;Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?&lt;/p&gt;
+&lt;p&gt;I built a &lt;a href="https://github.com/hmcguinn/dead-persons-switch"&gt;version of this&lt;/a&gt; for my &lt;a href="https://www.cs.unc.edu/~saba/priv_class/index.html"&gt;Privacy Preserving Technologies&lt;/a&gt; class with the caveat that you have to trust some threshold of servers to be honest. While a fun project, having to trust a threshold of the servers limits how useful it is. We want cryptographic guarantees for both of the above properties.&lt;/p&gt;</description></item></channel></rss>

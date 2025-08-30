@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>About Me on Houlton McGuinn</title><link>https://hmcguinn.com/</link><description>Recent content in About Me on Houlton McGuinn</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 22 May 2025 20:38:34 -0500</lastBuildDate><atom:link href="https://hmcguinn.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Security Engineer Interview Questions &amp; Answers</title><link>https://hmcguinn.com/posts/sec-eng-interview-questions/</link><pubDate>Thu, 22 May 2025 20:38:34 -0500</pubDate><guid>https://hmcguinn.com/posts/sec-eng-interview-questions/</guid><description>&lt;p>(Un)-fortunately, there&amp;rsquo;s no standardized Leetcode-esque interview process for security engineers &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>. There are a number of online resources for security engineer interview questions, but I found them to be too high level (explain encoding vs encryption vs hashing) compared to interviews I&amp;rsquo;ve been in. A lot didn&amp;rsquo;t have answers. I spent some time prepping when I switched jobs earlier this year, and this is my attempt to collate some interesting questions + answers all in one place!&lt;/p></description></item><item><title>Building a diamond Manifold prediction bot in a weekend</title><link>https://hmcguinn.com/posts/manifold-bot/</link><pubDate>Tue, 01 Apr 2025 21:51:02 -0700</pubDate><guid>https://hmcguinn.com/posts/manifold-bot/</guid><description>&lt;p>I built a prediction market bot in a few hours that ranked fourth in &lt;a href="https://manifold.markets/leagues/23/platinum/sage-gremlins/Te00Mp9cXobRVXjKbYIgn8DPhah2">Manifold&amp;rsquo;s Platinum Sage Gremlins league for March&lt;/a>. The bot has 10x&amp;rsquo;d it&amp;rsquo;s mana using nothing but free tools and simple LLM prompting over the last 2 months.&lt;/p>
-&lt;h3 id="why-prediction-markets-matter">Why prediction markets matter&lt;/h3>
-&lt;p>Prediction markets like Manifold let people &amp;ldquo;bet&amp;rdquo; on future events and reward accuracy. Metaculus and Manifold are two sites that offer play money, while Kalshi and Polymarket let you wager real money.&lt;/p></description></item><item><title>Vim has encryption? 😧</title><link>https://hmcguinn.com/til/vim-encryption/</link><pubDate>Fri, 10 Jan 2025 06:21:57 -0800</pubDate><guid>https://hmcguinn.com/til/vim-encryption/</guid><description>&lt;p>Vim apparently has built-in encryption features. From the &lt;a href="https://linuxcommand.org/lc3_man_pages/vim1.html">vim man page&lt;/a>:&lt;/p>
-&lt;blockquote>
-&lt;p>-x Use encryption when writing files. Will prompt for a crypt key.&lt;/p>&lt;/blockquote>
-&lt;p>The vim docs also call out:&lt;/p>
-&lt;blockquote>
-&lt;p>There is never 100% safety. The encryption in Vim has not been tested for robustness.&lt;/p>&lt;/blockquote>
-&lt;p>If you&amp;rsquo;ve ever struggled to exit vim, don&amp;rsquo;t even think about turning on the encryption &amp;ndash; &lt;em>&amp;ldquo;when you reopen the file, Vim will ask for the key; if you enter the wrong key, Vim will &amp;lsquo;decrypt&amp;rsquo; it to gibberish content. DO NOT SAVE such a gibberish buffer, or your data will be corrupted.&amp;rdquo;&lt;/em>&lt;/p></description></item><item><title>I'm doing office hours</title><link>https://hmcguinn.com/posts/office-hours/</link><pubDate>Thu, 09 Jan 2025 18:45:38 -0800</pubDate><guid>https://hmcguinn.com/posts/office-hours/</guid><description>&lt;p>I&amp;rsquo;m starting open office hours to chat tech!&lt;/p>
-&lt;p>While I especially enjoy helping students and folks getting started in software/security (having just been there myself), I&amp;rsquo;m happy to talk with anyone.&lt;/p>
-&lt;h2 id="why-should-you-sign-up">Why should you sign up?&lt;/h2>
-&lt;p>I&amp;rsquo;d encourage you to sign up if you think you&amp;rsquo;d benefit in any way! Some things we can do:&lt;/p>
-&lt;ul>
-&lt;li>Chat about tech, software development, or security&lt;/li>
-&lt;li>Mock technical interviews - security or coding&lt;/li>
-&lt;li>Discuss a project you&amp;rsquo;re working on - I can provide feedback on your code, architecture, or specific errors you&amp;rsquo;re hitting&lt;/li>
-&lt;li>Brainstorm project ideas or career directions - sometimes it helps to bounce ideas off someone who&amp;rsquo;s been there&lt;/li>
-&lt;/ul>
-&lt;h2 id="why-do-i-have-office-hours">Why do I have office hours?&lt;/h2>
-&lt;p>I&amp;rsquo;ve had a number of students reach out to ask for advice or to do a mock interview. While I don&amp;rsquo;t think I have any insights that are particularly novel, I want to lower the friction of cold-DMing me and hope more people will take advantage. I&amp;rsquo;ve been helped by a ton of people and want to do the same.&lt;/p></description></item><item><title>Donating 10% 🔷</title><link>https://hmcguinn.com/posts/donating-10/</link><pubDate>Tue, 31 Dec 2024 11:23:40 -0500</pubDate><guid>https://hmcguinn.com/posts/donating-10/</guid><description>&lt;p>I&amp;rsquo;m taking &lt;a href="https://www.givingwhatwecan.org/get-involved/trial-pledge">Giving What We Can&amp;rsquo;s Trial Pledge 🔷&lt;/a> to donate 10% of my income in 2025 to highly effective charities.&lt;/p>
-&lt;h4 id="why-im-donating">Why I&amp;rsquo;m donating&lt;/h4>
-&lt;p>I&amp;rsquo;m choosing to donate 10% of my income, because:&lt;/p>
-&lt;ul>
-&lt;li>As someone in the global top 1% by income, I have an extraordinary opportunity to help others&lt;/li>
-&lt;li>I can use my money to do tangible good&lt;/li>
-&lt;li>I want to live in a world where people who can help others, do&lt;/li>
-&lt;/ul>
-&lt;p>Donating 10% is something I&amp;rsquo;ve thought about since college, but I delayed pulling the trigger because:&lt;/p></description></item><item><title>Finding a command injection vulnerability in my smart thermostat (CVE-2023-4212)</title><link>https://hmcguinn.com/posts/command-injection-vulnerability/</link><pubDate>Tue, 22 Aug 2023 00:04:34 -0700</pubDate><guid>https://hmcguinn.com/posts/command-injection-vulnerability/</guid><description>&lt;h2 id="summary">Summary&lt;/h2>
-&lt;p>I discovered a vulnerability allowing arbitrary command injection as root in &lt;a href="https://www.trane.com/residential/en/products/thermostats-and-controls/smart-thermostats/">Trane XL824, XL850, XL1050, and Pivot smart thermostats&lt;/a> using a specially crafted filename. The vulnerability has existed since at least 2015 and requires physical access to the device via a USB drive. All affected devices will automatically update.&lt;/p>
-&lt;p>&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2023-4212">CVE-2023-4212&lt;/a> was assigned to this vulnerability and the Cybersecurity and Infrastructure Agency (CISA) published an ICS advisory &lt;a href="https://www.cisa.gov/news-events/ics-advisories/icsa-23-234-02">here&lt;/a>. The CVSS score is 6.8 &amp;ndash; &lt;a href="https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H">CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H&lt;/a>.&lt;/p></description></item><item><title>Vim tricks</title><link>https://hmcguinn.com/til/vim-tricks/</link><pubDate>Sun, 02 Apr 2023 15:00:29 -0700</pubDate><guid>https://hmcguinn.com/til/vim-tricks/</guid><description>&lt;p>I&amp;rsquo;ve been using (neo)vim as my main IDE for the last several years. If you&amp;rsquo;re interested in my config, you can find it &lt;a href="https://github.com/hmcguinn/dot-files/tree/master/nvchad">here&lt;/a>. These are some tricks that I&amp;rsquo;ve picked up from using vim.&lt;/p>
-&lt;h3 id="wrap-lines">Wrap lines&lt;/h3>
-&lt;p>Sometimes, I&amp;rsquo;ll write long-form content in vim (like this blog). It gets a lot easier to edit if you use:&lt;/p>
-&lt;pre>&lt;code>:set wrap
-&lt;/code>&lt;/pre>
-&lt;p>To undo it:&lt;/p>
-&lt;pre>&lt;code>:set nowrap
-&lt;/code>&lt;/pre>
-&lt;h3 id="visual-block-mode">Visual block mode&lt;/h3>
-&lt;h4 id="deletion">Deletion&lt;/h4>
-&lt;p>You can use &lt;code>Ctrl-v&lt;/code> to enter visual block mode. This is useful when you want to delete several part of consecutive lines. For example, given the text:&lt;/p></description></item><item><title>Revocable encryption exists!</title><link>https://hmcguinn.com/til/quantum-encryption/</link><pubDate>Sun, 12 Mar 2023 18:25:49 -0700</pubDate><guid>https://hmcguinn.com/til/quantum-encryption/</guid><description>&lt;p>Today I learned that revocable encryption exists!&lt;/p>
-&lt;h2 id="a-cryptographic-dead-persons-switch">A cryptographic dead person&amp;rsquo;s switch&lt;/h2>
-&lt;p>Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?&lt;/p>
-&lt;p>I built a &lt;a href="https://github.com/hmcguinn/dead-persons-switch">version of this&lt;/a> for my &lt;a href="https://www.cs.unc.edu/~saba/priv_class/index.html">Privacy Preserving Technologies&lt;/a> class with the caveat that you have to trust some threshold of servers to be honest. While a fun project, having to trust a threshold of the servers limits how useful it is. We want cryptographic guarantees for both of the above properties.&lt;/p></description></item><item><title>Cryptopals Set 3: Block &amp; stream crypto</title><link>https://hmcguinn.com/posts/cryptopals-set-3/</link><pubDate>Wed, 28 Dec 2022 10:15:11 -0500</pubDate><guid>https://hmcguinn.com/posts/cryptopals-set-3/</guid><description>&lt;h2 id="17-the-cbc-padding-oracle">17. The CBC padding oracle&lt;/h2>
-&lt;blockquote>
-&lt;p>This is the best-known attack on modern block-cipher cryptography.&lt;/p>
-&lt;p>Combine your padding code and your CBC code to write two functions.&lt;/p>
-&lt;p>The first function should select at random one of the following 10 strings:&lt;/p>
-&lt;pre>&lt;code>MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>About Me on Houlton McGuinn</title><link>https://hmcguinn.com/</link><description>Recent content in About Me on Houlton McGuinn</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 22 May 2025 20:38:34 -0500</lastBuildDate><atom:link href="https://hmcguinn.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Security Engineer Interview Questions &amp; Answers</title><link>https://hmcguinn.com/posts/sec-eng-interview-questions/</link><pubDate>Thu, 22 May 2025 20:38:34 -0500</pubDate><guid>https://hmcguinn.com/posts/sec-eng-interview-questions/</guid><description>&lt;p&gt;(Un)-fortunately, there&amp;rsquo;s no standardized Leetcode-esque interview process for security engineers &lt;sup id="fnref:1"&gt;&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref"&gt;1&lt;/a&gt;&lt;/sup&gt;. There are a number of online resources for security engineer interview questions, but I found them to be too high level (explain encoding vs encryption vs hashing) compared to interviews I&amp;rsquo;ve been in. A lot didn&amp;rsquo;t have answers. I spent some time prepping when I switched jobs earlier this year, and this is my attempt to collate some interesting questions + answers all in one place!&lt;/p&gt;</description></item><item><title>Building a diamond Manifold prediction bot in a weekend</title><link>https://hmcguinn.com/posts/manifold-bot/</link><pubDate>Tue, 01 Apr 2025 21:51:02 -0700</pubDate><guid>https://hmcguinn.com/posts/manifold-bot/</guid><description>&lt;p&gt;I built a prediction market bot in a few hours that ranked fourth in &lt;a href="https://manifold.markets/leagues/23/platinum/sage-gremlins/Te00Mp9cXobRVXjKbYIgn8DPhah2"&gt;Manifold&amp;rsquo;s Platinum Sage Gremlins league for March&lt;/a&gt;. The bot has 10x&amp;rsquo;d it&amp;rsquo;s mana using nothing but free tools and simple LLM prompting over the last 2 months.&lt;/p&gt;
+&lt;h3 id="why-prediction-markets-matter"&gt;Why prediction markets matter&lt;/h3&gt;
+&lt;p&gt;Prediction markets like Manifold let people &amp;ldquo;bet&amp;rdquo; on future events and reward accuracy. Metaculus and Manifold are two sites that offer play money, while Kalshi and Polymarket let you wager real money.&lt;/p&gt;</description></item><item><title>Vim has encryption? 😧</title><link>https://hmcguinn.com/til/vim-encryption/</link><pubDate>Fri, 10 Jan 2025 06:21:57 -0800</pubDate><guid>https://hmcguinn.com/til/vim-encryption/</guid><description>&lt;p&gt;Vim apparently has built-in encryption features. From the &lt;a href="https://linuxcommand.org/lc3_man_pages/vim1.html"&gt;vim man page&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;-x Use encryption when writing files. Will prompt for a crypt key.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;The vim docs also call out:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There is never 100% safety. The encryption in Vim has not been tested for robustness.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;If you&amp;rsquo;ve ever struggled to exit vim, don&amp;rsquo;t even think about turning on the encryption &amp;ndash; &lt;em&gt;&amp;ldquo;when you reopen the file, Vim will ask for the key; if you enter the wrong key, Vim will &amp;lsquo;decrypt&amp;rsquo; it to gibberish content. DO NOT SAVE such a gibberish buffer, or your data will be corrupted.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description></item><item><title>I'm doing office hours</title><link>https://hmcguinn.com/posts/office-hours/</link><pubDate>Thu, 09 Jan 2025 18:45:38 -0800</pubDate><guid>https://hmcguinn.com/posts/office-hours/</guid><description>&lt;p&gt;I&amp;rsquo;m starting open office hours to chat tech!&lt;/p&gt;
+&lt;p&gt;While I especially enjoy helping students and folks getting started in software/security (having just been there myself), I&amp;rsquo;m happy to talk with anyone.&lt;/p&gt;
+&lt;h2 id="why-should-you-sign-up"&gt;Why should you sign up?&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;d encourage you to sign up if you think you&amp;rsquo;d benefit in any way! Some things we can do:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Chat about tech, software development, or security&lt;/li&gt;
+&lt;li&gt;Mock technical interviews - security or coding&lt;/li&gt;
+&lt;li&gt;Discuss a project you&amp;rsquo;re working on - I can provide feedback on your code, architecture, or specific errors you&amp;rsquo;re hitting&lt;/li&gt;
+&lt;li&gt;Brainstorm project ideas or career directions - sometimes it helps to bounce ideas off someone who&amp;rsquo;s been there&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="why-do-i-have-office-hours"&gt;Why do I have office hours?&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;ve had a number of students reach out to ask for advice or to do a mock interview. While I don&amp;rsquo;t think I have any insights that are particularly novel, I want to lower the friction of cold-DMing me and hope more people will take advantage. I&amp;rsquo;ve been helped by a ton of people and want to do the same.&lt;/p&gt;</description></item><item><title>Donating 10% 🔷</title><link>https://hmcguinn.com/posts/donating-10/</link><pubDate>Tue, 31 Dec 2024 11:23:40 -0500</pubDate><guid>https://hmcguinn.com/posts/donating-10/</guid><description>&lt;p&gt;I&amp;rsquo;m taking &lt;a href="https://www.givingwhatwecan.org/get-involved/trial-pledge"&gt;Giving What We Can&amp;rsquo;s Trial Pledge 🔷&lt;/a&gt; to donate 10% of my income in 2025 to highly effective charities.&lt;/p&gt;
+&lt;h4 id="why-im-donating"&gt;Why I&amp;rsquo;m donating&lt;/h4&gt;
+&lt;p&gt;I&amp;rsquo;m choosing to donate 10% of my income, because:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;As someone in the global top 1% by income, I have an extraordinary opportunity to help others&lt;/li&gt;
+&lt;li&gt;I can use my money to do tangible good&lt;/li&gt;
+&lt;li&gt;I want to live in a world where people who can help others, do&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Donating 10% is something I&amp;rsquo;ve thought about since college, but I delayed pulling the trigger because:&lt;/p&gt;</description></item><item><title>Finding a command injection vulnerability in my smart thermostat (CVE-2023-4212)</title><link>https://hmcguinn.com/posts/command-injection-vulnerability/</link><pubDate>Tue, 22 Aug 2023 00:04:34 -0700</pubDate><guid>https://hmcguinn.com/posts/command-injection-vulnerability/</guid><description>&lt;h2 id="summary"&gt;Summary&lt;/h2&gt;
+&lt;p&gt;I discovered a vulnerability allowing arbitrary command injection as root in &lt;a href="https://www.trane.com/residential/en/products/thermostats-and-controls/smart-thermostats/"&gt;Trane XL824, XL850, XL1050, and Pivot smart thermostats&lt;/a&gt; using a specially crafted filename. The vulnerability has existed since at least 2015 and requires physical access to the device via a USB drive. All affected devices will automatically update.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2023-4212"&gt;CVE-2023-4212&lt;/a&gt; was assigned to this vulnerability and the Cybersecurity and Infrastructure Agency (CISA) published an ICS advisory &lt;a href="https://www.cisa.gov/news-events/ics-advisories/icsa-23-234-02"&gt;here&lt;/a&gt;. The CVSS score is 6.8 &amp;ndash; &lt;a href="https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"&gt;CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Vim tricks</title><link>https://hmcguinn.com/til/vim-tricks/</link><pubDate>Sun, 02 Apr 2023 15:00:29 -0700</pubDate><guid>https://hmcguinn.com/til/vim-tricks/</guid><description>&lt;p&gt;I&amp;rsquo;ve been using (neo)vim as my main IDE for the last several years. If you&amp;rsquo;re interested in my config, you can find it &lt;a href="https://github.com/hmcguinn/dot-files/tree/master/nvchad"&gt;here&lt;/a&gt;. These are some tricks that I&amp;rsquo;ve picked up from using vim.&lt;/p&gt;
+&lt;h3 id="wrap-lines"&gt;Wrap lines&lt;/h3&gt;
+&lt;p&gt;Sometimes, I&amp;rsquo;ll write long-form content in vim (like this blog). It gets a lot easier to edit if you use:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:set wrap
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To undo it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:set nowrap
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id="visual-block-mode"&gt;Visual block mode&lt;/h3&gt;
+&lt;h4 id="deletion"&gt;Deletion&lt;/h4&gt;
+&lt;p&gt;You can use &lt;code&gt;Ctrl-v&lt;/code&gt; to enter visual block mode. This is useful when you want to delete several part of consecutive lines. For example, given the text:&lt;/p&gt;</description></item><item><title>Revocable encryption exists!</title><link>https://hmcguinn.com/til/quantum-encryption/</link><pubDate>Sun, 12 Mar 2023 18:25:49 -0700</pubDate><guid>https://hmcguinn.com/til/quantum-encryption/</guid><description>&lt;p&gt;Today I learned that revocable encryption exists!&lt;/p&gt;
+&lt;h2 id="a-cryptographic-dead-persons-switch"&gt;A cryptographic dead person&amp;rsquo;s switch&lt;/h2&gt;
+&lt;p&gt;Imagine 1) you want to encrypt some data so that it is released with no interaction from you in the future. Also, 2) you want to be able to cancel the release of the data at any point before the release. Can you do it?&lt;/p&gt;
+&lt;p&gt;I built a &lt;a href="https://github.com/hmcguinn/dead-persons-switch"&gt;version of this&lt;/a&gt; for my &lt;a href="https://www.cs.unc.edu/~saba/priv_class/index.html"&gt;Privacy Preserving Technologies&lt;/a&gt; class with the caveat that you have to trust some threshold of servers to be honest. While a fun project, having to trust a threshold of the servers limits how useful it is. We want cryptographic guarantees for both of the above properties.&lt;/p&gt;</description></item><item><title>Cryptopals Set 3: Block &amp; stream crypto</title><link>https://hmcguinn.com/posts/cryptopals-set-3/</link><pubDate>Wed, 28 Dec 2022 10:15:11 -0500</pubDate><guid>https://hmcguinn.com/posts/cryptopals-set-3/</guid><description>&lt;h2 id="17-the-cbc-padding-oracle"&gt;17. The CBC padding oracle&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This is the best-known attack on modern block-cipher cryptography.&lt;/p&gt;
+&lt;p&gt;Combine your padding code and your CBC code to write two functions.&lt;/p&gt;
+&lt;p&gt;The first function should select at random one of the following 10 strings:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=
 MDAwMDAxV2l0aCB0aGUgYmFzcyBraWNrZWQgaW4gYW5kIHRoZSBWZWdhJ3MgYXJlIHB1bXBpbic=
 MDAwMDAyUXVpY2sgdG8gdGhlIHBvaW50LCB0byB0aGUgcG9pbnQsIG5vIGZha2luZw==
 MDAwMDAzQ29va2luZyBNQydzIGxpa2UgYSBwb3VuZCBvZiBiYWNvbg==
@@ -55,118 +55,118 @@ MDAwMDA2QW5kIGEgaGlnaCBoYXQgd2l0aCBhIHNvdXBlZCB1cCB0ZW1wbw==
 MDAwMDA3SSdtIG9uIGEgcm9sbCwgaXQncyB0aW1lIHRvIGdvIHNvbG8=
 MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=
 MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93
-&lt;/code>&lt;/pre>
-&lt;p>&amp;hellip; generate a random AES key (which it should save for all future encryptions), pad the string out to the 16-byte AES block size and CBC-encrypt it under that key, providing the caller the ciphertext and IV.&lt;/p></description></item><item><title>Cryptopals Set 2: Block crypto</title><link>https://hmcguinn.com/posts/cryptopals-set-2/</link><pubDate>Fri, 23 Dec 2022 00:00:08 -0500</pubDate><guid>https://hmcguinn.com/posts/cryptopals-set-2/</guid><description>&lt;p>Continuing with &lt;a href="https://cryptopals.com/">Cryptopals&lt;/a>, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!&lt;/p>
-&lt;h2 id="9-implement-pkcs7-padding">9. Implement PKCS#7 Padding&lt;/h2>
-&lt;blockquote>
-&lt;p>A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.&lt;/p>
-&lt;p>One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize. The most popular padding scheme is called PKCS#7.&lt;/p></description></item><item><title>Cryptopals Set 1: Basics</title><link>https://hmcguinn.com/posts/cryptopals-set-1/</link><pubDate>Wed, 21 Dec 2022 13:12:35 -0500</pubDate><guid>https://hmcguinn.com/posts/cryptopals-set-1/</guid><description>&lt;p>&lt;a href="https://cryptopals.com">Cryptopals&lt;/a> is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them &lt;a href="https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/">here&lt;/a>. They&amp;rsquo;ve been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&amp;rsquo;m back at it! They&amp;rsquo;ve been a ton of fun to work on so far and definitely challenging. I&amp;rsquo;ve &amp;ldquo;known&amp;rdquo; academically a lot of the attacks covered but implementing them is a different story.&lt;/p></description></item><item><title>Gravity Lights</title><link>https://hmcguinn.com/art/gravity_lights/</link><pubDate>Sat, 11 Jun 2022 21:26:51 -0500</pubDate><guid>https://hmcguinn.com/art/gravity_lights/</guid><description>&lt;p>This one I think is really cool. Based off of &lt;a href="https://github.com/Brian-Fearn/Processing/blob/main/WanderingStars/WanderingStars.pde">Wandering Stars by Brian Fearn&lt;/a>&lt;/p>
-&lt;p>Modify it &lt;a href="https://editor.p5js.org/hmcguinn/sketches/U-u8UZ8gz">here!&lt;/a>&lt;/p>
-&lt;div align="center">&lt;iframe height="720" width="700" src="https://editor.p5js.org/hmcguinn/full/U-u8UZ8gz">&lt;/iframe>&lt;/div></description></item><item><title>Colorful Shapes</title><link>https://hmcguinn.com/art/colorful_shapes/</link><pubDate>Sat, 11 Jun 2022 19:26:51 -0500</pubDate><guid>https://hmcguinn.com/art/colorful_shapes/</guid><description>&lt;p>This was the first piece of generative art I&amp;rsquo;ve made!&lt;/p>
-&lt;p>Modify it &lt;a href="https://editor.p5js.org/hmcguinn/sketches/R_F000CUQ">here!&lt;/a>&lt;/p>
-&lt;div align="center">&lt;iframe height="530" width="500" src="https://editor.p5js.org/hmcguinn/full/R_F000CUQ">&lt;/iframe>&lt;/div></description></item><item><title>A Cryptographic Dead Person's Switch</title><link>https://hmcguinn.com/posts/cryptographic-dead-persons-switch/</link><pubDate>Fri, 27 May 2022 00:02:50 -0800</pubDate><guid>https://hmcguinn.com/posts/cryptographic-dead-persons-switch/</guid><description>&lt;p>This was my final project for &lt;a href="https://www.cs.unc.edu/~saba/priv_class/index.html">COMP 590: Privacy Enhancing Technologies&lt;/a>. The code is &lt;a href="https://github.com/hmcguinn/dead-persons-switch">available on Github&lt;/a>.&lt;/p>
-&lt;iframe src="https://hmcguinn.com/pdf/dead-persons-switch.pdf" width="100%" height="800px">
- This browser does not support PDFs. Please download the PDF to view it: &lt;a href="https://hmcguinn.com/pdf/dead-persons-switch.pdf">Download PDF&lt;/a>.
-&lt;/iframe></description></item><item><title>Automated Backyard Hydrogen Line Astronomy</title><link>https://hmcguinn.com/posts/hydrogen-line/</link><pubDate>Sun, 02 Jan 2022 23:19:26 -0500</pubDate><guid>https://hmcguinn.com/posts/hydrogen-line/</guid><description>&lt;p>I&amp;rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at &lt;a href="https://gtri.gatech.edu/">Georgia Tech Research Institute&lt;/a>, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&amp;rsquo;s over-the-air communication protocol. Reading &lt;a href="https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//">this post&lt;/a> on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.&lt;/p></description></item><item><title>Reverse Engineering Wyze IoT Cameras</title><link>https://hmcguinn.com/posts/wyze-camera/</link><pubDate>Thu, 10 Jun 2021 05:51:05 -0800</pubDate><guid>https://hmcguinn.com/posts/wyze-camera/</guid><description>&lt;p>I worked on this project during my internship at &lt;a href="https://www.gtri.gatech.edu/">Georgia Tech Research Institute&lt;/a> in their &lt;a href="https://www.gtri.gatech.edu/focus-areas/reverse-engineering-and-vulnerability-analysis-embedded-systems">Embedded Systems Vulnerability Division&lt;/a>.&lt;/p>
-&lt;iframe src="https://hmcguinn.com/pdf/wyze-report.pdf" width="100%" height="800px">
- This browser does not support PDFs. Please download the PDF to view it: &lt;a href="https://hmcguinn.com/pdf/wyze-report.pdf">Download PDF&lt;/a>.
-&lt;/iframe></description></item><item><title>Breaking the Bridge: Winning $10,000 at HackTheMachine 2021</title><link>https://hmcguinn.com/posts/htm-2021/</link><pubDate>Fri, 26 Feb 2021 22:14:54 -0800</pubDate><guid>https://hmcguinn.com/posts/htm-2021/</guid><description>&lt;p>During my internship at &lt;a href="https://www.gtri.gatech.edu/">Georgia Tech Research Institute&lt;/a> in their &lt;a href="https://www.gtri.gatech.edu/laboratories/cybersecurity-information-protection-and-hardware-evaluation-research">CIPHER lab&lt;/a>, I was part of the &lt;a href="https://www.gtri.gatech.edu/newsroom/gtri-team-wins-10000-navy-hacking-competition">team that placed second and won $10,000&lt;/a> for &lt;a href="https://web.archive.org/web/20210422163540/https://www.hackthemachine.ai/page/1704333/track-1">Track 1 at HackTheMachine 2021&lt;/a>.&lt;/p>
-&lt;p>The challenge involved hacking a model of a ship that included a &lt;a href="https://www.fathom5.com/steering-and-propulsion">full bridge navigation suite and a fly-by-wire propulsion system&lt;/a>, to accomplish arbitrary tasks like spoofing the ship&amp;rsquo;s location or taking control of the rudder.&lt;/p>
-&lt;p>There&amp;rsquo;s a cool &lt;a href="https://www.youtube.com/watch?v=nb2J7ODdgb4">walkthrough of the testbed on Youtube&lt;/a> that shows what we worked with.&lt;/p></description></item><item><title>Robohunter: a Machine Learning Framework for Batch Analytics</title><link>https://hmcguinn.com/posts/robohunter/</link><pubDate>Sat, 01 Aug 2020 05:57:43 -0800</pubDate><guid>https://hmcguinn.com/posts/robohunter/</guid><description>&lt;p>I worked on this project during my internship at &lt;a href="https://www.sandia.gov/">Sandia National Laboratories&lt;/a>.&lt;/p>
-&lt;iframe src="https://hmcguinn.com/pdf/robohunter.pdf" width="100%" height="800px">
- This browser does not support PDFs. Please download the PDF to view it: &lt;a href="https://hmcguinn.com/pdf/robohunter.pdf">Download PDF&lt;/a>.
-&lt;/iframe></description></item><item><title>About Me</title><link>https://hmcguinn.com/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/about/</guid><description>&lt;p>&lt;img src="https://hmcguinn.com/img/me-scaled.jpg" alt="me">&lt;/p>
-&lt;h1 id="its-nice-to-meet-you-">it&amp;rsquo;s nice to meet you :)&lt;/h1>
-&lt;p>I&amp;rsquo;m &lt;strong>Houlton McGuinn,&lt;/strong> a software engineer and security researcher. I work on product security at &lt;a href="https://harvey.ai">Harvey&lt;/a>. I previously worked on product security at &lt;a href="https://character.ai/">Character.AI&lt;/a> and did all things security at &lt;a href="https://retool.com">Retool&lt;/a>.&lt;/p>
-&lt;p>I graduated from &lt;a href="https://www.cs.unc.edu">UNC Chapel Hill&lt;/a> in December 2022. In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.&lt;/p>
-&lt;p>If you&amp;rsquo;re reading this I&amp;rsquo;d love to chat! Feel free to reach out at &lt;a href="mailto:houlton.mcguinn@gmail.com">houlton.mcguinn@gmail.com&lt;/a>. I also do &lt;a href="posts/office-hours">office hours&lt;/a>.&lt;/p></description></item><item><title>Links</title><link>https://hmcguinn.com/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/links/</guid><description>&lt;p>This is my collection of interesting corners of the internet. I&amp;rsquo;m particularly interested in security, computer science, astronomy, and AI, but you&amp;rsquo;ll find bits of everything here.&lt;/p>
-&lt;h2 id="cryptography-and-security">Cryptography and security&lt;/h2>
-&lt;p>&lt;strong>Blogs:&lt;/strong>&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://googleprojectzero.blogspot.com">Project Zero&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://keymaterial.net/">Key Material&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://chomp.ie/Home">chompie at the bits&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://www.imperialviolet.org">Imperial Violet&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://ctrlc.hu/~stef/blog/">stef/blog&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://zacs.site/index.html">Zachary Szewczyk&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://soatok.blog/">Dhome Moments&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://filippo.io/">Filippo Valsorda&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://www.schneier.com/">Schneier on Security&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://blog.trailofbits.com/">Trail of Bits&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://lars.hupel.info/">Lars Hupel&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>Papers&lt;/strong>&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://web.cs.ucdavis.edu/~rogaway/papers/modes.pdf">Evaluation of Some Blockcipher Modes of Operation&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://arxiv.org/pdf/1906.07221">Why and How zk-SNARK Works: Definitive Explanation&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://surrealyz.github.io/files/pubs/raid23-diversevul.pdf">DiverseVul: A New Vulnerable Source Code Dataset for Deep Learning Based Vulnerability Detection&lt;/a>&lt;/li>
-&lt;li>&lt;a href="http://www.crypto-uni.lu/jscoron/publications/universal.pdf">An accurate evaluation of Maurer&amp;rsquo;s universal test&lt;/a>&lt;/li>
-&lt;li>&lt;a href="http://www.cs.bc.edu/~straubin/crypto2017/heys.pdf">A Tutorial on Linear and Differential Cryptanalysis&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>Books:&lt;/strong>&lt;/p></description></item><item><title>Things I Like</title><link>https://hmcguinn.com/interests/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/interests/</guid><description>&lt;h1 id="music">Music&lt;/h1>
-&lt;ul>
-&lt;li>The Band CAMINO&lt;/li>
-&lt;li>The Maine&lt;/li>
-&lt;li>Winnetka Bowling League&lt;/li>
-&lt;li>COIN&lt;/li>
-&lt;li>Matt Nathanson&lt;/li>
-&lt;li>Make Out Monday&lt;/li>
-&lt;li>Jukebox The Ghost&lt;/li>
-&lt;li>Maude Latour&lt;/li>
-&lt;li>The Wrecks&lt;/li>
-&lt;/ul>
-&lt;h1 id="shows">Shows&lt;/h1>
-&lt;ul>
-&lt;li>Scream&lt;/li>
-&lt;li>Normal People&lt;/li>
-&lt;li>Altered Carbon&lt;/li>
-&lt;li>New Girl&lt;/li>
-&lt;li>The Magicians&lt;/li>
-&lt;li>Love&lt;/li>
-&lt;li>Arrested Development&lt;/li>
-&lt;/ul>
-&lt;h1 id="films">Films&lt;/h1>
-&lt;ul>
-&lt;li>The Big Sick&lt;/li>
-&lt;li>Byzantium&lt;/li>
-&lt;li>Brooklyn&lt;/li>
-&lt;li>Edge of Seventeen&lt;/li>
-&lt;li>Odd Thomas&lt;/li>
-&lt;li>Haunt&lt;/li>
-&lt;li>God Bless America&lt;/li>
-&lt;li>Night Owls&lt;/li>
-&lt;li>The Big Short&lt;/li>
-&lt;li>Haunter&lt;/li>
-&lt;li>In Your Eyes&lt;/li>
-&lt;li>Keith&lt;/li>
-&lt;li>Goon&lt;/li>
-&lt;li>Stuck in Love&lt;/li>
-&lt;li>Colonia&lt;/li>
-&lt;li>Ex Machina&lt;/li>
-&lt;li>Mr. Right&lt;/li>
-&lt;li>What If&lt;/li>
-&lt;li>Hot Fuzz&lt;/li>
-&lt;li>Nightcrawler&lt;/li>
-&lt;li>Heathers&lt;/li>
-&lt;li>Midsommar&lt;/li>
-&lt;li>Moonrise Kingdom&lt;/li>
-&lt;li>Wildflower&lt;/li>
-&lt;li>Sleeping with Other People&lt;/li>
-&lt;li>Adult World&lt;/li>
-&lt;li>Better Living through Chemistry&lt;/li>
-&lt;li>Lord of the Rings&lt;/li>
-&lt;li>The Spectacular Now&lt;/li>
-&lt;li>Tucker and Dale vs Evil&lt;/li>
-&lt;li>White Bird in a Blizzard&lt;/li>
-&lt;li>Cloud Atlas&lt;/li>
-&lt;li>Hot Summer Nights&lt;/li>
-&lt;li>Never goin&amp;rsquo; Back&lt;/li>
-&lt;li>Thoroughbreds&lt;/li>
-&lt;li>Lady Bird&lt;/li>
-&lt;li>Eighth Grade&lt;/li>
-&lt;li>Love, Rosie&lt;/li>
-&lt;li>Nick &amp;amp; Norah&amp;rsquo;s Infinite Playlist&lt;/li>
-&lt;li>Scott Pilgrim vs The World&lt;/li>
-&lt;li>Once Upon a Time in Hollywood&lt;/li>
-&lt;li>Everything Everywhere All at Once&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&amp;hellip; generate a random AES key (which it should save for all future encryptions), pad the string out to the 16-byte AES block size and CBC-encrypt it under that key, providing the caller the ciphertext and IV.&lt;/p&gt;</description></item><item><title>Cryptopals Set 2: Block crypto</title><link>https://hmcguinn.com/posts/cryptopals-set-2/</link><pubDate>Fri, 23 Dec 2022 00:00:08 -0500</pubDate><guid>https://hmcguinn.com/posts/cryptopals-set-2/</guid><description>&lt;p&gt;Continuing with &lt;a href="https://cryptopals.com/"&gt;Cryptopals&lt;/a&gt;, the second set focuses on block ciphers. These were a lot of fun! Trickier than the second set but also more useful and fun to work on!&lt;/p&gt;
+&lt;h2 id="9-implement-pkcs7-padding"&gt;9. Implement PKCS#7 Padding&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A block cipher transforms a fixed-sized block (usually 8 or 16 bytes) of plaintext into ciphertext. But we almost never want to transform a single block; we encrypt irregularly-sized messages.&lt;/p&gt;
+&lt;p&gt;One way we account for irregularly-sized messages is by padding, creating a plaintext that is an even multiple of the blocksize. The most popular padding scheme is called PKCS#7.&lt;/p&gt;</description></item><item><title>Cryptopals Set 1: Basics</title><link>https://hmcguinn.com/posts/cryptopals-set-1/</link><pubDate>Wed, 21 Dec 2022 13:12:35 -0500</pubDate><guid>https://hmcguinn.com/posts/cryptopals-set-1/</guid><description>&lt;p&gt;&lt;a href="https://cryptopals.com"&gt;Cryptopals&lt;/a&gt; is a set of cryptography challenges by the NCC Group. Maciej Ceglowski wrote a great blog about them &lt;a href="https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/"&gt;here&lt;/a&gt;. They&amp;rsquo;ve been out for a while and I originally tried to work through them four years ago in high school. I got to about the second challenge and then was stumped. Now, four years and a CS degree later, I&amp;rsquo;m back at it! They&amp;rsquo;ve been a ton of fun to work on so far and definitely challenging. I&amp;rsquo;ve &amp;ldquo;known&amp;rdquo; academically a lot of the attacks covered but implementing them is a different story.&lt;/p&gt;</description></item><item><title>Gravity Lights</title><link>https://hmcguinn.com/art/gravity_lights/</link><pubDate>Sat, 11 Jun 2022 21:26:51 -0500</pubDate><guid>https://hmcguinn.com/art/gravity_lights/</guid><description>&lt;p&gt;This one I think is really cool. Based off of &lt;a href="https://github.com/Brian-Fearn/Processing/blob/main/WanderingStars/WanderingStars.pde"&gt;Wandering Stars by Brian Fearn&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Modify it &lt;a href="https://editor.p5js.org/hmcguinn/sketches/U-u8UZ8gz"&gt;here!&lt;/a&gt;&lt;/p&gt;
+&lt;div align="center"&gt;&lt;iframe height="720" width="700" src="https://editor.p5js.org/hmcguinn/full/U-u8UZ8gz"&gt;&lt;/iframe&gt;&lt;/div&gt;</description></item><item><title>Colorful Shapes</title><link>https://hmcguinn.com/art/colorful_shapes/</link><pubDate>Sat, 11 Jun 2022 19:26:51 -0500</pubDate><guid>https://hmcguinn.com/art/colorful_shapes/</guid><description>&lt;p&gt;This was the first piece of generative art I&amp;rsquo;ve made!&lt;/p&gt;
+&lt;p&gt;Modify it &lt;a href="https://editor.p5js.org/hmcguinn/sketches/R_F000CUQ"&gt;here!&lt;/a&gt;&lt;/p&gt;
+&lt;div align="center"&gt;&lt;iframe height="530" width="500" src="https://editor.p5js.org/hmcguinn/full/R_F000CUQ"&gt;&lt;/iframe&gt;&lt;/div&gt;</description></item><item><title>A Cryptographic Dead Person's Switch</title><link>https://hmcguinn.com/posts/cryptographic-dead-persons-switch/</link><pubDate>Fri, 27 May 2022 00:02:50 -0800</pubDate><guid>https://hmcguinn.com/posts/cryptographic-dead-persons-switch/</guid><description>&lt;p&gt;This was my final project for &lt;a href="https://www.cs.unc.edu/~saba/priv_class/index.html"&gt;COMP 590: Privacy Enhancing Technologies&lt;/a&gt;. The code is &lt;a href="https://github.com/hmcguinn/dead-persons-switch"&gt;available on Github&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe src="https://hmcguinn.com/pdf/dead-persons-switch.pdf" width="100%" height="800px"&gt;
+ This browser does not support PDFs. Please download the PDF to view it: &lt;a href="https://hmcguinn.com/pdf/dead-persons-switch.pdf"&gt;Download PDF&lt;/a&gt;.
+&lt;/iframe&gt;</description></item><item><title>Automated Backyard Hydrogen Line Astronomy</title><link>https://hmcguinn.com/posts/hydrogen-line/</link><pubDate>Sun, 02 Jan 2022 23:19:26 -0500</pubDate><guid>https://hmcguinn.com/posts/hydrogen-line/</guid><description>&lt;p&gt;I&amp;rsquo;ve been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at &lt;a href="https://gtri.gatech.edu/"&gt;Georgia Tech Research Institute&lt;/a&gt;, I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera&amp;rsquo;s over-the-air communication protocol. Reading &lt;a href="https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//"&gt;this post&lt;/a&gt; on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed.&lt;/p&gt;</description></item><item><title>Reverse Engineering Wyze IoT Cameras</title><link>https://hmcguinn.com/posts/wyze-camera/</link><pubDate>Thu, 10 Jun 2021 05:51:05 -0800</pubDate><guid>https://hmcguinn.com/posts/wyze-camera/</guid><description>&lt;p&gt;I worked on this project during my internship at &lt;a href="https://www.gtri.gatech.edu/"&gt;Georgia Tech Research Institute&lt;/a&gt; in their &lt;a href="https://www.gtri.gatech.edu/focus-areas/reverse-engineering-and-vulnerability-analysis-embedded-systems"&gt;Embedded Systems Vulnerability Division&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe src="https://hmcguinn.com/pdf/wyze-report.pdf" width="100%" height="800px"&gt;
+ This browser does not support PDFs. Please download the PDF to view it: &lt;a href="https://hmcguinn.com/pdf/wyze-report.pdf"&gt;Download PDF&lt;/a&gt;.
+&lt;/iframe&gt;</description></item><item><title>Breaking the Bridge: Winning $10,000 at HackTheMachine 2021</title><link>https://hmcguinn.com/posts/htm-2021/</link><pubDate>Fri, 26 Feb 2021 22:14:54 -0800</pubDate><guid>https://hmcguinn.com/posts/htm-2021/</guid><description>&lt;p&gt;During my internship at &lt;a href="https://www.gtri.gatech.edu/"&gt;Georgia Tech Research Institute&lt;/a&gt; in their &lt;a href="https://www.gtri.gatech.edu/laboratories/cybersecurity-information-protection-and-hardware-evaluation-research"&gt;CIPHER lab&lt;/a&gt;, I was part of the &lt;a href="https://www.gtri.gatech.edu/newsroom/gtri-team-wins-10000-navy-hacking-competition"&gt;team that placed second and won $10,000&lt;/a&gt; for &lt;a href="https://web.archive.org/web/20210422163540/https://www.hackthemachine.ai/page/1704333/track-1"&gt;Track 1 at HackTheMachine 2021&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The challenge involved hacking a model of a ship that included a &lt;a href="https://www.fathom5.com/steering-and-propulsion"&gt;full bridge navigation suite and a fly-by-wire propulsion system&lt;/a&gt;, to accomplish arbitrary tasks like spoofing the ship&amp;rsquo;s location or taking control of the rudder.&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s a cool &lt;a href="https://www.youtube.com/watch?v=nb2J7ODdgb4"&gt;walkthrough of the testbed on Youtube&lt;/a&gt; that shows what we worked with.&lt;/p&gt;</description></item><item><title>Robohunter: a Machine Learning Framework for Batch Analytics</title><link>https://hmcguinn.com/posts/robohunter/</link><pubDate>Sat, 01 Aug 2020 05:57:43 -0800</pubDate><guid>https://hmcguinn.com/posts/robohunter/</guid><description>&lt;p&gt;I worked on this project during my internship at &lt;a href="https://www.sandia.gov/"&gt;Sandia National Laboratories&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe src="https://hmcguinn.com/pdf/robohunter.pdf" width="100%" height="800px"&gt;
+ This browser does not support PDFs. Please download the PDF to view it: &lt;a href="https://hmcguinn.com/pdf/robohunter.pdf"&gt;Download PDF&lt;/a&gt;.
+&lt;/iframe&gt;</description></item><item><title>About Me</title><link>https://hmcguinn.com/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/about/</guid><description>&lt;p&gt;&lt;img src="https://hmcguinn.com/img/me-scaled.jpg" alt="me"&gt;&lt;/p&gt;
+&lt;h1 id="its-nice-to-meet-you-"&gt;it&amp;rsquo;s nice to meet you :)&lt;/h1&gt;
+&lt;p&gt;I&amp;rsquo;m &lt;strong&gt;Houlton McGuinn,&lt;/strong&gt; a software engineer and security researcher. I work on product security at &lt;a href="https://harvey.ai"&gt;Harvey&lt;/a&gt;. I previously worked on product security at &lt;a href="https://character.ai/"&gt;Character.AI&lt;/a&gt; and did all things security at &lt;a href="https://retool.com"&gt;Retool&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I graduated from &lt;a href="https://www.cs.unc.edu"&gt;UNC Chapel Hill&lt;/a&gt; in December 2022. In my free time, I love indie movies, books, and art! I also enjoy reverse engineering IoT devices.&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re reading this I&amp;rsquo;d love to chat! Feel free to reach out at &lt;a href="mailto:houlton.mcguinn@gmail.com"&gt;houlton.mcguinn@gmail.com&lt;/a&gt;. I also do &lt;a href="posts/office-hours"&gt;office hours&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Links</title><link>https://hmcguinn.com/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/links/</guid><description>&lt;p&gt;This is my collection of interesting corners of the internet. I&amp;rsquo;m particularly interested in security, computer science, astronomy, and AI, but you&amp;rsquo;ll find bits of everything here.&lt;/p&gt;
+&lt;h2 id="cryptography-and-security"&gt;Cryptography and security&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Blogs:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://googleprojectzero.blogspot.com"&gt;Project Zero&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://keymaterial.net/"&gt;Key Material&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chomp.ie/Home"&gt;chompie at the bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.imperialviolet.org"&gt;Imperial Violet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ctrlc.hu/~stef/blog/"&gt;stef/blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zacs.site/index.html"&gt;Zachary Szewczyk&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://soatok.blog/"&gt;Dhome Moments&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://filippo.io/"&gt;Filippo Valsorda&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.schneier.com/"&gt;Schneier on Security&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.trailofbits.com/"&gt;Trail of Bits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://lars.hupel.info/"&gt;Lars Hupel&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Papers&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://web.cs.ucdavis.edu/~rogaway/papers/modes.pdf"&gt;Evaluation of Some Blockcipher Modes of Operation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/pdf/1906.07221"&gt;Why and How zk-SNARK Works: Definitive Explanation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://surrealyz.github.io/files/pubs/raid23-diversevul.pdf"&gt;DiverseVul: A New Vulnerable Source Code Dataset for Deep Learning Based Vulnerability Detection&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.crypto-uni.lu/jscoron/publications/universal.pdf"&gt;An accurate evaluation of Maurer&amp;rsquo;s universal test&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.cs.bc.edu/~straubin/crypto2017/heys.pdf"&gt;A Tutorial on Linear and Differential Cryptanalysis&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Books:&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>Things I Like</title><link>https://hmcguinn.com/interests/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hmcguinn.com/interests/</guid><description>&lt;h1 id="music"&gt;Music&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;The Band CAMINO&lt;/li&gt;
+&lt;li&gt;The Maine&lt;/li&gt;
+&lt;li&gt;Winnetka Bowling League&lt;/li&gt;
+&lt;li&gt;COIN&lt;/li&gt;
+&lt;li&gt;Matt Nathanson&lt;/li&gt;
+&lt;li&gt;Make Out Monday&lt;/li&gt;
+&lt;li&gt;Jukebox The Ghost&lt;/li&gt;
+&lt;li&gt;Maude Latour&lt;/li&gt;
+&lt;li&gt;The Wrecks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="shows"&gt;Shows&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Scream&lt;/li&gt;
+&lt;li&gt;Normal People&lt;/li&gt;
+&lt;li&gt;Altered Carbon&lt;/li&gt;
+&lt;li&gt;New Girl&lt;/li&gt;
+&lt;li&gt;The Magicians&lt;/li&gt;
+&lt;li&gt;Love&lt;/li&gt;
+&lt;li&gt;Arrested Development&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="films"&gt;Films&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;The Big Sick&lt;/li&gt;
+&lt;li&gt;Byzantium&lt;/li&gt;
+&lt;li&gt;Brooklyn&lt;/li&gt;
+&lt;li&gt;Edge of Seventeen&lt;/li&gt;
+&lt;li&gt;Odd Thomas&lt;/li&gt;
+&lt;li&gt;Haunt&lt;/li&gt;
+&lt;li&gt;God Bless America&lt;/li&gt;
+&lt;li&gt;Night Owls&lt;/li&gt;
+&lt;li&gt;The Big Short&lt;/li&gt;
+&lt;li&gt;Haunter&lt;/li&gt;
+&lt;li&gt;In Your Eyes&lt;/li&gt;
+&lt;li&gt;Keith&lt;/li&gt;
+&lt;li&gt;Goon&lt;/li&gt;
+&lt;li&gt;Stuck in Love&lt;/li&gt;
+&lt;li&gt;Colonia&lt;/li&gt;
+&lt;li&gt;Ex Machina&lt;/li&gt;
+&lt;li&gt;Mr. Right&lt;/li&gt;
+&lt;li&gt;What If&lt;/li&gt;
+&lt;li&gt;Hot Fuzz&lt;/li&gt;
+&lt;li&gt;Nightcrawler&lt;/li&gt;
+&lt;li&gt;Heathers&lt;/li&gt;
+&lt;li&gt;Midsommar&lt;/li&gt;
+&lt;li&gt;Moonrise Kingdom&lt;/li&gt;
+&lt;li&gt;Wildflower&lt;/li&gt;
+&lt;li&gt;Sleeping with Other People&lt;/li&gt;
+&lt;li&gt;Adult World&lt;/li&gt;
+&lt;li&gt;Better Living through Chemistry&lt;/li&gt;
+&lt;li&gt;Lord of the Rings&lt;/li&gt;
+&lt;li&gt;The Spectacular Now&lt;/li&gt;
+&lt;li&gt;Tucker and Dale vs Evil&lt;/li&gt;
+&lt;li&gt;White Bird in a Blizzard&lt;/li&gt;
+&lt;li&gt;Cloud Atlas&lt;/li&gt;
+&lt;li&gt;Hot Summer Nights&lt;/li&gt;
+&lt;li&gt;Never goin&amp;rsquo; Back&lt;/li&gt;
+&lt;li&gt;Thoroughbreds&lt;/li&gt;
+&lt;li&gt;Lady Bird&lt;/li&gt;
+&lt;li&gt;Eighth Grade&lt;/li&gt;
+&lt;li&gt;Love, Rosie&lt;/li&gt;
+&lt;li&gt;Nick &amp;amp; Norah&amp;rsquo;s Infinite Playlist&lt;/li&gt;
+&lt;li&gt;Scott Pilgrim vs The World&lt;/li&gt;
+&lt;li&gt;Once Upon a Time in Hollywood&lt;/li&gt;
+&lt;li&gt;Everything Everywhere All at Once&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>
