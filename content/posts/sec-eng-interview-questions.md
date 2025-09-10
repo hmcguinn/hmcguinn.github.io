@@ -2,6 +2,7 @@
 title: "Security Engineer Interview Questions & Answers"
 date: 2025-05-22T20:38:34-05:00
 draft: false
+description: "(Un)-fortunately, there's no standardized Leetcode-esque interview process for security engineers. There are online resources for security engineer interview questions, but I found them too high level compared to interviews I've been in. This is my attempt to collate some interesting questions + answers all in one place!"
 ---
 
 (Un)-fortunately, there's no standardized Leetcode-esque interview process for security engineers [^1]. There are a number of online resources for security engineer interview questions, but I found them to be too high level (explain encoding vs encryption vs hashing) compared to interviews I've been in. A lot didn't have answers. I spent some time prepping when I switched jobs earlier this year, and this is my attempt to collate some interesting questions + answers all in one place!
