@@ -1,5 +1,5 @@
 baseURL: "https://hmcguinn.com/"
-languageCode: "en-us"
+locale: "en-us"
 title: "Houlton McGuinn"
 theme: "xmin"
 
