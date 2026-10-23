@@ -188,7 +188,7 @@ Before this challenge, I knew that ECB leaks data in the form of a Tux but did n
 
 As an aside, there's an awesome, Warholesque ECB Tux image I found [here.](https://words.filippo.io/the-ecb-penguin/) 
 
-![ECB'd Tux](https://words.filippo.io/content/images/2015/11/POP-xsmall.png)
+![ECB'd Tux](https://web.archive.org/web/20240107205547im_/https://words.filippo.io/content/images/2015/11/POP-xsmall.png)
 
 Let's start by picking a random key to encrypt everything under and writing a function to give us encrypted ciphertexts:
 

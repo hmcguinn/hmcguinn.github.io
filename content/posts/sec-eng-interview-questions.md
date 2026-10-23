@@ -92,7 +92,7 @@ This also means that the security of a signature scheme relies on the hash-- a s
 
 ##### How can you protect against SSRF?
 
-Input validation is the first layer here -- allowlist URL schemes or domains for inputs that come from the client. There are **tons** of ways to bypass input validation so this is not sufficient. TOCTOU DNS rebinding attacks can also happen. [CVE-2022-41924](https://emily.id.au/tailscale) is a great read about a RCE in Tailscale on Windows that exploited this. 
+Input validation is the first layer here -- allowlist URL schemes or domains for inputs that come from the client. There are **tons** of ways to bypass input validation so this is not sufficient. TOCTOU DNS rebinding attacks can also happen. [CVE-2022-41924](https://web.archive.org/web/20231219194828/https://emily.id.au/tailscale) is a great read about a RCE in Tailscale on Windows that exploited this. 
 
 In Node, you can use a [http.Agent to filter requests to private ranges](https://github.com/azu/request-filtering-agent). Network-level protections should also be enabled, disable access to RFC 1918 ranges using iptables.
 

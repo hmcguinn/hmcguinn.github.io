@@ -25,7 +25,7 @@ This is my collection of interesting corners of the internet. I'm particularly i
   - [Why and How zk-SNARK Works: Definitive Explanation](https://arxiv.org/pdf/1906.07221)
   - [DiverseVul: A New Vulnerable Source Code Dataset for Deep Learning Based Vulnerability Detection](https://surrealyz.github.io/files/pubs/raid23-diversevul.pdf)
   - [An accurate evaluation of Maurer's universal test](http://www.crypto-uni.lu/jscoron/publications/universal.pdf)
-  - [A Tutorial on Linear and Differential Cryptanalysis](http://www.cs.bc.edu/~straubin/crypto2017/heys.pdf)
+  - [A Tutorial on Linear and Differential Cryptanalysis](https://web.archive.org/web/20240418041755/http://www.cs.bc.edu/~straubin/crypto2017/heys.pdf)
 
 **Books:**
   - [A Graduate Course in Applied Cryptography](https://toc.cryptobook.us/book.pdf)

@@ -4,7 +4,7 @@ date: 2022-01-02T23:19:26-05:00
 draft: false
 ---
 
-I've been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at [Georgia Tech Research Institute](https://gtri.gatech.edu/), I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera's over-the-air communication protocol. Reading [this post](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharphttps://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr//) on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed. 
+I've been interested in astronomy and space since I was a kid, but never really did much with it. During my internship at [Georgia Tech Research Institute](https://gtri.gatech.edu/), I learned to use a software-defined radio to investigate vulnerabilities in an IOT camera's over-the-air communication protocol. Reading [this post](https://www.rtl-sdr.com/detecting-pulsars-rotating-neutron-stars-with-an-rtl-sdr/) on using an SDR to detect pulsars inspired me. What else could you detect with one? Being interested in both astronomy and SDRs, this project naturally followed. 
 
 I can use a cheap (< $250) SDR [backyard setup](https://www.rtl-sdr.com/cheap-and-easy-hydrogen-line-radio-astronomy-with-a-rtl-sdr-wifi-parabolic-grid-dish-lna-and-sdrsharp/) to observe the 21cm hydrogen line and probe the structure of our galaxy! One of the best parts of radio astronomy is that you can do it during the day! It can be a little more convenient to observe while the sun is up, and for our case specifically, the Milky Way is overhead for a decent chunk of the day.
 
@@ -37,7 +37,7 @@ I connected my RTL-SDR to the LNA directly and connected the LNA to the paraboli
 
 # Software
 
-I used [Virgo, a versatile spectrometer for radio astronomy,](https://github.com/0xboto/Virgo) to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots. 
+I used [Virgo, a versatile spectrometer for radio astronomy,](https://github.com/0xCoto/Virgo) to process my raw data. It bundles together some tools to plan observations, use calibration data, filter out RFI, and create some pretty plots. 
 
 Below is a short, 2-minute exposure I took. You'll notice the calibrated spectrum looks very different from the average spectrum. The three large peaks in the average spectrum are an artifact of the low-noise amplifier's bandpass filter. In the calibrated spectrum, the small peak just to the right of the hydrogen line is the emission given off by the Milky Way! The sharp line to the right is some interference. 
 
