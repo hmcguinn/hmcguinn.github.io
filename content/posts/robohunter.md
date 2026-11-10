@@ -6,7 +6,5 @@ draft: false
 
 I worked on this project during my internship at [Sandia National Laboratories](https://www.sandia.gov/).
 
-<iframe src="/pdf/robohunter.pdf" width="100%" height="800px">
-    This browser does not support PDFs. Please download the PDF to view it: <a href="/pdf/robohunter.pdf">Download PDF</a>.
-</iframe>
+{{< pdf src="/pdf/robohunter.pdf" >}}
 
