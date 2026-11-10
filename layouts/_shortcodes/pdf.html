@@ -1,0 +1,20 @@
+{{- /*
+  Embed a PDF with a mobile-friendly fallback.
+
+  Usage: {{< pdf src="/pdf/robohunter.pdf" >}}
+
+  Desktop browsers get the inline viewer. Phones and tablets (where
+  Safari renders an embedded PDF as a single, unscrollable first page)
+  hide the viewer via CSS and get a prominent "open" link instead.
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- $size := "" -}}
+{{- with os.Stat (printf "static%s" $src) -}}
+  {{- $size = printf "%.1f MB" (div (float .Size) 1048576) -}}
+{{- end -}}
+<div class="pdf-embed">
+  <iframe class="pdf-viewer" src="{{ $src }}" loading="lazy" title="PDF viewer"></iframe>
+  <p class="pdf-link">
+    <a href="{{ $src }}" target="_blank" rel="noopener">Open the PDF</a>{{ with $size }} ({{ . }}){{ end }}
+  </p>
+</div>

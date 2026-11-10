@@ -5,8 +5,7 @@ draft: false
 ---
 
 This was my final project for [COMP 590: Privacy Enhancing Technologies](https://web.archive.org/web/20240225042822/https://www.cs.unc.edu/~saba/priv_class/index.html). The code is [available on Github](https://github.com/hmcguinn/dead-persons-switch).
-<iframe src="/pdf/dead-persons-switch.pdf" width="100%" height="800px">
-    This browser does not support PDFs. Please download the PDF to view it: <a href="/pdf/dead-persons-switch.pdf">Download PDF</a>.
-</iframe>
+
+{{< pdf src="/pdf/dead-persons-switch.pdf" >}}
 
 

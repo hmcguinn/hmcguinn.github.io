@@ -2,3 +2,26 @@
   font-size: 1.1em;
   line-height: 1;
 }
+
+/* PDF embeds (layouts/_shortcodes/pdf.html) */
+.pdf-viewer {
+  width: 100%;
+  height: min(800px, 85vh);
+  border: 1px solid #ddd;
+}
+.pdf-link {
+  text-align: center;
+  font-size: 0.9em;
+}
+.pdf-link a {
+  display: inline-block;
+  padding: 0.5em 1em;
+  background: #eee;
+  border-radius: 5px;
+  text-decoration: none;
+}
+/* Phones, and touch devices generally: the inline viewer is unusable there. */
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
+  .pdf-viewer { display: none; }
+  .pdf-link { font-size: 1em; margin: 1.5em 0; }
+}
